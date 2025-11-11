@@ -1,0 +1,9 @@
+body{
+
+background-color: lightblue;
+}
+
+.bar{
+    display: flex;
+    gap: 50px;
+}
