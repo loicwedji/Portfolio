@@ -1,9 +1,21 @@
 body{
 
-background-color: lightblue;
+background-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);
 }
 
 .bar{
     display: flex;
+    justify-content: center;
     gap: 50px;
+}
+
+
+#Name {
+    text-align: center;
+}
+
+#Description{
+    text-align: center;
+
 }
