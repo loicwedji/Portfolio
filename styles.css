@@ -6,52 +6,123 @@
 
 :root {
   --bg: #080808;
-  --surface: #111111;
+  --surface: #141414;
+  --surface-hover: #1c1c1c;
   --accent: #c9a84c;
   --accent-dim: #8a6f2e;
   --text: #f0ede6;
   --text-muted: #5a5a5a;
-  --border: #1e1e1e;
+  --border: #222222;
+  --nav-h: 48px;
 }
 
-html, body {
-  height: 100%;
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Hero */
+/* ── Nav ── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  z-index: 100;
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.nav.scrolled {
+  border-bottom-color: var(--border);
+}
+
+.nav-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.nav-logo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  justify-self: start;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-links a {
+  font-size: 0.78rem;
+  color: rgba(240, 237, 230, 0.72);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+}
+
+.nav-resume {
+  justify-self: end;
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s;
+}
+
+.nav-resume:hover {
+  opacity: 0.75;
+}
+
+/* ── Hero ── */
 .hero {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: calc(var(--nav-h) + 2rem) 2rem 4rem;
   position: relative;
   overflow: hidden;
 }
 
-/* Spotlight beam from above */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 40% 60% at 50% -10%, rgba(255, 230, 150, 0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 25% 40% at 50% 0%, rgba(255, 210, 80, 0.1) 0%, transparent 60%);
+    radial-gradient(ellipse 40% 60% at 50% -10%, rgba(255, 230, 150, 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 25% 40% at 50% 0%,   rgba(255, 210, 80, 0.08)  0%, transparent 60%);
   pointer-events: none;
 }
 
-/* Floor bounce / ambient fill */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 50% 30% at 50% 100%, rgba(201, 168, 76, 0.05) 0%, transparent 70%);
+  background: radial-gradient(ellipse 50% 30% at 50% 100%, rgba(201, 168, 76, 0.04) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -61,24 +132,25 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  position: relative;
 }
 
 .name {
-  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-size: clamp(2.8rem, 9vw, 5.5rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--text);
-  line-height: 1.1;
+  line-height: 1.05;
   text-shadow:
-    0 0 40px rgba(255, 220, 120, 0.35),
-    0 0 80px rgba(201, 168, 76, 0.15);
+    0 0 40px rgba(255, 220, 120, 0.3),
+    0 0 80px rgba(201, 168, 76, 0.12);
 }
 
 .title {
-  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
   font-weight: 400;
   color: var(--accent);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 
 .contact-row {
@@ -93,18 +165,148 @@ body {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .contact-item svg {
-  width: 1rem;
-  height: 1rem;
+  width: 0.95rem;
+  height: 0.95rem;
   flex-shrink: 0;
 }
 
 a.contact-item:hover {
   color: var(--accent);
+}
+
+/* scroll chevron */
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  color: var(--text-muted);
+  animation: bob 2s ease-in-out infinite;
+}
+
+.scroll-hint svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+/* ── Bento Grid ── */
+.bento {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 6rem;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 12px;
+}
+
+/* Card base */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+  background: var(--surface-hover);
+  border-color: #2e2e2e;
+}
+
+/* Card layout slots */
+.card--about {
+  grid-column: 1 / 3;
+}
+
+.card--skills {
+  grid-column: 3 / 4;
+}
+
+.card--experience {
+  grid-column: 1 / 2;
+}
+
+.card--projects {
+  grid-column: 2 / 4;
+}
+
+/* Card typography */
+.card-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.card-headline {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.card-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.card-body {
+  font-size: 0.88rem;
+  color: rgba(240, 237, 230, 0.55);
+  line-height: 1.6;
+}
+
+/* Skill pills */
+.skill-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.skill-pills span {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 680px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card--about,
+  .card--skills,
+  .card--experience,
+  .card--projects {
+    grid-column: 1;
+  }
+
+  .nav-links {
+    gap: 1.2rem;
+  }
 }
