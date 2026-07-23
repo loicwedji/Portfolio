@@ -1,112 +1,363 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loic Wedji</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-  <!-- ── Nav ── -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a class="nav-logo" href="#">LW</a>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <a class="nav-resume" href="#">Resume ↗</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loic Wedji</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="blobs" aria-hidden="true">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="blob blob--3"></div>
     </div>
-  </nav>
 
-  <!-- ── Hero ── -->
-  <section class="hero" id="home">
-    <div class="hero-content">
-      <h1 class="name">Loic Wedji</h1>
-      <p class="title">Software Engineer &amp; Machine Learning Engineer</p>
-
-      <div class="contact-row">
-        <span class="contact-item">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
-          </svg>
-          Toronto, Ontario
-        </span>
-
-        <a class="contact-item" href="mailto:loicwedji@gmail.com">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-          </svg>
-          loicwedji@gmail.com
-        </a>
-
-        <a class="contact-item" href="https://linkedin.com/in/loic-wedji" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>
-          </svg>
-          loic-wedji
-        </a>
-
-        <a class="contact-item" href="https://github.com/loicwedji" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
-          </svg>
-          loicwedji
-        </a>
+    <!-- ── Nav ── -->
+    <nav class="nav" id="nav">
+      <div class="nav-inner">
+        <a class="nav-logo" href="#">LW</a>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+        </ul>
+        <a
+          class="nav-resume"
+          href="LoicWedjiResume.pdf"
+          target="_blank"
+          rel="noopener"
+          >Resume ↗</a
+        >
       </div>
-    </div>
+    </nav>
 
-    <div class="scroll-hint">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="m6 9 6 6 6-6"/>
-      </svg>
-    </div>
-  </section>
-
-  <!-- ── Bento Grid ── -->
-  <section class="bento" id="about">
-    <div class="bento-grid">
-
-      <!-- About card – wide -->
-      <div class="card card--about">
-        <span class="card-tag">About</span>
-        <h2 class="card-headline">Building at the intersection of software and intelligence.</h2>
-        <p class="card-body">CS student at Brock University concentrating in AI and Software Engineering, graduating April 2027. Currently a Quality Engineer Intern at TD Bank.</p>
-      </div>
-
-      <!-- Skills card -->
-      <div class="card card--skills">
-        <span class="card-tag">Skills</span>
-        <div class="skill-pills">
-          <span>Python</span><span>Java</span><span>TypeScript</span>
-          <span>React</span><span>Next.js</span><span>PyTorch</span>
-          <span>Node.js</span><span>PostgreSQL</span><span>Docker</span>
-          <span>SQL</span><span>Flask</span><span>C++</span>
+    <!-- ── Hero ── -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1 class="name">Loic Wedji</h1>
+        <p class="title">Software Engineer</p>
+        <div class="contact-row">
+          <span class="contact-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Toronto, Ontario
+          </span>
+          <a class="contact-item" href="mailto:loicwedji@gmail.com">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            loicwedji@gmail.com
+          </a>
+          <a
+            class="contact-item"
+            href="https://linkedin.com/in/loic-wedji"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+              />
+              <rect width="4" height="12" x="2" y="9" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+            loic-wedji
+          </a>
+          <a
+            class="contact-item"
+            href="https://github.com/loicwedji"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"
+              />
+            </svg>
+            loicwedji
+          </a>
         </div>
       </div>
-
-      <!-- Experience card -->
-      <div class="card card--experience" id="experience">
-        <span class="card-tag">Experience</span>
-        <h2 class="card-headline">Quality Engineer Intern</h2>
-        <p class="card-sub">TD Bank &nbsp;·&nbsp; May 2026 – Present</p>
-        <p class="card-body">Validating end-to-end ETL pipelines for TD Wealth using SQL, Python, and Robot Framework across 1,000+ jobs.</p>
+      <div class="scroll-hint">
+        <span class="scroll-label">scroll for more</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
       </div>
+    </section>
 
-      <!-- Projects card -->
-      <div class="card card--projects" id="projects">
-        <span class="card-tag">Projects</span>
-        <h2 class="card-headline">IntegriCode</h2>
-        <p class="card-sub">React · Python · Docker · Stripe</p>
-        <p class="card-body">Full-stack academic integrity platform for detecting code similarity across Java, C, and C++ submissions.</p>
-      </div>
+    <!-- ── Netflix-style content rows ── -->
+    <main class="main-content" id="about">
+      <section class="content-row" id="education">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">My background</span>
+            <h2>Education</h2>
+          </div>
+          <span class="row-hint">Swipe to explore →</span>
+        </div>
+        <div class="card-rail">
+          <article class="card compact-card card--wide">
+            <span class="card-tag">Degree</span>
+            <div class="exp-header">
+              <div class="exp-meta">
+                <h3 class="exp-role">Brock University</h3>
+                <p class="exp-company">HBSc. Computer Science</p>
+              </div>
+              <span class="exp-date">Graduating Oct 2027</span>
+            </div>
+            <div class="edu-details">
+              <div class="edu-detail-row">
+                <span class="edu-detail-label">Concentrations</span>
+                <span class="edu-detail-value"
+                  >Artificial Intelligence &amp; Software Engineering</span
+                >
+              </div>
+              <div class="edu-detail-row">
+                <span class="edu-detail-label">Relevant Courses</span>
+                <span class="edu-detail-value"
+                  >Advanced Data Structures &amp; Algorithms, Advanced OOP,
+                  Database Systems, Machine Learning, Software Testing, Software
+                  Engineering</span
+                >
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
 
-    </div>
-  </section>
+      <section class="content-row" id="experience">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Where I’ve contributed</span>
+            <h2>Experience</h2>
+          </div>
+          <span class="row-hint">Drag to explore →</span>
+        </div>
+        <div class="card-rail">
+          <article class="card compact-card">
+            <div class="exp-header">
+              <div class="exp-meta">
+                <span class="card-tag">TD Bank</span>
+                <h3 class="exp-role">Quality Engineer Intern</h3>
+                <p class="exp-company">Toronto, Ontario</p>
+              </div>
+              <span class="exp-date">May 2026 – Present</span>
+            </div>
+            <ul class="exp-bullets">
+              <li>
+                Developed and maintained Java Spring Boot APIs, resolving failed
+                production jobs across financial-instrument platforms such as TD
+                Easy Trade, targeting 1M+ new accounts.
+              </li>
+              <li>
+                Built Python and Robot Framework automation in CI/CD pipelines
+                to validate files, APIs, and database feeds across 1,000+ ETL
+                jobs.
+              </li>
+              <li>
+                Validated end-to-end ETL pipelines with SQL and data-quality
+                test plans while improving automated query performance by 15%.
+              </li>
+            </ul>
+          </article>
+          <article class="card compact-card">
+            <div class="exp-header">
+              <div class="exp-meta">
+                <span class="card-tag">Brock University</span>
+                <h3 class="exp-role">Research Assistant</h3>
+                <p class="exp-company">St. Catharines, Ontario</p>
+              </div>
+              <span class="exp-date">Sep 2025 – Apr 2026</span>
+            </div>
+            <ul class="exp-bullets">
+              <li>
+                Built an unsupervised bias detection framework with SimCLR,
+                ResNet-50, and PyTorch Lightning.
+              </li>
+              <li>
+                Applied spectral clustering on k-NN graphs across CelebA,
+                FairFace, and CheXpert datasets.
+              </li>
+            </ul>
+          </article>
+          <article class="card compact-card">
+            <div class="exp-header">
+              <div class="exp-meta">
+                <span class="card-tag">Brock University</span>
+                <h3 class="exp-role">Teaching Assistant</h3>
+                <p class="exp-company">St. Catharines, Ontario</p>
+              </div>
+              <span class="exp-date">Jan 2025 – Apr 2026</span>
+            </div>
+            <ul class="exp-bullets">
+              <li>
+                Led weekly Data Structures and Algorithms labs for 30+ students
+                in Java, OOP, and SOLID design.
+              </li>
+              <li>
+                Supported Intro to Big Data help-desk sessions troubleshooting
+                Python and data preprocessing workflows.
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
 
-  <script src="script.js"></script>
-</body>
+      <section class="content-row" id="skills">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">What I work with</span>
+            <h2>Technical Skills</h2>
+          </div>
+        </div>
+        <div class="card-rail">
+          <article class="card compact-card skill-card">
+            <span class="card-tag">Languages</span>
+            <h3 class="card-headline">Core programming</h3>
+            <div class="skill-pills">
+              <span>Python</span><span>Java</span><span>TypeScript</span>
+              <span>JavaScript</span><span>SQL</span><span>C++</span>
+              <span>Ruby</span><span>HTML/CSS</span>
+            </div>
+          </article>
+          <article class="card compact-card skill-card">
+            <span class="card-tag">Frameworks &amp; Tools</span>
+            <h3 class="card-headline">Building &amp; shipping</h3>
+            <div class="skill-pills">
+              <span>React</span><span>Next.js</span><span>PyTorch</span>
+              <span>Node.js</span><span>PostgreSQL</span><span>Git</span>
+              <span>Docker</span><span>CI/CD Pipelines</span>
+              <span>RESTful APIs</span>
+            </div>
+          </article>
+          <article class="card compact-card skill-card">
+            <span class="card-tag">Communication</span>
+            <h3 class="card-headline">Languages spoken</h3>
+            <div class="spoken-langs">
+              <div class="spoken-item">
+                <span class="spoken-lang">French</span
+                ><span class="spoken-level">Fluent</span>
+              </div>
+              <div class="spoken-item">
+                <span class="spoken-lang">English</span
+                ><span class="spoken-level">Fluent</span>
+              </div>
+              <div class="spoken-item">
+                <span class="spoken-lang">Spanish</span
+                ><span class="spoken-level">Familiar</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-row" id="projects">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Selected work</span>
+            <h2>Projects</h2>
+          </div>
+        </div>
+        <div class="card-rail">
+          <article class="card compact-card project-card">
+            <span class="card-tag">Full-Stack</span>
+            <h3 class="card-headline">IntegriCode</h3>
+            <p class="card-body">
+              Academic integrity platform for comparing Java, C, and C++
+              submissions, built in a 7-person team with Node.js APIs, Better
+              Auth, Stripe payments, and a Python similarity pipeline.
+            </p>
+            <div class="skill-pills project-pills">
+              <span>React</span><span>Python</span><span>Docker</span>
+              <span>Stripe</span><span>Better Auth</span>
+            </div>
+          </article>
+          <article class="card compact-card project-card">
+            <span class="card-tag">AI / Agents</span>
+            <h3 class="card-headline">Ecommerce Simulation Platform</h3>
+            <p class="card-body">
+              AI-agent simulation modeling customer browsing and clicking,
+              improving the simulated customer experience by up to 20% per
+              optimization cycle.
+            </p>
+            <div class="skill-pills project-pills">
+              <span>React</span><span>TypeScript</span><span>Node.js</span>
+              <span>AI Agents</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-row" id="extracurricular">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Beyond the classroom</span>
+            <h2>Extracurricular</h2>
+          </div>
+        </div>
+        <div class="card-rail">
+          <article class="card compact-card card--wide">
+            <span class="card-tag">Leadership &amp; Community</span>
+            <div class="exp-header">
+              <div class="exp-meta">
+                <h3 class="exp-role">
+                  Brock Computer Science Club &amp; Hackathons
+                </h3>
+                <p class="exp-company">
+                  Event Coordinator · St. Catharines, Ontario
+                </p>
+              </div>
+              <span class="exp-date">May 2024 – 2026</span>
+            </div>
+            <ul class="exp-bullets">
+              <li>
+                Led an introductory Git &amp; GitHub workshop and organized
+                weekly Game Nights, themed sessions, and hackathon
+                participation, attracting 25–60+ students per event.
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
 </html>
