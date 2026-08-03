@@ -1,10 +1,31 @@
 const contactReveal = document.querySelector('.contact-reveal');
 const contactLightbar = document.querySelector('.contact-lightbar');
+const contactLabel = document.querySelector('.contact-label');
 
 if (contactReveal && contactLightbar) {
+  [contactLightbar, contactLabel].filter(Boolean).forEach((trigger) => {
+    trigger.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') {
+        contactReveal.classList.add('is-hover-open');
+      }
+    });
+  });
+
   contactLightbar.addEventListener('click', () => {
     const isOpen = contactReveal.classList.toggle('is-open');
     contactLightbar.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  contactReveal.addEventListener('pointerleave', (event) => {
+    if (event.pointerType !== 'mouse') return;
+
+    contactReveal.classList.remove('is-hover-open');
+    contactReveal.classList.remove('is-open');
+    contactLightbar.setAttribute('aria-expanded', 'false');
+
+    if (document.activeElement === contactLightbar) {
+      contactLightbar.blur();
+    }
   });
 }
 
