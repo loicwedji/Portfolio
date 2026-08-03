@@ -228,6 +228,16 @@ body > :not(.site-glow):not(.section-nav) {
     outline-offset: 2px;
 }
 
+.contact-label {
+    margin: 0 0 .2rem;
+    color: rgba(255, 255, 255, .75);
+    font-size: .8rem;
+    font-weight: 500;
+    letter-spacing: .18em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
 .contact-lightbar {
     position: relative;
     width: min(30rem, 80vw);
