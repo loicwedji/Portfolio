@@ -21,12 +21,11 @@ body{
     line-height: 1.6;
 }
 
-#Name,
-#Description,
-#Location,
+.intro,
 .page-section {
-    width: min(85%, 72rem);
-    margin-inline: auto;
+    width: min(calc(100% - 20rem), 72rem);
+    margin-left: max(17rem, calc((100% - 72rem) / 2));
+    margin-right: 2rem;
 }
 
 body > :not(.site-glow):not(.section-nav) {
@@ -47,9 +46,9 @@ body > :not(.site-glow):not(.section-nav) {
 
 .section-nav__link {
     position: relative;
-    padding: .45rem .8rem;
+    padding: .6rem 1rem;
     color: rgba(255, 255, 255, .5);
-    font-size: .75rem;
+    font-size: .9rem;
     font-weight: 500;
     line-height: 1.4;
     text-decoration: none;
@@ -82,9 +81,37 @@ body > :not(.site-glow):not(.section-nav) {
 }
 
 .page-section {
-    min-height: max(10rem, 20vh);
-    padding-block: min(5vh, 2.5rem);
+    min-height: max(24rem, 55vh);
+    padding: 0 0 clamp(3rem, 8vh, 6rem);
     scroll-margin-top: 5rem;
+}
+
+.section-title {
+    margin: 0 0 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+    font-size: clamp(2rem, 1.5rem + 1.5vw, 3.25rem);
+    line-height: 1.1;
+}
+
+.section-content {
+    max-width: 48rem;
+    color: rgba(255, 255, 255, .72);
+}
+
+.section-content h3,
+.section-content p {
+    margin: 0;
+}
+
+.section-content h3 {
+    margin-bottom: .5rem;
+    color: #fff;
+}
+
+.experience-list {
+    display: grid;
+    gap: 1rem;
 }
 
 .site-glow {
@@ -349,27 +376,42 @@ body > :not(.site-glow):not(.section-nav) {
 
 @media (max-width: 900px) {
     body {
+        padding-top: 3.75rem;
         font-size: 1.125rem;
     }
 
     .section-nav {
-        position: static;
-        top: auto;
-        left: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
         flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        width: 100%;
+        padding: .35rem max(.5rem, 3vw);
+        overflow-x: auto;
         border-left: 0;
         border-bottom: 1px solid rgba(255, 255, 255, .2);
+        background: rgba(0, 0, 0, .82);
+        backdrop-filter: blur(12px);
         transform: none;
-        width: 94%;
-        margin-inline: auto;
+        scrollbar-width: none;
+    }
+
+    .section-nav::-webkit-scrollbar {
+        display: none;
     }
 
     .section-nav__link::before {
         inset: auto -1px 0 0;
         width: auto;
         height: 2px;
+    }
+
+    .intro,
+    .page-section {
+        width: 94%;
+        margin-inline: auto;
     }
 
     #Name {
@@ -386,16 +428,14 @@ body > :not(.site-glow):not(.section-nav) {
         font-size: 1rem;
     }
 
-    #Name,
-    #Description,
-    #Location,
+    .intro,
     .page-section {
         width: 94%;
     }
 
     .section-nav__link {
-        padding: .35rem .6rem;
-        font-size: .7rem;
+        padding: .45rem .75rem;
+        font-size: .8rem;
         white-space: normal;
     }
 
