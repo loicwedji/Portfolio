@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loic's Portfolio</title>
     <link rel="stylesheet" href="styles.css">
-
- 
+</head>
 <body>
 <div class="site-glow" aria-hidden="true">
   <span class="beam beam--one"></span>
@@ -15,25 +14,54 @@
   <span class="grain"></span>
 </div>
 
+<nav class="section-nav" aria-label="Portfolio sections">
+  <a class="section-nav__link is-active" href="#education" aria-current="location">Education</a>
+  <a class="section-nav__link" href="#experience">Experience</a>
+  <a class="section-nav__link" href="#technical-skills">Technical Skills</a>
+  <a class="section-nav__link" href="#projects">Projects</a>
+  <a class="section-nav__link" href="#extracurriculars">Extracurriculars</a>
+  <a class="section-nav__link" href="#about-me">About Me</a>
+</nav>
+
 <div id="Name">Loic Wedji</div>
 <div id="Description">Software Engineer and Machine Learning Engineer</div>
 <div id="Location">Toronto Ontario</div>
-<div id="Education"><div>Education</div>
+<div class="page-section" id="education"><div>Education</div>
   <div>Brock University</div>
   <div>Bachelor's Degree Computer Science (Honours) with concentration in AI &amp; Software Engineering</div>
 </div>
-<div id="Exprience">
+<div class="page-section" id="experience">
     <div id="CurrentXp">Software Quality Engineer</div>
     <div id="PastXp">Teaching Assistant</div>
     <div id="PastXp">Research Assistant</div>
 
 </div>
-<div id="Projects"></div>
-<div id="Extra Curriculars"></div>
-<div id="chat"></div>
-<div id="Visited"></div>
+<div class="page-section" id="technical-skills"></div>
+<div class="page-section" id="projects"></div>
+<div class="page-section" id="extracurriculars"></div>
+<div class="page-section" id="about-me"></div>
 
+<footer class="contact-dock" aria-label="Contact">
+  <div class="contact-reveal">
+    <div class="contact-links" id="contact-details">
+      <a class="contact-link" href="https://linkedin.com/in/loic-wedji" target="_blank" rel="noopener noreferrer" aria-label="Open LinkedIn profile" title="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6.5 8.25H3.25V21H6.5V8.25ZM4.88 3A1.88 1.88 0 1 0 4.88 6.75 1.88 1.88 0 0 0 4.88 3ZM21 13.7C21 9.86 18.95 8.08 16.22 8.08c-2.2 0-3.19 1.21-3.74 2.06V8.25H9.23V21h3.25v-6.31c0-1.66.31-3.27 2.37-3.27 2.03 0 2.06 1.9 2.06 3.38V21H21v-7.3Z"/>
+        </svg>
+      </a>
+      <a class="contact-link" href="mailto:loicwedji@gmail.com" aria-label="Email Loic Wedji" title="Email">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <path d="m4 7 8 6 8-6"/>
+        </svg>
+      </a>
+    </div>
+    <button class="contact-lightbar" type="button" aria-controls="contact-details" aria-expanded="false">
+      <span class="visually-hidden">Show contact details</span>
+    </button>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
-</head> 
-
 </html>
