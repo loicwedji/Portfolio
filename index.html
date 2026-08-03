@@ -3,360 +3,451 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Loic Wedji</title>
+    <meta
+      name="description"
+      content="Portfolio of Loic Wedji, a software engineer building reliable systems and thoughtful digital experiences."
+    />
+    <title>Loic Wedji — Software Engineer</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="blobs" aria-hidden="true">
-      <div class="blob blob--1"></div>
-      <div class="blob blob--2"></div>
-      <div class="blob blob--3"></div>
+    <div class="site-glow" aria-hidden="true">
+      <span class="beam beam--one"></span>
+      <span class="beam beam--two"></span>
+      <span class="beam beam--three"></span>
+      <span class="grain"></span>
     </div>
 
-    <!-- ── Nav ── -->
-    <nav class="nav" id="nav">
-      <div class="nav-inner">
-        <a class="nav-logo" href="#">LW</a>
-        <ul class="nav-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-        </ul>
+    <header class="site-header" id="header">
+      <nav class="nav-shell" aria-label="Primary navigation">
+        <a class="brand" href="#home" aria-label="Loic Wedji, home">
+          <span class="brand-mark">LW</span>
+          <span class="brand-name">Loic Wedji</span>
+        </a>
+
+        <div class="nav-center" id="nav-menu">
+          <a href="#education">Education</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+        </div>
+
         <a
-          class="nav-resume"
+          class="button button--small nav-resume"
           href="LoicWedjiResume.pdf"
           target="_blank"
           rel="noopener"
-          >Resume ↗</a
         >
-      </div>
-    </nav>
+          Resume
+          <span aria-hidden="true">↗</span>
+        </a>
 
-    <!-- ── Hero ── -->
-    <section class="hero" id="home">
-      <div class="hero-content">
-        <h1 class="name">Loic Wedji</h1>
-        <p class="title">Software Engineer</p>
-        <div class="contact-row">
-          <span class="contact-item">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z" />
-              <circle cx="12" cy="10" r="3" />
-            </svg>
-            Toronto, Ontario
-          </span>
-          <a class="contact-item" href="mailto:loicwedji@gmail.com">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect width="20" height="16" x="2" y="4" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-            loicwedji@gmail.com
-          </a>
-          <a
-            class="contact-item"
-            href="https://linkedin.com/in/loic-wedji"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path
-                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-              />
-              <rect width="4" height="12" x="2" y="9" />
-              <circle cx="4" cy="4" r="2" />
-            </svg>
-            loic-wedji
-          </a>
-          <a
-            class="contact-item"
-            href="https://github.com/loicwedji"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path
-                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"
-              />
-            </svg>
-            loicwedji
-          </a>
-        </div>
-      </div>
-      <div class="scroll-hint">
-        <span class="scroll-label">scroll for more</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
         >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </div>
-    </section>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </header>
 
-    <!-- ── Netflix-style content rows ── -->
-    <main class="main-content" id="about">
-      <section class="content-row" id="education">
-        <div class="section-heading">
-          <div>
-            <span class="section-kicker">My background</span>
-            <h2>Education</h2>
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <a class="availability-pill hero-reveal hero-reveal--one" href="#experience">
+            <span class="status-dot"></span>
+            Software Engineer in Toronto
+            <span class="pill-divider"></span>
+            <span class="pill-arrow" aria-hidden="true">→</span>
+          </a>
+
+          <p class="hero-intro hero-reveal hero-reveal--two">Hi, I’m Loic.</p>
+          <h1 class="hero-reveal hero-reveal--three">
+            I build reliable systems and
+            <span>thoughtful digital experiences.</span>
+          </h1>
+          <p class="hero-summary hero-reveal hero-reveal--four">
+            Computer Science student and software engineer focused on backend
+            systems, quality engineering, and applied machine learning.
+          </p>
+
+          <div class="hero-actions hero-reveal hero-reveal--five">
+            <div class="button-frame">
+              <a class="button button--primary" href="#projects">
+                Explore my work
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+            <a class="button button--ghost" href="mailto:loicwedji@gmail.com">
+              Get in touch
+            </a>
           </div>
-          <span class="row-hint">Swipe to explore →</span>
         </div>
-        <div class="card-rail">
-          <article class="card compact-card card--wide">
-            <span class="card-tag">Degree</span>
-            <div class="exp-header">
-              <div class="exp-meta">
-                <h3 class="exp-role">Brock University</h3>
-                <p class="exp-company">HBSc. Computer Science</p>
+
+        <div class="showcase-wrap hero-reveal hero-reveal--six">
+          <div class="showcase-fade" aria-hidden="true"></div>
+          <div class="showcase-frame">
+            <div class="showcase-toolbar">
+              <div class="window-controls" aria-hidden="true">
+                <span></span><span></span><span></span>
               </div>
-              <span class="exp-date">Graduating Oct 2027</span>
+              <span class="toolbar-title">loic.dev / overview</span>
+              <span class="toolbar-status"><i></i> Available</span>
             </div>
-            <div class="edu-details">
-              <div class="edu-detail-row">
-                <span class="edu-detail-label">Concentrations</span>
-                <span class="edu-detail-value"
-                  >Artificial Intelligence &amp; Software Engineering</span
-                >
+
+            <div class="showcase-grid">
+              <article class="featured-panel">
+                <span class="panel-label">Currently building</span>
+                <div class="featured-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M8 9 4 12l4 3M16 9l4 3-4 3M14 5l-4 14" />
+                  </svg>
+                </div>
+                <div>
+                  <h2>Software that holds up in the real world.</h2>
+                  <p>
+                    From financial data pipelines to AI-driven simulations, I
+                    turn complex requirements into dependable products.
+                  </p>
+                </div>
+                <div class="mini-stack">
+                  <span>Java</span><span>Python</span><span>TypeScript</span>
+                  <span>SQL</span>
+                </div>
+              </article>
+
+              <div class="metric-column">
+                <article class="metric-card">
+                  <span class="metric-value">1,000+</span>
+                  <span class="metric-label">ETL jobs validated</span>
+                  <div class="metric-bars" aria-hidden="true">
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  </div>
+                </article>
+                <article class="metric-card metric-card--accent">
+                  <span class="metric-value">15%</span>
+                  <span class="metric-label">faster automated queries</span>
+                  <svg class="metric-line" viewBox="0 0 180 50" aria-hidden="true">
+                    <path d="M2 43C28 42 29 29 50 32s28 3 41-11 25 4 41-5 27-8 46-14" />
+                  </svg>
+                </article>
               </div>
-              <div class="edu-detail-row">
-                <span class="edu-detail-label">Relevant Courses</span>
-                <span class="edu-detail-value"
-                  >Advanced Data Structures &amp; Algorithms, Advanced OOP,
-                  Database Systems, Machine Learning, Software Testing, Software
-                  Engineering</span
-                >
-              </div>
+
+              <article class="project-preview">
+                <div class="preview-top">
+                  <span class="panel-label">Featured project</span>
+                  <span class="preview-number">01</span>
+                </div>
+                <div class="code-window" aria-hidden="true">
+                  <span><b>const</b> integrity = {</span>
+                  <span>&nbsp;&nbsp;compare: <em>submissions</em>,</span>
+                  <span>&nbsp;&nbsp;protect: <em>originality</em></span>
+                  <span>}</span>
+                </div>
+                <div>
+                  <h3>IntegriCode</h3>
+                  <p>Full-stack academic integrity platform.</p>
+                </div>
+              </article>
             </div>
-          </article>
+          </div>
         </div>
+
+        <a class="scroll-cue" href="#education">
+          <span>Scroll to explore</span>
+          <i aria-hidden="true"></i>
+        </a>
       </section>
 
-      <section class="content-row" id="experience">
+      <section class="section section--education reveal" id="education">
         <div class="section-heading">
           <div>
-            <span class="section-kicker">Where I’ve contributed</span>
-            <h2>Experience</h2>
+            <span class="eyebrow">01 / Foundation</span>
+            <h2>Education</h2>
           </div>
-          <span class="row-hint">Drag to explore →</span>
+          <p>Where theory meets practical engineering.</p>
         </div>
-        <div class="card-rail">
-          <article class="card compact-card">
-            <div class="exp-header">
-              <div class="exp-meta">
-                <span class="card-tag">TD Bank</span>
-                <h3 class="exp-role">Quality Engineer Intern</h3>
-                <p class="exp-company">Toronto, Ontario</p>
-              </div>
-              <span class="exp-date">May 2026 – Present</span>
+
+        <article class="education-card">
+          <div class="education-main">
+            <span class="card-index">BSc</span>
+            <div>
+              <span class="card-label">Brock University</span>
+              <h3>Honours Bachelor of Science, Computer Science</h3>
+              <p>St. Catharines, Ontario</p>
             </div>
-            <ul class="exp-bullets">
+          </div>
+          <div class="education-meta">
+            <div>
+              <span>Concentrations</span>
+              <p>Artificial Intelligence &amp; Software Engineering</p>
+            </div>
+            <div>
+              <span>Relevant coursework</span>
+              <p>
+                Advanced Data Structures &amp; Algorithms, Advanced OOP,
+                Database Systems, Machine Learning, Software Testing, Software
+                Engineering
+              </p>
+            </div>
+          </div>
+          <div class="education-date">
+            <span>Graduating</span>
+            <strong>Oct 2027</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="section reveal" id="experience">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">02 / Experience</span>
+            <h2>Where I’ve contributed</h2>
+          </div>
+          <p>Drag or swipe to explore each role.</p>
+        </div>
+
+        <div class="card-rail">
+          <article class="experience-card">
+            <div class="card-topline">
+              <span class="company">TD Bank</span>
+              <span class="date">May 2026 — Present</span>
+            </div>
+            <h3>Quality Engineer Intern</h3>
+            <p class="location">Toronto, Ontario</p>
+            <ul>
               <li>
-                Developed and maintained Java Spring Boot APIs, resolving failed
-                production jobs across financial-instrument platforms such as TD
-                Easy Trade, targeting 1M+ new accounts.
+                Developed and maintained Java Spring Boot APIs, resolving
+                production jobs across financial-instrument platforms targeting
+                1M+ new accounts.
               </li>
               <li>
                 Built Python and Robot Framework automation in CI/CD pipelines
-                to validate files, APIs, and database feeds across 1,000+ ETL
-                jobs.
+                across 1,000+ ETL jobs.
               </li>
               <li>
-                Validated end-to-end ETL pipelines with SQL and data-quality
-                test plans while improving automated query performance by 15%.
+                Improved automated SQL query performance by 15% while validating
+                end-to-end data quality.
               </li>
             </ul>
+            <span class="card-watermark">TD</span>
           </article>
-          <article class="card compact-card">
-            <div class="exp-header">
-              <div class="exp-meta">
-                <span class="card-tag">Brock University</span>
-                <h3 class="exp-role">Research Assistant</h3>
-                <p class="exp-company">St. Catharines, Ontario</p>
-              </div>
-              <span class="exp-date">Sep 2025 – Apr 2026</span>
+
+          <article class="experience-card">
+            <div class="card-topline">
+              <span class="company">Brock University</span>
+              <span class="date">Sep 2025 — Apr 2026</span>
             </div>
-            <ul class="exp-bullets">
+            <h3>Research Assistant</h3>
+            <p class="location">St. Catharines, Ontario</p>
+            <ul>
               <li>
                 Built an unsupervised bias detection framework with SimCLR,
                 ResNet-50, and PyTorch Lightning.
               </li>
               <li>
                 Applied spectral clustering on k-NN graphs across CelebA,
-                FairFace, and CheXpert datasets.
+                FairFace, and CheXpert.
               </li>
             </ul>
+            <span class="card-watermark">AI</span>
           </article>
-          <article class="card compact-card">
-            <div class="exp-header">
-              <div class="exp-meta">
-                <span class="card-tag">Brock University</span>
-                <h3 class="exp-role">Teaching Assistant</h3>
-                <p class="exp-company">St. Catharines, Ontario</p>
-              </div>
-              <span class="exp-date">Jan 2025 – Apr 2026</span>
+
+          <article class="experience-card">
+            <div class="card-topline">
+              <span class="company">Brock University</span>
+              <span class="date">Jan 2025 — Apr 2026</span>
             </div>
-            <ul class="exp-bullets">
+            <h3>Teaching Assistant</h3>
+            <p class="location">St. Catharines, Ontario</p>
+            <ul>
               <li>
                 Led weekly Data Structures and Algorithms labs for 30+ students
                 in Java, OOP, and SOLID design.
               </li>
               <li>
-                Supported Intro to Big Data help-desk sessions troubleshooting
-                Python and data preprocessing workflows.
+                Supported Big Data help-desk sessions across Python and data
+                preprocessing workflows.
               </li>
             </ul>
+            <span class="card-watermark">TA</span>
           </article>
         </div>
       </section>
 
-      <section class="content-row" id="skills">
+      <section class="section reveal" id="skills">
         <div class="section-heading">
           <div>
-            <span class="section-kicker">What I work with</span>
-            <h2>Technical Skills</h2>
+            <span class="eyebrow">03 / Toolkit</span>
+            <h2>Technical skills</h2>
           </div>
+          <p>A practical toolkit for building and shipping.</p>
         </div>
-        <div class="card-rail">
-          <article class="card compact-card skill-card">
-            <span class="card-tag">Languages</span>
-            <h3 class="card-headline">Core programming</h3>
-            <div class="skill-pills">
-              <span>Python</span><span>Java</span><span>TypeScript</span>
-              <span>JavaScript</span><span>SQL</span><span>C++</span>
-              <span>Ruby</span><span>HTML/CSS</span>
+
+        <div class="skills-grid">
+          <article class="skill-card">
+            <span class="skill-number">01</span>
+            <span class="card-label">Languages</span>
+            <h3>Core programming</h3>
+            <div class="tag-list">
+              <span>Java</span><span>Python</span><span>Ruby</span>
+              <span>JavaScript</span><span>TypeScript</span><span>SQL</span>
+              <span>C++</span><span>HTML/CSS</span>
             </div>
           </article>
-          <article class="card compact-card skill-card">
-            <span class="card-tag">Frameworks &amp; Tools</span>
-            <h3 class="card-headline">Building &amp; shipping</h3>
-            <div class="skill-pills">
+          <article class="skill-card">
+            <span class="skill-number">02</span>
+            <span class="card-label">Frameworks &amp; tools</span>
+            <h3>Building &amp; shipping</h3>
+            <div class="tag-list">
               <span>React</span><span>Next.js</span><span>PyTorch</span>
               <span>Node.js</span><span>PostgreSQL</span><span>Git</span>
-              <span>Docker</span><span>CI/CD Pipelines</span>
-              <span>RESTful APIs</span>
+              <span>Docker</span><span>CI/CD</span><span>REST APIs</span>
             </div>
           </article>
-          <article class="card compact-card skill-card">
-            <span class="card-tag">Communication</span>
-            <h3 class="card-headline">Languages spoken</h3>
-            <div class="spoken-langs">
-              <div class="spoken-item">
-                <span class="spoken-lang">French</span
-                ><span class="spoken-level">Fluent</span>
-              </div>
-              <div class="spoken-item">
-                <span class="spoken-lang">English</span
-                ><span class="spoken-level">Fluent</span>
-              </div>
-              <div class="spoken-item">
-                <span class="spoken-lang">Spanish</span
-                ><span class="spoken-level">Familiar</span>
-              </div>
+          <article class="skill-card">
+            <span class="skill-number">03</span>
+            <span class="card-label">Communication</span>
+            <h3>Languages spoken</h3>
+            <div class="language-list">
+              <span><b>French</b><i>Fluent</i></span>
+              <span><b>English</b><i>Fluent</i></span>
+              <span><b>Spanish</b><i>Familiar</i></span>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="content-row" id="projects">
+      <section class="section reveal" id="projects">
         <div class="section-heading">
           <div>
-            <span class="section-kicker">Selected work</span>
+            <span class="eyebrow">04 / Selected work</span>
             <h2>Projects</h2>
           </div>
+          <p>Ideas turned into working systems.</p>
         </div>
-        <div class="card-rail">
-          <article class="card compact-card project-card">
-            <span class="card-tag">Full-Stack</span>
-            <h3 class="card-headline">IntegriCode</h3>
-            <p class="card-body">
-              Academic integrity platform for comparing Java, C, and C++
-              submissions, built in a 7-person team with Node.js APIs, Better
-              Auth, Stripe payments, and a Python similarity pipeline.
-            </p>
-            <div class="skill-pills project-pills">
-              <span>React</span><span>Python</span><span>Docker</span>
-              <span>Stripe</span><span>Better Auth</span>
+
+        <div class="projects-grid">
+          <article class="project-card">
+            <div class="project-visual project-visual--integricode">
+              <span class="visual-grid" aria-hidden="true"></span>
+              <div class="project-symbol" aria-hidden="true">&lt;/&gt;</div>
+              <div class="project-stat">
+                <span>Similarity pipeline</span>
+                <strong>Java · C · C++</strong>
+              </div>
+            </div>
+            <div class="project-copy">
+              <div class="card-topline">
+                <span class="company">Full-stack platform</span>
+                <span class="date">01</span>
+              </div>
+              <h3>IntegriCode</h3>
+              <p>
+                Academic integrity platform built in a seven-person team with
+                Node.js APIs, Better Auth, Stripe, and a Python similarity
+                pipeline.
+              </p>
+              <div class="tag-list">
+                <span>React</span><span>Python</span><span>Docker</span>
+                <span>Stripe</span><span>Better Auth</span>
+              </div>
             </div>
           </article>
-          <article class="card compact-card project-card">
-            <span class="card-tag">AI / Agents</span>
-            <h3 class="card-headline">Ecommerce Simulation Platform</h3>
-            <p class="card-body">
-              AI-agent simulation modeling customer browsing and clicking,
-              improving the simulated customer experience by up to 20% per
-              optimization cycle.
-            </p>
-            <div class="skill-pills project-pills">
-              <span>React</span><span>TypeScript</span><span>Node.js</span>
-              <span>AI Agents</span>
+
+          <article class="project-card">
+            <div class="project-visual project-visual--agents">
+              <span class="orbit orbit--one" aria-hidden="true"></span>
+              <span class="orbit orbit--two" aria-hidden="true"></span>
+              <span class="agent-dot agent-dot--one" aria-hidden="true"></span>
+              <span class="agent-dot agent-dot--two" aria-hidden="true"></span>
+              <span class="agent-core" aria-hidden="true">AI</span>
+              <div class="project-stat">
+                <span>Experience improvement</span>
+                <strong>Up to 20%</strong>
+              </div>
+            </div>
+            <div class="project-copy">
+              <div class="card-topline">
+                <span class="company">Agent simulation</span>
+                <span class="date">02</span>
+              </div>
+              <h3>Ecommerce Simulation Platform</h3>
+              <p>
+                AI-agent simulation modeling customer browsing, scrolling, and
+                clicking to generate automated layout recommendations.
+              </p>
+              <div class="tag-list">
+                <span>React</span><span>TypeScript</span>
+                <span>Node.js</span><span>AI Agents</span>
+              </div>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="content-row" id="extracurricular">
+      <section class="section reveal" id="extracurricular">
         <div class="section-heading">
           <div>
-            <span class="section-kicker">Beyond the classroom</span>
-            <h2>Extracurricular</h2>
+            <span class="eyebrow">05 / Beyond the classroom</span>
+            <h2>Community &amp; leadership</h2>
           </div>
         </div>
-        <div class="card-rail">
-          <article class="card compact-card card--wide">
-            <span class="card-tag">Leadership &amp; Community</span>
-            <div class="exp-header">
-              <div class="exp-meta">
-                <h3 class="exp-role">
-                  Brock Computer Science Club &amp; Hackathons
-                </h3>
-                <p class="exp-company">
-                  Event Coordinator · St. Catharines, Ontario
-                </p>
-              </div>
-              <span class="exp-date">May 2024 – 2026</span>
-            </div>
-            <ul class="exp-bullets">
-              <li>
-                Led an introductory Git &amp; GitHub workshop and organized
-                weekly Game Nights, themed sessions, and hackathon
-                participation, attracting 25–60+ students per event.
-              </li>
-            </ul>
-          </article>
+
+        <article class="community-card">
+          <div class="community-mark" aria-hidden="true">CS</div>
+          <div class="community-copy">
+            <span class="card-label">Event Coordinator · May 2024 — 2026</span>
+            <h3>Brock Computer Science Club &amp; Hackathons</h3>
+            <p>
+              Led an introductory Git &amp; GitHub workshop and organized weekly
+              Game Nights, themed sessions, and hackathon participation,
+              attracting 25–60+ students per event.
+            </p>
+          </div>
+          <span class="community-location">St. Catharines, Ontario</span>
+        </article>
+      </section>
+
+      <section class="contact-section reveal">
+        <span class="eyebrow">Let’s build something useful</span>
+        <h2>Have a problem worth solving?</h2>
+        <p>I’m always open to thoughtful engineering work and new collaborations.</p>
+        <div class="hero-actions">
+          <div class="button-frame">
+            <a class="button button--primary" href="mailto:loicwedji@gmail.com">
+              Start a conversation
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <a
+            class="button button--ghost"
+            href="https://linkedin.com/in/loic-wedji"
+            target="_blank"
+            rel="noopener"
+          >
+            LinkedIn
+          </a>
         </div>
       </section>
     </main>
+
+    <footer>
+      <a class="brand" href="#home">
+        <span class="brand-mark">LW</span>
+        <span class="brand-name">Loic Wedji</span>
+      </a>
+      <p>Software engineer · Toronto, Ontario</p>
+      <div>
+        <a href="mailto:loicwedji@gmail.com">Email</a>
+        <a href="https://github.com/loicwedji" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/loic-wedji" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </footer>
 
     <script src="script.js"></script>
   </body>
