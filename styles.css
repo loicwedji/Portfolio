@@ -217,16 +217,20 @@ body > :not(.site-glow):not(.section-nav) {
     transition-delay: .06s;
 }
 
+.contact-link:nth-child(3) {
+    transition-delay: .12s;
+}
+
 .contact-link svg {
     width: 1.6rem;
     height: 1.6rem;
 }
 
-.contact-link:first-child svg {
+.contact-link--filled svg {
     fill: currentColor;
 }
 
-.contact-link:last-child svg {
+.contact-link--email svg {
     fill: none;
     stroke: currentColor;
     stroke-width: 1.8;
@@ -257,7 +261,7 @@ body > :not(.site-glow):not(.section-nav) {
 
 .contact-lightbar {
     position: relative;
-    width: min(30rem, 80vw);
+    width: min(8rem, 45vw);
     height: 2.75rem;
     padding: 0;
     border: 0;
