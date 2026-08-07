@@ -32,7 +32,6 @@ body {
   margin-inline: auto;
   margin-block: auto;
   padding-block: clamp(2rem, 6vh, 4rem);
-  padding-left: clamp(5.5rem, 10vw, 8rem);
 }
 
 .intro__content {
