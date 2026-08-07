@@ -7,63 +7,89 @@
     <link rel="stylesheet" href="v1_styles.css" />
   </head>
   <body>
-    <h1>Loic Wedji</h1>
-    <p>cs @ Brocku</p>
-    <p>Toronto, ON</p>
-    <h2>About Me</h2>
-    <p>A software engineer who occasionally watches anime</p>
-    <h2>Experience</h2>
-    <div class="experience-item">
-      <span class="work-title">Quality Engineer</span>
-      <a
-        class="company-link"
-        href="https://www.td.com/ca/en/personal-banking"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Visit the TD Canada website"
-        title="TD Canada"
-      >
-        <img class="company-logo company-logo--td" src="td1.png" alt="TD" />
-      </a>
-    </div>
-    <div class="experience-item">
-      <span class="work-title">Research Assistant</span>
-      <a
-        class="company-link"
-        href="https://brocku.ca/"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Visit the Brock University website"
-        title="Brock University"
-      >
-        <img
-          class="company-logo company-logo--brock"
-          src="Brocku_logo.jpg"
-          alt="Brock University"
-        />
-      </a>
-    </div>
-    <div class="experience-item">
-      <span class="work-title">Teaching Assistant</span>
-      <a
-        class="company-link"
-        href="https://brocku.ca/"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Visit the Brock University website"
-        title="Brock University"
-      >
-        <img
-          class="company-logo company-logo--brock"
-          src="Brocku_logo.jpg"
-          alt="Brock University"
-        />
-      </a>
-    </div>
-    <h2>Projects</h2>
-    <p>Integricode</p>
-    <p>Portfolio</p>
-    <p>HALT</p>
+    <main class="main-content">
+      <header class="hero">
+        <h1>Loic Wedji</h1>
+        <p class="hero-meta">Computer Science · Brock University</p>
+        <p class="hero-meta">Toronto, ON</p>
+        <p class="hero-intro">
+          A software engineer who occasionally watches anime.
+        </p>
+      </header>
+
+      <section class="content-section" aria-labelledby="experience-heading">
+        <h2 id="experience-heading">Experience</h2>
+        <div class="section-list">
+          <article class="experience-item">
+            <div>
+              <h3>Quality Engineer</h3>
+              <p class="work-title">TD Canada</p>
+            </div>
+            <a
+              class="company-link"
+              href="https://www.td.com/ca/en/personal-banking"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit the TD Canada website"
+              title="TD Canada"
+            >
+              <img class="company-logo company-logo--td" src="td1.png" alt="" />
+            </a>
+          </article>
+
+          <article class="experience-item">
+            <div>
+              <h3>Research Assistant</h3>
+              <p class="work-title">Brock University</p>
+            </div>
+            <a
+              class="company-link"
+              href="https://brocku.ca/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit the Brock University website"
+              title="Brock University"
+            >
+              <img
+                class="company-logo company-logo--brock"
+                src="Brocku_logo.jpg"
+                alt=""
+              />
+            </a>
+          </article>
+
+          <article class="experience-item">
+            <div>
+              <h3>Teaching Assistant</h3>
+              <p class="work-title">Brock University</p>
+            </div>
+            <a
+              class="company-link"
+              href="https://brocku.ca/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit the Brock University website"
+              title="Brock University"
+            >
+              <img
+                class="company-logo company-logo--brock"
+                src="Brocku_logo.jpg"
+                alt=""
+              />
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Projects</h2>
+        <div class="project-list">
+          <p><span>01</span> Integricode</p>
+          <p><span>02</span> Portfolio</p>
+          <p><span>03</span> HALT</p>
+        </div>
+      </section>
+    </main>
 
     <footer class="site-footer">
       <p>© 2026 Loic Wedji</p>

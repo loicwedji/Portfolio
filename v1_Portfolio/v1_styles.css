@@ -2,15 +2,11 @@
 
 body {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   background-color: #000;
-  color: #f5f5f5;
+  color: #c9c7c2;
   font-family: "Geist Mono", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -20,7 +16,7 @@ body {
     "wdth" 100,
     "GRAD" 0,
     "ROND" 0;
-  text-align: center;
+  text-align: left;
 }
 
 body > * {
@@ -54,7 +50,63 @@ body::before {
 }
 
 a {
-  color: #d7e8ff;
+  color: #b8d8ff;
+}
+
+h1,
+h2 {
+  color: #f5f3ee;
+}
+
+.main-content {
+  box-sizing: border-box;
+  width: min(100%, 48rem);
+  margin: 0 auto;
+  padding: 6rem 1.5rem 9rem;
+}
+
+.hero {
+  max-width: 38rem;
+}
+
+.hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.75rem, 8vw, 4.75rem);
+  font-weight: 300;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.hero-meta {
+  margin: 0.25rem 0;
+  color: #92908b;
+  font-size: 0.875rem;
+}
+
+.hero-intro {
+  max-width: 31rem;
+  margin: 2rem 0 0;
+  color: #c9c7c2;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.content-section {
+  margin-top: 5rem;
+}
+
+.content-section h2 {
+  margin: 0 0 1.5rem;
+  color: #92908b;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-list {
+  display: grid;
+  gap: 0.5rem;
 }
 
 .site-footer {
@@ -71,16 +123,31 @@ a {
 
 .site-footer p {
   margin: 0;
-  color: rgb(245 245 245 / 55%);
+  color: #85837f;
 }
 
 .experience-item {
-  display: inline-flex;
-  width: 14rem;
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.65rem;
-  margin: 1rem 0;
+  gap: 1rem;
+  padding: 1rem 0 1rem 1.25rem;
+  border-left: 2px solid rgb(245 243 238 / 14%);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.experience-item:hover {
+  border-left-color: #b8d8ff;
+  background: linear-gradient(90deg, rgb(184 216 255 / 6%), transparent 70%);
+}
+
+.experience-item h3 {
+  margin: 0;
+  color: #f5f3ee;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .company-link {
@@ -120,8 +187,36 @@ a {
 }
 
 .work-title {
-  color: rgb(245 245 245 / 60%);
+  margin: 0.35rem 0 0;
+  color: #92908b;
+  font-size: 0.875rem;
   line-height: 1.2;
+}
+
+.project-list {
+  border-top: 1px solid rgb(245 243 238 / 14%);
+}
+
+.project-list p {
+  display: flex;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid rgb(245 243 238 / 14%);
+  color: #f5f3ee;
+  transition:
+    color 180ms ease,
+    padding-left 180ms ease;
+}
+
+.project-list p:hover {
+  padding-left: 0.4rem;
+  color: #b8d8ff;
+}
+
+.project-list span {
+  color: #85837f;
+  font-size: 0.75rem;
 }
 
 .social-links {
@@ -161,6 +256,14 @@ a {
 }
 
 @media (max-width: 30rem) {
+  .main-content {
+    padding-top: 4.5rem;
+  }
+
+  .content-section {
+    margin-top: 4rem;
+  }
+
   .site-footer {
     right: max(0.75rem, env(safe-area-inset-right));
     bottom: max(0.75rem, env(safe-area-inset-bottom));
