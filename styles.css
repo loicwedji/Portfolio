@@ -167,7 +167,8 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle) {
   white-space: nowrap;
   transition:
     color 0.2s ease,
-    text-shadow 0.2s ease;
+    text-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 .section-nav__link::before {
@@ -182,6 +183,7 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle) {
 .section-nav__link:hover,
 .section-nav__link:focus-visible {
   color: rgba(255, 255, 255, 0.72);
+  transform: translateX(0.35rem);
 }
 
 .section-nav__link.is-active {
@@ -380,6 +382,10 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle) {
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
+}
+
+html:not([data-theme="light"]) .site-glow {
+  opacity: 0.58;
 }
 
 .site-glow::before {
@@ -741,6 +747,11 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle) {
     height: 2px;
   }
 
+  .section-nav__link:hover,
+  .section-nav__link:focus-visible {
+    transform: translateY(-0.15rem);
+  }
+
   .section-nav__indicator {
     top: auto;
     bottom: -1px;
@@ -821,6 +832,11 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle) {
 
   .section-nav.is-transitioning .section-nav__link.is-active {
     animation: none;
+  }
+
+  .section-nav__link:hover,
+  .section-nav__link:focus-visible {
+    transform: none;
   }
 }
 
