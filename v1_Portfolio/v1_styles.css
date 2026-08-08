@@ -169,6 +169,21 @@ h2 {
   font-weight: 500;
 }
 
+.role-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.75rem;
+}
+
+.role-date {
+  color: #85837f;
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
 .company-link {
   display: block;
   width: 2rem;
@@ -350,6 +365,14 @@ h2 {
 
   .site-footer p {
     font-size: 0.8rem;
+  }
+
+  .role-heading {
+    gap: 0.25rem 0.5rem;
+  }
+
+  .role-date {
+    font-size: 0.68rem;
   }
 
   .social-links {
