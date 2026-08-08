@@ -10,12 +10,35 @@
     <main class="main-content">
       <header class="hero">
         <h1>Loic Wedji</h1>
-        <p class="hero-meta">Computer Science · Brock University</p>
+        <p class="hero-meta">Software Engineer</p>
         <p class="hero-meta">Toronto, ON</p>
-        <p class="hero-intro">
-          A software engineer who occasionally watches anime.
-        </p>
       </header>
+
+      <section class="content-section" aria-labelledby="education-heading">
+        <h2 id="education-heading">Education</h2>
+        <article class="experience-item">
+          <div>
+            <h3>Brock University</h3>
+            <p class="work-title">
+              BSc Computer Science (Honours) · AI &amp; Software Engineering
+            </p>
+          </div>
+          <a
+            class="company-link"
+            href="https://brocku.ca/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit the Brock University website"
+            title="Brock University"
+          >
+            <img
+              class="company-logo company-logo--brock"
+              src="Brocku_logo.jpg"
+              alt=""
+            />
+          </a>
+        </article>
+      </section>
 
       <section class="content-section" aria-labelledby="experience-heading">
         <h2 id="experience-heading">Experience</h2>
@@ -85,14 +108,61 @@
         <h2 id="projects-heading">Projects</h2>
         <div class="project-list">
           <p><span>01</span> Integricode</p>
-          <p><span>02</span> Portfolio</p>
-          <p><span>03</span> HALT</p>
+          <p class="portfolio-project">
+            <span>02</span>
+            Portfolio
+            <small class="project-status">— new version coming soon</small>
+            <a
+              class="project-preview"
+              href="../index.html"
+              aria-label="View the new portfolio"
+            >
+              preview
+              <svg class="project-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </p>
+          <p>
+            <span>03</span>
+            <a
+              href="https://devpost.com/software/halt-y8jwon"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              HALT
+              <svg
+                class="external-link-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3Z"
+                />
+                <path
+                  d="M19 19H5V5h6V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-2v6Z"
+                />
+              </svg>
+            </a>
+          </p>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>© 2026 Loic Wedji</p>
+      <div
+        class="visitor-count"
+        title="Site visitors"
+        aria-label="Site visitors"
+      >
+        <svg viewBox="0 -960 960 960" aria-hidden="true">
+          <path
+            d="M607.5-372.5Q660-425 660-500t-52.5-127.5Q555-680 480-680t-127.5 52.5Q300-575 300-500t52.5 127.5Q405-320 480-320t127.5-52.5Zm-204-51Q372-455 372-500t31.5-76.5Q435-608 480-608t76.5 31.5Q588-545 588-500t-31.5 76.5Q525-392 480-392t-76.5-31.5ZM214-281.5Q94-363 40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200q-146 0-266-81.5ZM480-500Zm207.5 160.5Q782-399 832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280q113 0 207.5-59.5Z"
+          />
+        </svg>
+        <span id="visitor-total" aria-live="polite">—</span>
+      </div>
       <div class="social-links" aria-label="Contact links">
         <a
           href="https://www.linkedin.com/in/loic-wedji-7906141a5/"
@@ -125,5 +195,6 @@
         </a>
       </div>
     </footer>
+    <script src="v1_script.js"></script>
   </body>
 </html>
