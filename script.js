@@ -142,6 +142,8 @@ let currentNavLink = isSinglePageNav
   : sectionNavLinks.find((link) => link.dataset.page === currentPage);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let previousPage = null;
+let isNavScrollInProgress = false;
+let navScrollEndTimer;
 
 if (!isSinglePageNav) {
   try {
@@ -191,6 +193,22 @@ const setActiveNavLink = (link) => {
   moveNavIndicator(link);
 };
 
+const finishNavScroll = () => {
+  if (!isNavScrollInProgress) return;
+
+  isNavScrollInProgress = false;
+  document.documentElement.classList.remove('is-nav-scrolling');
+};
+
+const scheduleNavScrollEnd = () => {
+  if (!isNavScrollInProgress) return;
+
+  window.clearTimeout(navScrollEndTimer);
+  navScrollEndTimer = window.setTimeout(finishNavScroll, 140);
+};
+
+window.addEventListener('scroll', scheduleNavScrollEnd, { passive: true });
+
 const previousNavLink = isSinglePageNav
   ? null
   : sectionNavLinks.find((link) => link.dataset.page === previousPage);
@@ -219,6 +237,12 @@ sectionNavLinks.forEach((link) => {
       if (!target) return;
 
       event.preventDefault();
+      if (!prefersReducedMotion) {
+        isNavScrollInProgress = true;
+        document.documentElement.classList.add('is-nav-scrolling');
+        window.clearTimeout(navScrollEndTimer);
+        navScrollEndTimer = window.setTimeout(finishNavScroll, 1000);
+      }
       target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
       history.replaceState(null, '', `#${target.id}`);
       currentNavLink = link;
@@ -238,6 +262,8 @@ sectionNavLinks.forEach((link) => {
 
 if (isSinglePageNav && 'IntersectionObserver' in window) {
   const sectionObserver = new IntersectionObserver((entries) => {
+    if (isNavScrollInProgress) return;
+
     const visibleSection = entries
       .filter((entry) => entry.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -250,7 +276,7 @@ if (isSinglePageNav && 'IntersectionObserver' in window) {
     currentNavLink = link;
     setActiveNavLink(link);
     history.replaceState(null, '', `#${visibleSection.target.id}`);
-  }, { threshold: [0.35, 0.6] });
+  }, { rootMargin: '-20% 0px -65% 0px', threshold: 0 });
 
   pageSections.forEach((section) => sectionObserver.observe(section));
 }
