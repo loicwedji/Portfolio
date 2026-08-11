@@ -35,39 +35,39 @@
     </button>
 
     <nav class="section-nav" aria-label="Portfolio sections">
-      <a class="section-nav__link" href="index.html" data-page="index.html"
+      <a class="section-nav__link" href="#home" data-section="home"
         >Home</a
       >
       <a
         class="section-nav__link"
-        href="education.html"
-        data-page="education.html"
+        href="#education"
+        data-section="education"
         >Education</a
       >
       <a
         class="section-nav__link"
-        href="experience.html"
-        data-page="experience.html"
+        href="#experience"
+        data-section="experience"
         >Experience</a
       >
       <a
         class="section-nav__link"
-        href="technical-skills.html"
-        data-page="technical-skills.html"
+        href="#technical-skills"
+        data-section="technical-skills"
         >Technical Skills</a
       >
       <a
         class="section-nav__link"
-        href="projects.html"
-        data-page="projects.html"
+        href="#projects"
+        data-section="projects"
         >Projects</a
       >
-      <a class="section-nav__link" href="about.html" data-page="about.html"
+      <a class="section-nav__link" href="#about" data-section="about"
         >About Me</a
       >
     </nav>
 
-    <header class="intro">
+    <header class="intro snap-section" id="home">
       <div class="intro__content">
         <img
           class="intro__image"
@@ -90,7 +90,75 @@
       </div>
     </header>
 
-    <main></main>
+    <main>
+      <section class="page-section snap-section" id="education">
+        <div class="section-inner">
+          <h2 class="section-title">Education</h2>
+          <div class="section-content section-list">
+            <article class="experience-item">
+              <div>
+                <h3>Brock University</h3>
+                <p class="work-title">Bachelor's Degree in Computer Science (Honours) with a concentration in AI &amp; Software Engineering</p>
+              </div>
+              <a class="company-link" href="https://brocku.ca/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Brock University website" title="Brock University">
+                <img class="company-logo company-logo--brock" src="v1_Portfolio/Brocku_logo.jpg" alt="">
+              </a>
+            </article>
+            <article class="experience-item">
+              <div>
+                <h3>Brock CSC Executive</h3>
+                <p class="work-title">Led an introductory Git and GitHub workshop and organized weekly Game Nights, themed sessions, attracting 25+ students per event.</p>
+              </div>
+              <span class="company-link" aria-hidden="true"><img class="company-logo" src="brockcsc.png" alt=""></span>
+            </article>
+          </div>
+          <h3 class="section-title section-title--subsection">Extracurriculars</h3>
+          <div class="section-content section-list">
+            <article class="experience-item"><div><h3>Hackathons</h3><p class="work-title">UofThacks, TerraHacks, SummerHacks</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section snap-section" id="experience">
+        <div class="section-inner">
+          <h2 class="section-title">Experience</h2>
+          <div class="section-content section-list">
+            <article class="experience-item">
+              <div><h3 class="role-heading">Quality Engineer intern <span class="role-date">May 2026 - Present</span></h3><p class="work-title">TD Canada</p></div>
+              <a class="company-link" href="https://www.td.com/ca/en/personal-banking" target="_blank" rel="noopener noreferrer" aria-label="Visit the TD Canada website" title="TD Canada"><img class="company-logo company-logo--td" src="v1_Portfolio/td1.png" alt=""></a>
+            </article>
+            <article class="experience-item">
+              <div><h3 class="role-heading">Teaching Assistant <span class="role-date">Jan 2025 - Apr 2026</span></h3><p class="work-title">Brock University</p></div>
+              <a class="company-link" href="https://brocku.ca/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Brock University website" title="Brock University"><img class="company-logo company-logo--brock" src="v1_Portfolio/Brocku_logo.jpg" alt=""></a>
+            </article>
+            <article class="experience-item">
+              <div><h3 class="role-heading">Research Assistant <span class="role-date">Sep 2025 - Apr 2026</span></h3><p class="work-title">Brock University</p></div>
+              <a class="company-link" href="https://brocku.ca/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Brock University website" title="Brock University"><img class="company-logo company-logo--brock" src="v1_Portfolio/Brocku_logo.jpg" alt=""></a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section snap-section" id="technical-skills">
+        <div class="section-inner"><h2 class="section-title">Technical Skills</h2><div class="section-content"></div></div>
+      </section>
+
+      <section class="page-section snap-section" id="projects">
+        <div class="section-inner">
+          <h2 class="section-title">Projects</h2>
+          <div class="section-content section-list">
+            <article class="experience-item"><div><h3>Integricode</h3></div></article>
+            <article class="experience-item"><div><h3>HALT</h3></div></article>
+            <article class="experience-item"><div><h3>Mecca AR</h3></div></article>
+            <article class="experience-item"><div><h3>Portfolio</h3></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section snap-section" id="about">
+        <div class="section-inner"><h2 class="section-title">About Me</h2><div class="section-content"></div></div>
+      </section>
+    </main>
 
     <footer class="contact-dock" aria-label="Contact">
       <div class="contact-reveal">

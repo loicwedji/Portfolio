@@ -1,5 +1,6 @@
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
 *,
@@ -28,18 +29,44 @@ body {
 }
 
 .intro {
+  display: flex;
   width: min(calc(100% - 4rem), 72rem);
   margin-inline: auto;
   margin-block: auto;
   padding-block: clamp(2rem, 6vh, 4rem);
+  align-items: center;
+  justify-content: center;
+}
+
+.snap-section {
+  min-height: 100vh;
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.page-section.snap-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: clamp(4.5rem, 9vh, 6rem);
+  scroll-margin-top: 0;
+}
+
+.section-inner {
+  width: 100%;
 }
 
 .intro__content {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   gap: clamp(2rem, 4vw, 3.5rem);
   flex-wrap: nowrap;
+  transform: translateY(clamp(-7rem, -10vh, -4.5rem));
 }
 
 .intro__image {
@@ -72,7 +99,7 @@ body {
   gap: 0.45rem;
 }
 
-body > :not(.site-glow):not(.section-nav):not(.theme-toggle) {
+body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) {
   position: relative;
   z-index: 1;
 }
@@ -389,7 +416,7 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle) {
 }
 
 html:not([data-theme="light"]) .site-glow {
-  opacity: 0.58;
+  opacity: 0.82;
 }
 
 .site-glow::before {
@@ -421,8 +448,8 @@ html:not([data-theme="light"]) .site-glow {
   transform: rotate(-38deg);
   background: radial-gradient(
     ellipse,
-    rgba(255, 255, 255, 0.085),
-    rgba(255, 255, 255, 0.014) 48%,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.022) 48%,
     transparent 72%
   );
 }
@@ -432,8 +459,8 @@ html:not([data-theme="light"]) .site-glow {
   transform: rotate(-38deg);
   background: radial-gradient(
     ellipse,
-    rgba(255, 255, 255, 0.055),
-    rgba(255, 255, 255, 0.01) 48%,
+    rgba(255, 255, 255, 0.085),
+    rgba(255, 255, 255, 0.016) 48%,
     transparent 72%
   );
 }
@@ -443,8 +470,8 @@ html:not([data-theme="light"]) .site-glow {
   transform: rotate(-38deg);
   background: radial-gradient(
     ellipse,
-    rgba(216, 255, 105, 0.045),
-    rgba(255, 255, 255, 0.01) 45%,
+    rgba(216, 255, 105, 0.075),
+    rgba(255, 255, 255, 0.015) 45%,
     transparent 72%
   );
 }
@@ -494,10 +521,34 @@ html:not([data-theme="light"]) .site-glow {
   stroke-linejoin: round;
 }
 
-.contact-dock {
+body > .contact-dock {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  margin-top: auto;
-  padding: min(12vh, 7rem) max(1rem, 4vw) max(1rem, 3vh);
+  margin: 0;
+  padding: 0 max(1rem, 4vw) max(0.75rem, 2vh);
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  will-change: opacity, transform;
+  z-index: 20;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0s linear;
+}
+
+body > .contact-dock.is-scrolling {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(1rem);
+  visibility: hidden;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0s linear 0.18s;
 }
 
 .contact-reveal {
@@ -826,7 +877,12 @@ html:not([data-theme="light"]) .site-glow {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .contact-links,
+  .contact-dock,
   .contact-lightbar::before,
   .contact-lightbar::after,
   .section-nav__indicator,

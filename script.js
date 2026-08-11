@@ -24,6 +24,7 @@ if (!document.querySelector('.contact-dock')) {
 const contactReveal = document.querySelector('.contact-reveal');
 const contactLightbar = document.querySelector('.contact-lightbar');
 const contactLabel = document.querySelector('.contact-label');
+const contactDockElement = document.querySelector('.contact-dock');
 
 if (contactReveal && contactLightbar) {
   [contactLightbar, contactLabel].filter(Boolean).forEach((trigger) => {
@@ -42,8 +43,7 @@ if (contactReveal && contactLightbar) {
   contactReveal.addEventListener('pointerleave', (event) => {
     if (event.pointerType !== 'mouse') return;
 
-    contactReveal.classList.remove('is-hover-open');
-    contactReveal.classList.remove('is-open');
+    contactReveal.classList.remove('is-hover-open', 'is-open');
     contactLightbar.setAttribute('aria-expanded', 'false');
 
     if (document.activeElement === contactLightbar) {
@@ -52,19 +52,44 @@ if (contactReveal && contactLightbar) {
   });
 }
 
+if (contactDockElement) {
+  let contactFadeTimer;
+
+  const hideContactDockWhileScrolling = () => {
+    contactDockElement.classList.add('is-scrolling');
+    contactReveal?.classList.remove('is-hover-open', 'is-open');
+    contactLightbar?.setAttribute('aria-expanded', 'false');
+
+    window.clearTimeout(contactFadeTimer);
+    contactFadeTimer = window.setTimeout(() => {
+      contactDockElement.classList.remove('is-scrolling');
+    }, 240);
+  };
+
+  window.addEventListener('scroll', hideContactDockWhileScrolling, { passive: true });
+}
+
 const sectionNav = document.querySelector('.section-nav');
 const sectionNavLinks = [...document.querySelectorAll('.section-nav__link')];
 
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-const currentNavLink = sectionNavLinks.find((link) => link.dataset.page === currentPage);
+const isSinglePageNav = sectionNavLinks.some((link) => link.dataset.section);
+const pageSections = isSinglePageNav
+  ? sectionNavLinks.map((link) => document.getElementById(link.dataset.section)).filter(Boolean)
+  : [];
+let currentNavLink = isSinglePageNav
+  ? sectionNavLinks.find((link) => link.dataset.section === (window.location.hash.slice(1) || 'home')) || sectionNavLinks[0]
+  : sectionNavLinks.find((link) => link.dataset.page === currentPage);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let previousPage = null;
 
-try {
-  previousPage = sessionStorage.getItem('portfolio-previous-page');
-  sessionStorage.removeItem('portfolio-previous-page');
-} catch {
-  previousPage = null;
+if (!isSinglePageNav) {
+  try {
+    previousPage = sessionStorage.getItem('portfolio-previous-page');
+    sessionStorage.removeItem('portfolio-previous-page');
+  } catch {
+    previousPage = null;
+  }
 }
 
 let navIndicator = null;
@@ -97,7 +122,7 @@ const setActiveNavLink = (link) => {
     navLink.classList.toggle('is-active', isActive);
 
     if (isActive) {
-      navLink.setAttribute('aria-current', 'page');
+      navLink.setAttribute('aria-current', isSinglePageNav ? 'location' : 'page');
     } else {
       navLink.removeAttribute('aria-current');
     }
@@ -106,7 +131,9 @@ const setActiveNavLink = (link) => {
   moveNavIndicator(link);
 };
 
-const previousNavLink = sectionNavLinks.find((link) => link.dataset.page === previousPage);
+const previousNavLink = isSinglePageNav
+  ? null
+  : sectionNavLinks.find((link) => link.dataset.page === previousPage);
 
 if (previousNavLink && previousNavLink !== currentNavLink && !prefersReducedMotion) {
   setActiveNavLink(previousNavLink);
@@ -126,7 +153,19 @@ if (previousNavLink && previousNavLink !== currentNavLink && !prefersReducedMoti
 }
 
 sectionNavLinks.forEach((link) => {
-  link.addEventListener('click', () => {
+  link.addEventListener('click', (event) => {
+    if (isSinglePageNav) {
+      const target = document.getElementById(link.dataset.section);
+      if (!target) return;
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      history.replaceState(null, '', `#${target.id}`);
+      currentNavLink = link;
+      setActiveNavLink(link);
+      return;
+    }
+
     if (link === currentNavLink) return;
 
     try {
@@ -136,6 +175,25 @@ sectionNavLinks.forEach((link) => {
     }
   });
 });
+
+if (isSinglePageNav && 'IntersectionObserver' in window) {
+  const sectionObserver = new IntersectionObserver((entries) => {
+    const visibleSection = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (!visibleSection) return;
+
+    const link = sectionNavLinks.find((item) => item.dataset.section === visibleSection.target.id);
+    if (!link || link === currentNavLink) return;
+
+    currentNavLink = link;
+    setActiveNavLink(link);
+    history.replaceState(null, '', `#${visibleSection.target.id}`);
+  }, { threshold: [0.35, 0.6] });
+
+  pageSections.forEach((section) => sectionObserver.observe(section));
+}
 
 window.addEventListener('resize', () => {
   if (!sectionNav) return;
