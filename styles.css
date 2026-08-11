@@ -333,7 +333,8 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) 
     background-color 180ms ease;
 }
 
-.experience-item:hover {
+.experience-item:hover,
+.experience-item.is-touch-active {
   border-left-color: rgba(255, 255, 255, 0.82);
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent 70%);
 }
@@ -350,7 +351,8 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) 
   transition: background-color 180ms ease, box-shadow 220ms ease;
 }
 
-.experience-item:hover::before {
+.experience-item:hover::before,
+.experience-item.is-touch-active::before {
   background: rgba(255, 255, 255, 0.9);
   box-shadow:
     0 0 6px rgba(255, 255, 255, 0.75),
@@ -421,7 +423,8 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) 
     transform 180ms ease;
 }
 
-.skill-list li:hover {
+.skill-list li:hover,
+.skill-list li.is-touch-active {
   border-color: rgba(255, 255, 255, 0.55);
   background: rgba(255, 255, 255, 0.07);
   box-shadow:
@@ -1173,12 +1176,14 @@ html[data-theme="light"] .experience-item {
   border-left-color: rgba(28, 25, 23, 0.16);
 }
 
-html[data-theme="light"] .experience-item:hover {
+html[data-theme="light"] .experience-item:hover,
+html[data-theme="light"] .experience-item.is-touch-active {
   border-left-color: rgba(28, 25, 23, 0.72);
   background: linear-gradient(90deg, rgba(28, 25, 23, 0.05), transparent 70%);
 }
 
-html[data-theme="light"] .experience-item:hover::before {
+html[data-theme="light"] .experience-item:hover::before,
+html[data-theme="light"] .experience-item.is-touch-active::before {
   background: rgba(28, 25, 23, 0.9);
   box-shadow:
     0 0 6px rgba(28, 25, 23, 0.55),
@@ -1186,7 +1191,8 @@ html[data-theme="light"] .experience-item:hover::before {
     0 0 36px rgba(28, 25, 23, 0.14);
 }
 
-html[data-theme="light"] .skill-list li:hover {
+html[data-theme="light"] .skill-list li:hover,
+html[data-theme="light"] .skill-list li.is-touch-active {
   border-color: rgba(28, 25, 23, 0.45);
   background: rgba(28, 25, 23, 0.06);
   box-shadow:

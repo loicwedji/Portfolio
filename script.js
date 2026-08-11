@@ -111,6 +111,24 @@ if (contactDockElement) {
   window.requestAnimationFrame(updateContactDockVisibility);
 }
 
+const touchHoverQuery = window.matchMedia('(hover: none)');
+const touchHoverTargets = '.experience-item, .skill-list li';
+const activeTouchHoverTargets =
+  '.experience-item.is-touch-active, .skill-list li.is-touch-active';
+
+document.addEventListener('click', (event) => {
+  if (!touchHoverQuery.matches) return;
+
+  const tappedTarget = event.target.closest(touchHoverTargets);
+  const activeTargets = document.querySelectorAll(activeTouchHoverTargets);
+
+  activeTargets.forEach((target) => {
+    if (target !== tappedTarget) target.classList.remove('is-touch-active');
+  });
+
+  tappedTarget?.classList.toggle('is-touch-active');
+});
+
 const sectionNav = document.querySelector('.section-nav');
 const sectionNavLinks = [...document.querySelectorAll('.section-nav__link')];
 
