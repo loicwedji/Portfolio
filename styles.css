@@ -1,7 +1,7 @@
 html {
   --contact-clearance: calc(8.5rem + env(safe-area-inset-bottom, 0px));
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
 }
 
 html.is-nav-scrolling {
@@ -19,7 +19,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100lvh;
   margin: 0;
   overflow-x: hidden;
   background-color: rgb(0, 0, 0);
@@ -46,7 +46,7 @@ body {
 
 .snap-section {
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100lvh;
   scroll-snap-align: start;
   scroll-snap-stop: normal;
 }
@@ -1279,16 +1279,6 @@ html[data-theme="light"] .theme-toggle__moon {
   html[data-theme="light"] .section-nav {
     border-bottom-color: rgba(28, 25, 23, 0.18);
     background: rgba(253, 250, 246, 0.88);
-  }
-}
-
-@media (hover: none), (pointer: coarse) {
-  html {
-    scroll-snap-type: none;
-  }
-
-  .snap-section {
-    scroll-snap-align: none;
   }
 }
 
