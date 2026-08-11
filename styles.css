@@ -448,6 +448,11 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) 
   opacity: 0.72;
 }
 
+.project-summary {
+  max-width: 44rem;
+  text-wrap: pretty;
+}
+
 .company-link {
   display: block;
   width: 2rem;
