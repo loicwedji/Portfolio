@@ -54,6 +54,43 @@ if (contactReveal && contactLightbar) {
 
 if (contactDockElement) {
   let contactFadeTimer;
+  const contactCollisionTargets = [
+    ...document.querySelectorAll('main h1, main h2, main h3, main p, main li'),
+  ];
+
+  const updateContactDockVisibility = () => {
+    const rootFontSize = Number.parseFloat(
+      window.getComputedStyle(document.documentElement).fontSize,
+    );
+    const contactClearance = 8.5 * rootFontSize;
+    const revealRect = contactReveal?.getBoundingClientRect();
+    const protectedArea = {
+      top: window.innerHeight - contactClearance,
+      right: revealRect?.right ?? window.innerWidth,
+      bottom: window.innerHeight,
+      left: revealRect?.left ?? 0,
+    };
+
+    const overlapsText = contactCollisionTargets.some((element) => {
+      const style = window.getComputedStyle(element);
+      if (style.display === 'none' || style.visibility === 'hidden') return false;
+
+      const rect = element.getBoundingClientRect();
+      return (
+        rect.bottom > protectedArea.top &&
+        rect.top < protectedArea.bottom &&
+        rect.right > protectedArea.left &&
+        rect.left < protectedArea.right
+      );
+    });
+
+    contactDockElement.classList.toggle('is-obstructed', overlapsText);
+
+    if (overlapsText) {
+      contactReveal?.classList.remove('is-hover-open', 'is-open');
+      contactLightbar?.setAttribute('aria-expanded', 'false');
+    }
+  };
 
   const hideContactDockWhileScrolling = () => {
     contactDockElement.classList.add('is-scrolling');
@@ -62,11 +99,16 @@ if (contactDockElement) {
 
     window.clearTimeout(contactFadeTimer);
     contactFadeTimer = window.setTimeout(() => {
+      updateContactDockVisibility();
       contactDockElement.classList.remove('is-scrolling');
     }, 240);
   };
 
   window.addEventListener('scroll', hideContactDockWhileScrolling, { passive: true });
+  window.addEventListener('resize', updateContactDockVisibility, { passive: true });
+  window.addEventListener('load', updateContactDockVisibility);
+  document.fonts?.ready.then(updateContactDockVisibility);
+  window.requestAnimationFrame(updateContactDockVisibility);
 }
 
 const sectionNav = document.querySelector('.section-nav');

@@ -660,7 +660,8 @@ body > .contact-dock {
     visibility 0s linear;
 }
 
-body > .contact-dock.is-scrolling {
+body > .contact-dock.is-scrolling,
+body > .contact-dock.is-obstructed {
   opacity: 0;
   pointer-events: none;
   transform: translateY(1rem);
