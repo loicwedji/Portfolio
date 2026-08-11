@@ -320,6 +320,7 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) 
 }
 
 .experience-item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -335,6 +336,26 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) 
 .experience-item:hover {
   border-left-color: rgba(255, 255, 255, 0.82);
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent 70%);
+}
+
+.experience-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -2px;
+  width: 2px;
+  background: transparent;
+  pointer-events: none;
+  transition: background-color 180ms ease, box-shadow 220ms ease;
+}
+
+.experience-item:hover::before {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.75),
+    0 0 16px rgba(255, 255, 255, 0.42),
+    0 0 36px rgba(255, 255, 255, 0.2);
 }
 
 .experience-item > div {
@@ -393,6 +414,21 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) 
   color: rgba(255, 255, 255, 0.78);
   font-size: 0.78rem;
   line-height: 1.2;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 220ms ease,
+    transform 180ms ease;
+}
+
+.skill-list li:hover {
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.55),
+    0 0 16px rgba(255, 255, 255, 0.22),
+    0 0 36px rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
 }
 
 .project-tech-stack {
@@ -1011,6 +1047,8 @@ body > .contact-dock.is-obstructed {
   .section-nav__indicator,
   .section-nav__link,
   .experience-item,
+  .experience-item::before,
+  .skill-list li,
   .company-link {
     transition: none;
     animation: none;
@@ -1122,6 +1160,23 @@ html[data-theme="light"] .experience-item {
 html[data-theme="light"] .experience-item:hover {
   border-left-color: rgba(28, 25, 23, 0.72);
   background: linear-gradient(90deg, rgba(28, 25, 23, 0.05), transparent 70%);
+}
+
+html[data-theme="light"] .experience-item:hover::before {
+  background: rgba(28, 25, 23, 0.9);
+  box-shadow:
+    0 0 6px rgba(28, 25, 23, 0.55),
+    0 0 16px rgba(28, 25, 23, 0.3),
+    0 0 36px rgba(28, 25, 23, 0.14);
+}
+
+html[data-theme="light"] .skill-list li:hover {
+  border-color: rgba(28, 25, 23, 0.45);
+  background: rgba(28, 25, 23, 0.06);
+  box-shadow:
+    0 0 6px rgba(28, 25, 23, 0.42),
+    0 0 16px rgba(28, 25, 23, 0.18),
+    0 0 36px rgba(28, 25, 23, 0.08);
 }
 
 html[data-theme="light"] .company-link:focus-visible {
