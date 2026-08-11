@@ -371,6 +371,20 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) 
   line-height: 1.35;
 }
 
+.project-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.project-external-icon {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex: 0 0 auto;
+  fill: currentColor;
+  opacity: 0.72;
+}
+
 .company-link {
   display: block;
   width: 2rem;
@@ -779,7 +793,7 @@ body > .contact-dock.is-scrolling {
     top: 0;
     left: 0;
     display: grid;
-    grid-template-columns: repeat(6, minmax(7rem, 1fr));
+    grid-template-columns: repeat(5, minmax(7rem, 1fr));
     width: 100%;
     padding: 0.35rem 0;
     overflow-x: auto;
