@@ -266,6 +266,10 @@ body > :not(.site-glow):not(.section-nav):not(.theme-toggle) {
   text-transform: uppercase;
 }
 
+.section-title--subsection {
+  margin-top: 1.5rem;
+}
+
 .section-content {
   max-width: none;
   color: rgba(255, 255, 255, 0.72);
