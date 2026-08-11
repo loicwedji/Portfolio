@@ -741,8 +741,8 @@ body > .contact-dock.is-obstructed {
   transform-origin: center bottom;
   z-index: 1;
   transition:
-    opacity 0.25s ease-out,
-    transform 0.5s cubic-bezier(0.2, 0.9, 0.25, 1.25);
+    opacity 0.14s ease-out,
+    transform 0.28s cubic-bezier(0.2, 0.9, 0.25, 1.25);
 }
 
 .contact-link {
@@ -756,15 +756,7 @@ body > .contact-dock.is-obstructed {
   transform: translateY(0.75rem);
   transition:
     color 0.2s ease,
-    transform 0.4s cubic-bezier(0.2, 0.9, 0.25, 1.25);
-}
-
-.contact-link:nth-child(2) {
-  transition-delay: 0.06s;
-}
-
-.contact-link:nth-child(3) {
-  transition-delay: 0.12s;
+    transform 0.22s cubic-bezier(0.2, 0.9, 0.25, 1.25);
 }
 
 .contact-link svg {
@@ -822,8 +814,8 @@ body > .contact-dock.is-obstructed {
   left: 50%;
   transform: translateX(-50%);
   transition:
-    width 0.8s ease-in-out,
-    opacity 0.5s ease-in-out;
+    width 0.45s ease-in-out,
+    opacity 0.35s ease-in-out;
 }
 
 .contact-lightbar::before {
@@ -858,12 +850,36 @@ body > .contact-dock.is-obstructed {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
+  transition-delay: 0.3s;
 }
 
 .contact-reveal.is-hover-open .contact-link,
 .contact-reveal:focus-within .contact-link,
 .contact-reveal.is-open .contact-link {
   transform: translateY(0);
+}
+
+.contact-reveal.is-hover-open .contact-link:nth-child(1),
+.contact-reveal:focus-within .contact-link:nth-child(1),
+.contact-reveal.is-open .contact-link:nth-child(1) {
+  transition-delay: 0.3s;
+}
+
+.contact-reveal.is-hover-open .contact-link:nth-child(2),
+.contact-reveal:focus-within .contact-link:nth-child(2),
+.contact-reveal.is-open .contact-link:nth-child(2) {
+  transition-delay: 0.3s;
+}
+
+.contact-reveal.is-hover-open .contact-link:nth-child(3),
+.contact-reveal:focus-within .contact-link:nth-child(3),
+.contact-reveal.is-open .contact-link:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.contact-reveal:is(.is-hover-open, .is-open, :focus-within) .contact-link:hover,
+.contact-reveal:is(.is-hover-open, .is-open, :focus-within) .contact-link:focus-visible {
+  transition-delay: 0s;
 }
 
 .contact-reveal .contact-link:hover,
