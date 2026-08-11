@@ -723,11 +723,10 @@ html:not([data-theme="light"]) .site-glow {
     position: fixed;
     top: 0;
     left: 0;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(7rem, 1fr));
     width: 100%;
-    padding: 0.35rem max(0.5rem, 3vw);
+    padding: 0.35rem 0;
     overflow-x: auto;
     border-left: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -745,6 +744,10 @@ html:not([data-theme="light"]) .site-glow {
     inset: auto -1px 0 0;
     width: auto;
     height: 2px;
+  }
+
+  .section-nav__link {
+    text-align: center;
   }
 
   .section-nav__link:hover,
@@ -994,7 +997,7 @@ html[data-theme="light"] .theme-toggle__moon {
   }
 
   .section-nav {
-    padding-right: max(0.5rem, 3vw);
+    padding-right: 0;
   }
 
   html[data-theme="light"] .section-nav {
