@@ -996,7 +996,7 @@ body > .contact-dock.is-obstructed {
 
   .section-nav__link:hover,
   .section-nav__link:focus-visible {
-    transform: translateY(-0.15rem);
+    transform: none;
   }
 
   .section-nav__indicator {
