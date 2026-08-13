@@ -105,7 +105,10 @@ body {
   gap: 0.45rem;
 }
 
-body > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(.contact-dock) {
+body
+  > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(
+      .contact-dock
+    ):not(.webring) {
   position: relative;
   z-index: 1;
 }
@@ -920,6 +923,103 @@ body > .contact-dock.is-obstructed {
   outline-offset: 2px;
 }
 
+body > .webring {
+  position: fixed;
+  right: clamp(0.75rem, 2.5vw, 1.75rem);
+  bottom: calc(max(0.75rem, 2vh) + 0.075rem);
+  display: flex;
+  align-items: center;
+  gap: 0.18rem;
+  padding: 0.3rem 0.2rem;
+  isolation: isolate;
+  overflow: visible;
+  opacity: 0.82;
+  transform: translateY(0);
+  visibility: visible;
+  will-change: opacity, transform;
+  z-index: 30;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0s linear;
+}
+
+body > .webring:hover,
+body > .webring:focus-within {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+body > .contact-dock.is-scrolling ~ .webring,
+body > .contact-dock.is-obstructed ~ .webring {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(1rem);
+  visibility: hidden;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0s linear 0.18s;
+}
+
+.webring__link {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.58);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease,
+    transform 0.22s ease;
+}
+
+.webring__link:hover,
+.webring__link:focus-visible {
+  background: transparent;
+  color: #fff;
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.9),
+    0 0 14px rgba(255, 255, 255, 0.5);
+}
+
+.webring__link--prev:hover,
+.webring__link--prev:focus-visible {
+  transform: translateX(-2px);
+}
+
+.webring__link--next:hover,
+.webring__link--next:focus-visible {
+  transform: translateX(2px);
+}
+
+.webring__link--home {
+  font-family: inherit;
+  font-size: 0.9rem;
+  filter: saturate(0.78);
+  text-shadow:
+    0 0 7px rgba(255, 255, 255, 0.28),
+    0 0 16px rgba(255, 255, 255, 0.12);
+}
+
+.webring__link--home:hover,
+.webring__link--home:focus-visible {
+  filter: saturate(0.9);
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.48),
+    0 0 18px rgba(255, 255, 255, 0.24);
+  transform: translateY(-1px) scale(1.04);
+}
+
+.webring__link:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -1064,6 +1164,38 @@ body > .contact-dock.is-obstructed {
   #Description {
     font-size: 1.125rem;
   }
+
+  .webring__link {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.9rem;
+  }
+
+  .webring__link--home {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 23rem) {
+  body > .contact-dock {
+    padding-bottom: calc(max(0.75rem, 2vh) + 3rem);
+  }
+
+  body > .webring {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  body > .webring:hover,
+  body > .webring:focus-within {
+    transform: translate(-50%, -2px);
+  }
+
+  body > .contact-dock.is-scrolling ~ .webring,
+  body > .contact-dock.is-obstructed ~ .webring {
+    transform: translate(-50%, 1rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1080,7 +1212,9 @@ body > .contact-dock.is-obstructed {
   .experience-item,
   .experience-item::before,
   .skill-list li,
-  .company-link {
+  .company-link,
+  .webring,
+  .webring__link {
     transition: none;
     animation: none;
   }
@@ -1241,6 +1375,49 @@ html[data-theme="light"] .contact-lightbar::before {
 
 html[data-theme="light"] .contact-lightbar::after {
   background: radial-gradient(ellipse, rgba(28, 25, 23, 0.16), transparent 70%);
+}
+
+html[data-theme="light"] body > .webring {
+  background: transparent;
+}
+
+html[data-theme="light"] body > .webring:hover,
+html[data-theme="light"] body > .webring:focus-within {
+  background: transparent;
+}
+
+html[data-theme="light"] .webring__link {
+  color: rgba(28, 25, 23, 0.62);
+}
+
+html[data-theme="light"] .webring__link:hover,
+html[data-theme="light"] .webring__link:focus-visible {
+  background: transparent;
+  color: #1c1917;
+  text-shadow:
+    0 0 6px rgba(28, 25, 23, 0.3),
+    0 0 14px rgba(28, 25, 23, 0.16);
+}
+
+html[data-theme="light"] .webring__link--home {
+  background: transparent;
+  box-shadow: none;
+  text-shadow:
+    0 0 7px rgba(28, 25, 23, 0.18),
+    0 0 16px rgba(28, 25, 23, 0.08);
+}
+
+html[data-theme="light"] .webring__link--home:hover,
+html[data-theme="light"] .webring__link--home:focus-visible {
+  background: transparent;
+  box-shadow: none;
+  text-shadow:
+    0 0 8px rgba(28, 25, 23, 0.3),
+    0 0 18px rgba(28, 25, 23, 0.14);
+}
+
+html[data-theme="light"] .webring__link:focus-visible {
+  outline-color: #1c1917;
 }
 
 html[data-theme="light"] .theme-toggle {
