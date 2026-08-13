@@ -160,7 +160,6 @@ sectionNavLinks.forEach((link) => {
 
       event.preventDefault();
       target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-      history.replaceState(null, '', `#${target.id}`);
       currentNavLink = link;
       setActiveNavLink(link);
       return;
@@ -189,7 +188,6 @@ if (isSinglePageNav && 'IntersectionObserver' in window) {
 
     currentNavLink = link;
     setActiveNavLink(link);
-    history.replaceState(null, '', `#${visibleSection.target.id}`);
   }, { threshold: [0.35, 0.6] });
 
   pageSections.forEach((section) => sectionObserver.observe(section));
