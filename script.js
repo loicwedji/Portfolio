@@ -55,7 +55,9 @@ if (contactReveal && contactLightbar) {
 if (contactDockElement) {
   let contactFadeTimer;
   const contactCollisionTargets = [
-    ...document.querySelectorAll('main h1, main h2, main h3, main p, main li'),
+    ...document.querySelectorAll(
+      'main h1, main h2, main h3, main h4, main p, main li, main img, main article, main .watch-list, main .rating',
+    ),
   ];
 
   const updateContactDockVisibility = () => {
@@ -71,7 +73,11 @@ if (contactDockElement) {
       left: revealRect?.left ?? 0,
     };
 
-    const overlapsText = contactCollisionTargets.some((element) => {
+    const isAtPageEnd =
+      window.scrollY + window.innerHeight >=
+      document.documentElement.scrollHeight - 4;
+
+    const overlapsText = !isAtPageEnd && contactCollisionTargets.some((element) => {
       const style = window.getComputedStyle(element);
       if (style.display === 'none' || style.visibility === 'hidden') return false;
 
@@ -292,4 +298,46 @@ window.addEventListener('resize', () => {
 
 window.addEventListener('pageshow', () => {
   setActiveNavLink(currentNavLink);
+});
+
+document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
+  const rating = card.querySelector('.rating');
+  const key = `portfolio-rating-${card.dataset.ratingKey}`;
+  let currentRating = 0;
+
+  try {
+    currentRating = Number.parseInt(localStorage.getItem(key) || '0', 10);
+  } catch {
+    currentRating = 0;
+  }
+
+  const updateRating = (value) => {
+    currentRating = value;
+    rating.querySelectorAll('.rating__star').forEach((star, index) => {
+      const isFilled = index < currentRating;
+      star.classList.toggle('is-filled', isFilled);
+      star.setAttribute('aria-pressed', String(index + 1 === currentRating));
+    });
+  };
+
+  for (let value = 1; value <= 5; value += 1) {
+    const star = document.createElement('button');
+    star.className = 'rating__star';
+    star.type = 'button';
+    star.textContent = '★';
+    star.setAttribute('aria-label', `${value} out of 5 stars`);
+    star.addEventListener('click', () => {
+      const nextRating = currentRating === value ? 0 : value;
+      updateRating(nextRating);
+
+      try {
+        localStorage.setItem(key, String(nextRating));
+      } catch {
+        // Ratings remain usable for the current page when storage is unavailable.
+      }
+    });
+    rating.append(star);
+  }
+
+  updateRating(currentRating);
 });
