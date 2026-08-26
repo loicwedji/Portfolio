@@ -108,7 +108,7 @@ body {
 body
   > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(
       .contact-dock
-    ):not(.webring) {
+    ):not(.webring):not(.copyright) {
   position: relative;
   z-index: 1;
 }
@@ -944,6 +944,37 @@ body > .webring {
     visibility 0s linear;
 }
 
+body > .copyright {
+  position: fixed;
+  bottom: calc(max(0.75rem, 2vh) + 1.025rem);
+  left: clamp(0.75rem, 2.5vw, 1.75rem);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: clamp(0.68rem, 0.62rem + 0.2vw, 0.82rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  opacity: 0.82;
+  pointer-events: none;
+  transform: translateY(0);
+  visibility: visible;
+  z-index: 30;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0s linear;
+}
+
+body > .contact-dock.is-scrolling ~ .copyright,
+body > .contact-dock.is-obstructed ~ .copyright {
+  opacity: 0;
+  transform: translateY(1rem);
+  visibility: hidden;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0s linear 0.18s;
+}
+
 body > .webring:hover,
 body > .webring:focus-within {
   opacity: 1;
@@ -1214,7 +1245,8 @@ body > .contact-dock.is-obstructed ~ .webring {
   .skill-list li,
   .company-link,
   .webring,
-  .webring__link {
+  .webring__link,
+  .copyright {
     transition: none;
     animation: none;
   }
@@ -1387,6 +1419,10 @@ html[data-theme="light"] body > .webring:focus-within {
 }
 
 html[data-theme="light"] .webring__link {
+  color: rgba(28, 25, 23, 0.62);
+}
+
+html[data-theme="light"] .copyright {
   color: rgba(28, 25, 23, 0.62);
 }
 
