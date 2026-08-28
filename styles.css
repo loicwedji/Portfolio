@@ -414,7 +414,7 @@ body
   width: 100%;
   padding: 0 0 0.8rem;
   grid-auto-flow: column;
-  grid-auto-columns: clamp(8.25rem, 18vw, 10rem);
+  grid-auto-columns: max-content;
   gap: 0.75rem;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
@@ -429,8 +429,44 @@ body
 }
 
 .watch-card {
+  display: grid;
+  width: clamp(8.25rem, 18vw, 10rem);
+  grid-template-columns: clamp(8.25rem, 18vw, 10rem) minmax(0, 1fr);
+  grid-template-rows: auto auto auto 1fr;
+  column-gap: 0;
   direction: ltr;
   scroll-snap-align: start;
+  transition:
+    width 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    column-gap 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.watch-card.is-review-open {
+  width: clamp(20rem, 42vw, 24rem);
+  column-gap: 1rem;
+}
+
+.watch-card > img,
+.watch-card > h4,
+.watch-card > p,
+.watch-card > .rating {
+  grid-column: 1;
+}
+
+.watch-card > img {
+  grid-row: 1;
+}
+
+.watch-card > h4 {
+  grid-row: 2;
+}
+
+.watch-card > p {
+  grid-row: 3;
+}
+
+.watch-card > .rating {
+  grid-row: 4;
 }
 
 .watch-card img {
@@ -445,6 +481,16 @@ body
     border-color 180ms ease,
     filter 180ms ease,
     transform 180ms ease;
+}
+
+.watch-card > img[role="button"] {
+  cursor: pointer;
+}
+
+.watch-card > img[role="button"]:focus-visible {
+  border-color: rgba(255, 255, 255, 0.65);
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 3px;
 }
 
 .watch-card:hover img {
@@ -462,6 +508,76 @@ body
   line-height: 1.3;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.watch-title-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.watch-title-button:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.watch-title-button:focus-visible {
+  border-radius: 0.15rem;
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
+.watch-review {
+  display: flex;
+  height: 100%;
+  min-width: 0;
+  padding: 0.85rem;
+  grid-column: 2;
+  grid-row: 1;
+  flex-direction: column;
+  align-self: stretch;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.035);
+  opacity: 0;
+  transform: translateX(-0.75rem) scale(0.98);
+  transform-origin: left center;
+  transition:
+    opacity 180ms ease,
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.watch-card.is-review-open .watch-review {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.watch-review[hidden] {
+  display: none;
+}
+
+.watch-review__label {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.section-content .watch-review__text {
+  margin-top: 0.55rem;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.7rem;
+  line-height: 1.55;
+  overflow-y: auto;
 }
 
 .section-content .watch-card p {
@@ -1386,6 +1502,11 @@ body > .contact-dock.is-obstructed ~ .webring {
     gap: 0.75rem;
   }
 
+  .watch-card.is-review-open {
+    width: min(22rem, calc(100vw - 3rem));
+    grid-template-columns: minmax(7.5rem, 0.8fr) minmax(9rem, 1.2fr);
+  }
+
   .thoughts__heading,
   .thought-card {
     grid-template-columns: 1fr;
@@ -1491,7 +1612,9 @@ body > .contact-dock.is-obstructed ~ .webring {
   .skill-list li,
   .company-link,
   .webring,
-  .webring__link {
+  .webring__link,
+  .watch-card,
+  .watch-review {
     transition: none;
     animation: none;
   }
@@ -1631,6 +1754,24 @@ html[data-theme="light"] .watch-card img {
 
 html[data-theme="light"] .watch-card:hover img {
   border-color: rgba(28, 25, 23, 0.42);
+}
+
+html[data-theme="light"] .watch-card > img[role="button"]:focus-visible {
+  border-color: rgba(28, 25, 23, 0.6);
+  outline-color: rgba(28, 25, 23, 0.78);
+}
+
+html[data-theme="light"] .watch-review {
+  border-color: rgba(28, 25, 23, 0.14);
+  background: rgba(28, 25, 23, 0.025);
+}
+
+html[data-theme="light"] .watch-review__label {
+  color: rgba(28, 25, 23, 0.46);
+}
+
+html[data-theme="light"] .section-content .watch-review__text {
+  color: rgba(28, 25, 23, 0.68);
 }
 
 html[data-theme="light"] .rating__star {

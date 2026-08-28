@@ -341,3 +341,99 @@ document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
 
   updateRating(currentRating);
 });
+
+const mediaReviews = {
+  'anime-naruto': 'A classic underdog story with a huge heart. The long journey makes its friendships, rivalries, and hard-earned victories feel genuinely meaningful.',
+  'anime-code-geass': 'Smart, dramatic, and constantly escalating. Lelouch is compelling because every brilliant decision seems to create an even more difficult consequence.',
+  'anime-death-note': 'A tense battle of intelligence that turns simple rules into a gripping moral chess match. The early rivalry between Light and L is the highlight.',
+  'anime-solo-leveling': 'Pure power-fantasy entertainment with sharp animation and satisfying progression. It knows exactly how to make each new level feel exciting.',
+  'anime-clevatess': 'A dark fantasy with an unusual perspective and an atmosphere that immediately stands out. Its world feels dangerous, strange, and worth exploring.',
+  'anime-kaiju-no-8': 'A fun mix of workplace comedy, monster action, and second chances. Kafka is easy to root for because his dream survives long after life gets in the way.',
+  'anime-classroom-of-the-elite': 'A calculated school drama where nearly every conversation hides another motive. Ayanokoji makes the slow reveals especially satisfying.',
+  'movie-spider-verse': 'A visually fearless movie with real emotional weight. Miles becoming Spider-Man feels personal, energetic, and completely earned.',
+  'movie-tron-legacy': 'The story is simple, but the atmosphere is unforgettable. The production design and Daft Punk score make the Grid feel like a place unlike anything else.',
+  'movie-puss-in-boots-last-wish': 'Funny, beautifully animated, and unexpectedly thoughtful about fear and mortality. The Wolf is one of animation\'s most memorable antagonists.',
+  'movie-megamind': 'A clever superhero comedy that gets better with time. Its real strength is the idea that identity comes from choices rather than assigned roles.',
+  'tv-tron-uprising': 'A stylish expansion of the Tron world with striking animation and a strong resistance story. It deserved far more time to develop its ideas.',
+  'game-kingdom-hearts-1': 'Charming, strange, and full of discovery. Its rough edges are part of the appeal, and the mix of Disney worlds with an original mystery still works.',
+  'game-kingdom-hearts-2': 'The series at its most confident, with faster combat, memorable worlds, and an emotional payoff that rewards the journey through the earlier games.',
+  'game-kingdom-hearts-3': 'A visually spectacular finale with fluid combat and wonderfully detailed Disney worlds. Its best moments deliver the reunion and closure fans waited for.',
+  'game-fc-26': 'The familiar football loop remains easy to return to, especially with friends. Small gameplay changes matter most when they make matches feel more responsive.',
+  'game-naruto-storm-4': 'A great playable celebration of Naruto, packed with cinematic battles and a huge roster. The story fights capture the scale of the anime remarkably well.',
+};
+
+let openReviewCard = null;
+
+document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
+  const heading = card.querySelector('h4');
+  const cover = card.querySelector(':scope > img');
+  const title = heading.textContent.trim();
+  const button = document.createElement('button');
+  const review = document.createElement('aside');
+
+  button.className = 'watch-title-button';
+  button.type = 'button';
+  button.textContent = title;
+  button.setAttribute('aria-expanded', 'false');
+  button.setAttribute('aria-label', `Show my review of ${title}`);
+  heading.replaceChildren(button);
+
+  cover.setAttribute('role', 'button');
+  cover.setAttribute('tabindex', '0');
+  cover.setAttribute('aria-expanded', 'false');
+  cover.setAttribute('aria-label', `Show my review of ${title}`);
+
+  review.className = 'watch-review';
+  review.hidden = true;
+  review.innerHTML = `
+    <span class="watch-review__label">My review</span>
+    <p class="watch-review__text"></p>`;
+  review.querySelector('.watch-review__text').textContent =
+    mediaReviews[card.dataset.ratingKey] || 'Review coming soon.';
+  card.append(review);
+
+  let reviewHideTimer = null;
+
+  const closeCard = () => {
+    card.classList.remove('is-review-open');
+    button.setAttribute('aria-expanded', 'false');
+    cover.setAttribute('aria-expanded', 'false');
+
+    clearTimeout(reviewHideTimer);
+    reviewHideTimer = window.setTimeout(() => {
+      if (!card.classList.contains('is-review-open')) review.hidden = true;
+    }, prefersReducedMotion ? 0 : 320);
+  };
+
+  const toggleReview = () => {
+    const isOpen = card.classList.contains('is-review-open');
+
+    if (openReviewCard && openReviewCard !== card) {
+      openReviewCard.querySelector('.watch-title-button').click();
+    }
+
+    if (isOpen) {
+      closeCard();
+      openReviewCard = null;
+      return;
+    }
+
+    clearTimeout(reviewHideTimer);
+    review.hidden = false;
+    button.setAttribute('aria-expanded', 'true');
+    cover.setAttribute('aria-expanded', 'true');
+    openReviewCard = card;
+
+    requestAnimationFrame(() => {
+      card.classList.add('is-review-open');
+    });
+  };
+
+  button.addEventListener('click', toggleReview);
+  cover.addEventListener('click', toggleReview);
+  cover.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    toggleReview();
+  });
+});
