@@ -254,6 +254,8 @@ if (navIndicator && isSinglePageNav) {
     const { pointerId } = indicatorDrag;
     indicatorDrag = null;
     sectionNav.classList.remove('is-scrubbing');
+    document.documentElement.classList.remove('is-nav-scrubbing');
+    moveNavIndicator(currentNavLink);
     if (navIndicator.hasPointerCapture(pointerId)) navIndicator.releasePointerCapture(pointerId);
   };
   navIndicator.addEventListener('pointerup', finishIndicatorDrag);
@@ -262,17 +264,6 @@ if (navIndicator && isSinglePageNav) {
   window.addEventListener('blur', finishIndicatorDrag);
   window.addEventListener('resize', finishIndicatorDrag);
 
-  // Keep the chosen scroll position on release; resume snapping on normal navigation.
-  const resumePageScrolling = () => {
-    if (!indicatorDrag) document.documentElement.classList.remove('is-nav-scrubbing');
-  };
-  window.addEventListener('wheel', resumePageScrolling, { passive: true });
-  window.addEventListener('touchstart', resumePageScrolling, { passive: true });
-  window.addEventListener('keydown', (event) => {
-    if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) {
-      resumePageScrolling();
-    }
-  });
 }
 
 const finishNavScroll = () => {
