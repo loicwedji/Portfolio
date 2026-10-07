@@ -4,7 +4,8 @@ html {
   scroll-snap-type: y mandatory;
 }
 
-html.is-nav-scrolling {
+html.is-nav-scrolling,
+html.is-nav-scrubbing {
   scroll-snap-type: none;
 }
 
@@ -258,6 +259,26 @@ body
     transform 0.34s cubic-bezier(0.34, 1.56, 0.64, 1),
     height 0.28s cubic-bezier(0.34, 1.35, 0.64, 1),
     width 0.28s cubic-bezier(0.34, 1.35, 0.64, 1);
+}
+
+.section-nav__indicator.is-draggable {
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  z-index: 3;
+}
+
+/* Make the thin light easy to grab without covering the navigation labels. */
+.section-nav__indicator.is-draggable::after {
+  content: "";
+  position: absolute;
+  inset: 0 -10px;
+}
+
+.section-nav.is-scrubbing .section-nav__indicator {
+  cursor: grabbing;
+  transition: none;
 }
 
 .section-nav.is-transitioning .section-nav__link.is-active {
@@ -1137,6 +1158,10 @@ body > .contact-dock.is-obstructed ~ .webring {
     width: var(--nav-indicator-size, 0);
     height: 2px;
     transform: translateX(var(--nav-indicator-pos, 0));
+  }
+
+  .section-nav__indicator.is-draggable::after {
+    inset: -10px 0;
   }
 
   .intro,

@@ -155,6 +155,7 @@ if (!isSinglePageNav) {
 }
 
 let navIndicator = null;
+let indicatorDrag = null;
 
 if (sectionNav && sectionNavLinks.length) {
   navIndicator = document.createElement('span');
@@ -165,7 +166,7 @@ if (sectionNav && sectionNavLinks.length) {
 }
 
 const moveNavIndicator = (link) => {
-  if (!navIndicator) return;
+  if (!navIndicator || indicatorDrag) return;
 
   if (!link) {
     sectionNav.style.setProperty('--nav-indicator-size', '0px');
@@ -192,6 +193,87 @@ const setActiveNavLink = (link) => {
 
   moveNavIndicator(link);
 };
+
+// Scrub the page by dragging only the glowing navigation indicator.
+if (navIndicator && isSinglePageNav) {
+  navIndicator.classList.add('is-draggable');
+  navIndicator.title = 'Drag to scroll the page';
+
+  navIndicator.addEventListener('pointerdown', (event) => {
+    if (!event.isPrimary || event.button !== 0 || indicatorDrag) return;
+    event.preventDefault();
+    const horizontal = window.matchMedia('(max-width: 900px)').matches;
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const points = sectionNavLinks.map((link) => ({
+      position: horizontal ? link.offsetLeft : link.offsetTop,
+      size: horizontal ? link.offsetWidth : link.offsetHeight,
+      scroll: Math.min(maxScroll, Math.max(0,
+        document.getElementById(link.dataset.section).getBoundingClientRect().top + window.scrollY)),
+      link,
+    }));
+    points[0].scroll = 0;
+    points[points.length - 1].scroll = maxScroll;
+    indicatorDrag = {
+      pointerId: event.pointerId,
+      horizontal,
+      origin: horizontal ? event.clientX : event.clientY,
+      position: Number.parseFloat(sectionNav.style.getPropertyValue('--nav-indicator-pos')) || 0,
+      points,
+    };
+    window.clearTimeout(navScrollEndTimer);
+    isNavScrollInProgress = false;
+    document.documentElement.classList.remove('is-nav-scrolling');
+    document.documentElement.classList.add('is-nav-scrubbing');
+    sectionNav.classList.add('is-scrubbing');
+    navIndicator.setPointerCapture(event.pointerId);
+    // Stop any smooth navigation still in flight.
+    window.scrollTo({ top: window.scrollY, behavior: 'instant' });
+  });
+
+  navIndicator.addEventListener('pointermove', (event) => {
+    if (!indicatorDrag || event.pointerId !== indicatorDrag.pointerId) return;
+    const { horizontal, origin, position, points } = indicatorDrag;
+    const coordinate = horizontal ? event.clientX : event.clientY;
+    const next = Math.max(points[0].position,
+      Math.min(points[points.length - 1].position, position + coordinate - origin));
+    let index = points.findIndex((point) => point.position >= next);
+    index = Math.max(1, index);
+    const start = points[index - 1];
+    const end = points[index];
+    const progress = (next - start.position) / (end.position - start.position || 1);
+    const scroll = start.scroll + (end.scroll - start.scroll) * progress;
+    window.scrollTo({ top: scroll, behavior: 'instant' });
+    sectionNav.style.setProperty('--nav-indicator-pos', `${next}px`);
+    sectionNav.style.setProperty('--nav-indicator-size', `${start.size + (end.size - start.size) * progress}px`);
+    currentNavLink = progress < 0.5 ? start.link : end.link;
+    setActiveNavLink(currentNavLink);
+  });
+
+  const finishIndicatorDrag = (event) => {
+    if (!indicatorDrag || (event.pointerId != null && event.pointerId !== indicatorDrag.pointerId)) return;
+    const { pointerId } = indicatorDrag;
+    indicatorDrag = null;
+    sectionNav.classList.remove('is-scrubbing');
+    if (navIndicator.hasPointerCapture(pointerId)) navIndicator.releasePointerCapture(pointerId);
+  };
+  navIndicator.addEventListener('pointerup', finishIndicatorDrag);
+  navIndicator.addEventListener('pointercancel', finishIndicatorDrag);
+  navIndicator.addEventListener('lostpointercapture', finishIndicatorDrag);
+  window.addEventListener('blur', finishIndicatorDrag);
+  window.addEventListener('resize', finishIndicatorDrag);
+
+  // Keep the chosen scroll position on release; resume snapping on normal navigation.
+  const resumePageScrolling = () => {
+    if (!indicatorDrag) document.documentElement.classList.remove('is-nav-scrubbing');
+  };
+  window.addEventListener('wheel', resumePageScrolling, { passive: true });
+  window.addEventListener('touchstart', resumePageScrolling, { passive: true });
+  window.addEventListener('keydown', (event) => {
+    if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) {
+      resumePageScrolling();
+    }
+  });
+}
 
 const finishNavScroll = () => {
   if (!isNavScrollInProgress) return;
@@ -233,6 +315,7 @@ if (previousNavLink && previousNavLink !== currentNavLink && !prefersReducedMoti
 sectionNavLinks.forEach((link) => {
   link.addEventListener('click', (event) => {
     if (isSinglePageNav) {
+      document.documentElement.classList.remove('is-nav-scrubbing');
       const target = document.getElementById(link.dataset.section);
       if (!target) return;
 
@@ -261,7 +344,7 @@ sectionNavLinks.forEach((link) => {
 
 if (isSinglePageNav && 'IntersectionObserver' in window) {
   const sectionObserver = new IntersectionObserver((entries) => {
-    if (isNavScrollInProgress) return;
+    if (isNavScrollInProgress || indicatorDrag || document.documentElement.classList.contains('is-nav-scrubbing')) return;
 
     const visibleSection = entries
       .filter((entry) => entry.isIntersecting)
