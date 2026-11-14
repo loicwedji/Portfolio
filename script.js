@@ -343,6 +343,7 @@ document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
 });
 
 const mediaReviews = {
+  'game-sifu': 'Review coming soon.',
   'anime-naruto': 'A classic underdog story with a huge heart. The long journey makes its friendships, rivalries, and hard-earned victories feel genuinely meaningful.',
   'anime-code-geass': 'Smart, dramatic, and constantly escalating. Lelouch is compelling because every brilliant decision seems to create an even more difficult consequence.',
   'anime-death-note': 'A tense battle of intelligence that turns simple rules into a gripping moral chess match. The early rivalry between Light and L is the highlight.',
@@ -356,15 +357,268 @@ const mediaReviews = {
   'movie-megamind': 'A clever superhero comedy that gets better with time. Its real strength is the idea that identity comes from choices rather than assigned roles.',
   'tv-tron-uprising': 'A stylish expansion of the Tron world with striking animation and a strong resistance story. It deserved far more time to develop its ideas.',
   'game-kingdom-hearts-1': 'Charming, strange, and full of discovery. Its rough edges are part of the appeal, and the mix of Disney worlds with an original mystery still works.',
-  'game-kingdom-hearts-2': 'The series at its most confident, with faster combat, memorable worlds, and an emotional payoff that rewards the journey through the earlier games.',
-  'game-kingdom-hearts-3': 'A visually spectacular finale with fluid combat and wonderfully detailed Disney worlds. Its best moments deliver the reunion and closure fans waited for.',
-  'game-fc-26': 'The familiar football loop remains easy to return to, especially with friends. Small gameplay changes matter most when they make matches feel more responsive.',
+  'game-kingdom-hearts-2-8': 'The series at its most confident, with faster combat, memorable worlds, and an emotional payoff that rewards the journey through the earlier games.',
+  'game-gta-6': 'Review coming soon.',
+  'game-fc-27': 'The familiar football loop remains easy to return to, especially with friends. Small gameplay changes matter most when they make matches feel more responsive.',
   'game-naruto-storm-4': 'A great playable celebration of Naruto, packed with cinematic battles and a huge roster. The story fights capture the scale of the anime remarkably well.',
 };
 
 let openReviewCard = null;
 
-document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
+// Use the console-style tile selector for each About Me media collection.
+const thoughtsShelf = document.querySelector('.thoughts');
+if (thoughtsShelf) {
+  thoughtsShelf.classList.add('game-library', 'thought-library');
+  const list = thoughtsShelf.querySelector('.thoughts__list');
+  list.classList.add('game-library__tiles');
+  list.setAttribute('role', 'group');
+  list.setAttribute('aria-label', 'Choose a recent thought. Use arrow keys to browse.');
+  const entries = [...list.querySelectorAll('.thought-card')].map((card, index) => {
+    const title = card.querySelector('h4').textContent.trim();
+    const date = card.querySelector('time').cloneNode(true);
+    const copy = card.querySelector('p').textContent.trim();
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'game-library__tile thought-library__tile';
+    button.setAttribute('aria-label', title);
+    button.setAttribute('aria-controls', 'selected-thought-details');
+    const number = document.createElement('span');
+    number.className = 'thought-library__number';
+    number.textContent = String(index + 1).padStart(2, '0');
+    button.append(number, date.cloneNode(true));
+    card.classList.add('watch-card');
+    card.replaceChildren(button);
+    return { card, button, title, date, copy };
+  });
+  const details = document.createElement('div');
+  details.className = 'game-library__details';
+  details.id = 'selected-thought-details';
+  details.setAttribute('aria-live', 'polite');
+  details.setAttribute('aria-atomic', 'true');
+  list.after(details);
+  const select = (index) => {
+    entries.forEach((entry, i) => {
+      entry.card.classList.toggle('is-selected', i === index);
+      entry.button.setAttribute('aria-pressed', String(i === index));
+      entry.button.tabIndex = i === index ? 0 : -1;
+    });
+    const entry = entries[index];
+    const heading = document.createElement('h4');
+    heading.textContent = entry.title;
+    const copy = document.createElement('p');
+    copy.className = 'game-library__review';
+    copy.textContent = entry.copy;
+    const date = entry.date.cloneNode(true);
+    date.className = 'game-library__eyebrow';
+    details.replaceChildren(date, heading, copy);
+  };
+  entries.forEach((entry, index) => {
+    entry.button.addEventListener('click', () => select(index));
+    entry.button.addEventListener('keydown', (event) => {
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % entries.length;
+      if (event.key === 'ArrowLeft') next = (index - 1 + entries.length) % entries.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = entries.length - 1;
+      if (next === undefined) return;
+      event.preventDefault();
+      select(next);
+      entries[next].button.focus({ preventScroll: true });
+    });
+  });
+  if (entries.length) select(0);
+}
+
+const mediaShelves = [...document.querySelectorAll('.watch-shelf')];
+const aboutContent = document.querySelector('.about-content');
+if (aboutContent) {
+  const gamesShelf = mediaShelves.find((shelf) => shelf.querySelector('[data-rating-key^="game-"]'));
+  const animeShelf = mediaShelves.find((shelf) => shelf.querySelector('[data-rating-key^="anime-"]'));
+  const moviesShelf = mediaShelves.find((shelf) => shelf.querySelector('[data-rating-key^="movie-"]'));
+  const panels = [gamesShelf, animeShelf, moviesShelf, thoughtsShelf].filter(Boolean);
+  panels.forEach((shelf) => aboutContent.append(shelf));
+  aboutContent.classList.add('about-content--tabbed');
+  const tabs = document.createElement('div');
+  tabs.className = 'about-tabs';
+  tabs.setAttribute('role', 'tablist');
+  tabs.setAttribute('aria-label', 'About Me collections');
+  aboutContent.prepend(tabs);
+  const buttons = panels.map((panel, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.id = `about-tab-${index}`;
+    button.className = 'about-tabs__tab';
+    button.textContent = panel.querySelector('h3').textContent;
+    button.setAttribute('role', 'tab');
+    panel.id = `about-panel-${index}`;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', button.id);
+    button.setAttribute('aria-controls', panel.id);
+    tabs.append(button);
+    return button;
+  });
+  const activate = (index) => {
+    panels.forEach((panel, i) => {
+      panel.hidden = i !== index;
+      buttons[i].setAttribute('aria-selected', String(i === index));
+      buttons[i].tabIndex = i === index ? 0 : -1;
+    });
+  };
+  buttons.forEach((button, index) => {
+    button.addEventListener('click', () => activate(index));
+    button.addEventListener('keydown', (event) => {
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % buttons.length;
+      if (event.key === 'ArrowLeft') next = (index - 1 + buttons.length) % buttons.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = buttons.length - 1;
+      if (next === undefined) return;
+      event.preventDefault();
+      activate(next);
+      buttons[next].focus();
+    });
+  });
+  activate(0);
+}
+mediaShelves.forEach((shelf, shelfIndex) => {
+  const gameCards = [...shelf.querySelectorAll('.watch-card')];
+  if (!gameCards.length) return;
+  const list = gameCards[0].parentElement;
+  shelf.classList.add('game-library');
+  if (gameCards[0].dataset.ratingKey.startsWith('game-')) shelf.classList.add('game-library--games');
+  else shelf.classList.add('media-library--portrait');
+  list.classList.add('game-library__tiles');
+  list.removeAttribute('tabindex');
+  list.setAttribute('role', 'group');
+  list.setAttribute('aria-label', `Choose from ${shelf.querySelector('h3').textContent}. Use left and right arrow keys to browse.`);
+  shelf.querySelector('.watch-shelf__heading > span').textContent = 'Select to explore';
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'game-library__backdrop';
+  backdrop.setAttribute('aria-hidden', 'true');
+  shelf.prepend(backdrop);
+  const details = document.createElement('div');
+  details.className = 'game-library__details';
+  details.id = `selected-media-details-${shelfIndex}`;
+  details.innerHTML = '<div class="game-library__copy" aria-live="polite" aria-atomic="true"><h4></h4><p class="game-library__genre"></p><p class="game-library__review"></p></div><div class="game-library__rating"><span>Your rating</span></div>';
+  list.after(details);
+
+  const games = gameCards.map((card) => {
+    const cover = card.querySelector('img');
+    const title = card.querySelector('h4').textContent.trim();
+    const genre = card.querySelector('p').textContent.trim();
+    const rating = card.querySelector('.rating');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'game-library__tile';
+    button.setAttribute('aria-label', title);
+    button.setAttribute('aria-controls', details.id);
+    cover.alt = '';
+    button.append(cover);
+    card.replaceChildren(button);
+    details.querySelector('.game-library__rating').append(rating);
+    return { card, button, cover, title, genre, rating };
+  });
+
+  const selectGame = (index, scroll = true) => {
+    const selected = games[index];
+    games.forEach((game, i) => {
+      game.card.classList.toggle('is-selected', i === index);
+      game.button.setAttribute('aria-pressed', String(i === index));
+      game.button.tabIndex = i === index ? 0 : -1;
+      game.rating.hidden = i !== index;
+    });
+    details.querySelector('h4').textContent = selected.title;
+    details.querySelector('.game-library__genre').textContent = selected.genre;
+    details.querySelector('.game-library__review').textContent = mediaReviews[selected.card.dataset.ratingKey];
+    backdrop.style.backgroundImage = `url("${selected.cover.getAttribute('src')}")`;
+    if (scroll) {
+      const left = selected.card.offsetLeft - list.offsetLeft - 12;
+      list.scrollTo({ left: Math.max(0, left), behavior: prefersReducedMotion ? 'instant' : 'smooth' });
+    }
+  };
+  games.forEach((game, index) => {
+    game.button.addEventListener('click', () => selectGame(index));
+    game.button.addEventListener('keydown', (event) => {
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % games.length;
+      if (event.key === 'ArrowLeft') next = (index - 1 + games.length) % games.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = games.length - 1;
+      if (next === undefined) return;
+      event.preventDefault();
+      selectGame(next);
+      games[next].button.focus({ preventScroll: true });
+    });
+  });
+  selectGame(0, false);
+});
+
+document.querySelectorAll('.about-content .game-library__tiles').forEach((list) => {
+  const hint = document.createElement('button');
+  hint.className = 'tile-scroll-hint';
+  hint.type = 'button';
+  hint.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>';
+  hint.setAttribute('aria-label', 'Scroll to more items');
+  const viewport = document.createElement('div');
+  viewport.className = 'tile-viewport';
+  list.before(viewport);
+  viewport.append(list, hint);
+  hint.addEventListener('click', () => {
+    list.scrollBy({ left: list.clientWidth * 0.75, behavior: prefersReducedMotion ? 'instant' : 'smooth' });
+  });
+  const updateHint = () => {
+    hint.hidden = list.scrollWidth - list.clientWidth - list.scrollLeft < 8;
+  };
+  list.addEventListener('scroll', updateHint, { passive: true });
+  const resizeObserver = new ResizeObserver(updateHint);
+  resizeObserver.observe(list);
+  [...list.children].forEach((item) => resizeObserver.observe(item));
+  updateHint();
+  let drag = null;
+  let suppressClick = false;
+  list.querySelectorAll('img').forEach((image) => { image.draggable = false; });
+  list.addEventListener('dragstart', (event) => event.preventDefault());
+  list.addEventListener('pointerdown', (event) => {
+    // Touch keeps native horizontal swiping and vertical page scrolling.
+    if (event.pointerType === 'touch' || event.button !== 0) return;
+    suppressClick = false;
+    drag = { id: event.pointerId, x: event.clientX, scroll: list.scrollLeft, active: false };
+  });
+  list.addEventListener('pointermove', (event) => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const distance = event.clientX - drag.x;
+    if (!drag.active && Math.abs(distance) < 6) return;
+    if (!drag.active) {
+      drag.active = true;
+      list.classList.add('is-dragging');
+      list.setPointerCapture(event.pointerId);
+    }
+    event.preventDefault();
+    list.scrollLeft = drag.scroll - distance;
+  });
+  const endDrag = (event) => {
+    if (!drag || event.pointerId !== drag.id) return;
+    suppressClick = drag.active;
+    drag = null;
+    list.classList.remove('is-dragging');
+    if (list.hasPointerCapture(event.pointerId)) list.releasePointerCapture(event.pointerId);
+  };
+  list.addEventListener('pointerup', endDrag);
+  list.addEventListener('pointercancel', endDrag);
+  list.addEventListener('lostpointercapture', endDrag);
+  list.addEventListener('pointerleave', (event) => {
+    if (drag && !drag.active) endDrag(event);
+  });
+  list.addEventListener('click', (event) => {
+    if (!suppressClick || event.detail === 0) return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClick = false;
+  }, true);
+});
+
+document.querySelectorAll('.watch-shelf:not(.game-library) .watch-card[data-rating-key]').forEach((card) => {
   const heading = card.querySelector('h4');
   const cover = card.querySelector(':scope > img');
   const title = heading.textContent.trim();
