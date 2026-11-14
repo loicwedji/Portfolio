@@ -343,6 +343,9 @@ document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
 });
 
 const mediaReviews = {
+  'game-ff7-rebirth': 'Review coming soon.',
+  'game-zelda-botw': 'Review coming soon.',
+  'game-zelda-totk': 'Review coming soon.',
   'game-sifu': 'Review coming soon.',
   'anime-naruto': 'A classic underdog story with a huge heart. The long journey makes its friendships, rivalries, and hard-earned victories feel genuinely meaningful.',
   'anime-code-geass': 'Smart, dramatic, and constantly escalating. Lelouch is compelling because every brilliant decision seems to create an even more difficult consequence.',
@@ -520,25 +523,85 @@ mediaShelves.forEach((shelf, shelfIndex) => {
     return { card, button, cover, title, genre, rating };
   });
 
-  const selectGame = (index, scroll = true) => {
+  const circularGames = shelf.classList.contains('game-library--games');
+  const renderedGames = circularGames
+    ? [0, 1, 2].flatMap((copy) => games.map((game, index) => {
+        if (copy === 1) return { ...game, index };
+        const card = game.card.cloneNode(true);
+        return { ...game, index, card, button: card.querySelector('button') };
+      }))
+    : games.map((game, index) => ({ ...game, index }));
+  if (circularGames) {
+    list.replaceChildren(...renderedGames.map((game) => game.card));
+    list.classList.add('game-library__tiles--circular');
+  }
+  let activeSlot = circularGames ? games.length : 0;
+  let carouselFrame;
+  const selectGame = (index, scroll = true, clickedSlot) => {
     const selected = games[index];
+    cancelAnimationFrame(carouselFrame);
+    if (circularGames) {
+      if (!scroll) activeSlot = games.length + index;
+      else if (clickedSlot !== undefined) activeSlot = clickedSlot;
+      else {
+        const currentIndex = renderedGames[activeSlot].index;
+        const forward = (index - currentIndex + games.length) % games.length;
+        activeSlot += forward <= games.length / 2 ? forward : forward - games.length;
+      }
+      if (activeSlot < 0 || activeSlot >= renderedGames.length) activeSlot = games.length + index;
+    }
     games.forEach((game, i) => {
-      game.card.classList.toggle('is-selected', i === index);
-      game.button.setAttribute('aria-pressed', String(i === index));
-      game.button.tabIndex = i === index ? 0 : -1;
       game.rating.hidden = i !== index;
+    });
+    renderedGames.forEach((game, slot) => {
+      const isSelected = circularGames ? slot === activeSlot : game.index === index;
+      game.card.classList.toggle('is-selected', isSelected);
+      game.button.setAttribute('aria-pressed', String(isSelected));
+      game.button.tabIndex = isSelected ? 0 : -1;
     });
     details.querySelector('h4').textContent = selected.title;
     details.querySelector('.game-library__genre').textContent = selected.genre;
     details.querySelector('.game-library__review').textContent = mediaReviews[selected.card.dataset.ratingKey];
     backdrop.style.backgroundImage = `url("${selected.cover.getAttribute('src')}")`;
+    if (circularGames) {
+      const startLeft = list.scrollLeft;
+      const started = performance.now();
+      const duration = scroll && !prefersReducedMotion ? 420 : 0;
+      const align = (now) => {
+        const progress = duration ? Math.min(1, (now - started) / duration) : 1;
+        const target = renderedGames[activeSlot].card.offsetLeft - list.offsetLeft - 42;
+        list.scrollLeft = startLeft + (target - startLeft) * (1 - Math.pow(1 - progress, 3));
+        if (progress < 1) { carouselFrame = requestAnimationFrame(align); return; }
+        // Reset to the equivalent middle copy out of view, preserving the visual position.
+        const middleSlot = games.length + index;
+        if (activeSlot !== middleSlot) {
+          const restoreFocus = list.contains(document.activeElement);
+          list.classList.add('is-rebasing');
+          renderedGames[activeSlot].card.classList.remove('is-selected');
+          renderedGames[activeSlot].button.setAttribute('aria-pressed', 'false');
+          renderedGames[activeSlot].button.tabIndex = -1;
+          activeSlot = middleSlot;
+          const middle = renderedGames[activeSlot];
+          middle.card.classList.add('is-selected');
+          middle.button.setAttribute('aria-pressed', 'true');
+          middle.button.tabIndex = 0;
+          list.scrollLeft = middle.card.offsetLeft - list.offsetLeft - 42;
+          if (restoreFocus) middle.button.focus({ preventScroll: true });
+          void list.offsetWidth;
+          list.classList.remove('is-rebasing');
+        }
+      };
+      carouselFrame = requestAnimationFrame(align);
+      return;
+    }
     if (scroll) {
       const left = selected.card.offsetLeft - list.offsetLeft - 12;
       list.scrollTo({ left: Math.max(0, left), behavior: prefersReducedMotion ? 'instant' : 'smooth' });
     }
   };
-  games.forEach((game, index) => {
-    game.button.addEventListener('click', () => selectGame(index));
+  renderedGames.forEach((game, slot) => {
+    const index = game.index;
+    game.button.addEventListener('click', () => selectGame(index, true, slot));
     game.button.addEventListener('keydown', (event) => {
       let next;
       if (event.key === 'ArrowRight') next = (index + 1) % games.length;
@@ -548,13 +611,14 @@ mediaShelves.forEach((shelf, shelfIndex) => {
       if (next === undefined) return;
       event.preventDefault();
       selectGame(next);
-      games[next].button.focus({ preventScroll: true });
+      renderedGames[circularGames ? activeSlot : next].button.focus({ preventScroll: true });
     });
   });
   selectGame(0, false);
 });
 
 document.querySelectorAll('.about-content .game-library__tiles').forEach((list) => {
+  const wrapAround = Boolean(list.closest('.game-library--games'));
   const hint = document.createElement('button');
   hint.className = 'tile-scroll-hint';
   hint.type = 'button';
@@ -565,10 +629,16 @@ document.querySelectorAll('.about-content .game-library__tiles').forEach((list) 
   list.before(viewport);
   viewport.append(list, hint);
   hint.addEventListener('click', () => {
+    if (wrapAround && list.scrollWidth - list.clientWidth - list.scrollLeft < 8) {
+      list.scrollTo({ left: 0, behavior: prefersReducedMotion ? 'instant' : 'smooth' });
+      return;
+    }
     list.scrollBy({ left: list.clientWidth * 0.75, behavior: prefersReducedMotion ? 'instant' : 'smooth' });
   });
   const updateHint = () => {
-    hint.hidden = list.scrollWidth - list.clientWidth - list.scrollLeft < 8;
+    const atEnd = list.scrollWidth - list.clientWidth - list.scrollLeft < 8;
+    hint.hidden = wrapAround ? list.scrollWidth <= list.clientWidth + 8 : atEnd;
+    hint.setAttribute('aria-label', wrapAround && atEnd ? 'Return to the first games' : 'Scroll to more items');
   };
   list.addEventListener('scroll', updateHint, { passive: true });
   const resizeObserver = new ResizeObserver(updateHint);

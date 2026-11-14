@@ -1992,6 +1992,14 @@ html[data-theme="light"] .theme-toggle__moon {
   pointer-events: none;
 }
 
+.game-library--games .game-library__backdrop {
+  opacity: 0.52;
+  filter: blur(26px) saturate(0.85);
+}
+.game-library--games::after {
+  background: linear-gradient(110deg, rgba(9, 12, 20, 0.65), rgba(9, 12, 20, 0.12)), linear-gradient(0deg, rgba(16, 19, 28, 0.85), transparent);
+}
+
 .game-library::after {
   content: '';
   position: absolute;
@@ -2002,6 +2010,7 @@ html[data-theme="light"] .theme-toggle__moon {
 }
 
 .game-library .watch-shelf__heading { border: 0; }
+.game-library--games .watch-shelf__heading { display: none; }
 .game-library .watch-shelf__heading h3 { color: #fff; }
 .section-content .game-library .watch-shelf__heading h3,
 .section-content .thought-library .thoughts__heading h3 {
@@ -2203,6 +2212,8 @@ html[data-theme="light"] .theme-toggle__moon {
 }
 .about-content .game-library__tiles.is-dragging,
 .about-content .game-library__tiles.is-dragging .game-library__tile { cursor: grabbing; }
+.about-content .game-library__tiles--circular { scroll-snap-type: none; }
+.game-library__tiles--circular.is-rebasing .watch-card { transition: none; }
 .tile-viewport { position: relative; min-width: 0; width: 100%; }
 .tile-scroll-hint {
   position: absolute;
@@ -2231,6 +2242,7 @@ html[data-theme="light"] .theme-toggle__moon {
 .tile-scroll-hint:hover { background: rgba(15, 15, 18, 0.9); }
 .tile-scroll-hint:focus-visible { outline: 2px solid #b9d9ff; outline-offset: 2px; }
 .tile-scroll-hint[hidden] { display: none; }
+.game-library--games .tile-scroll-hint { display: none; }
 @media (hover: none) {
   .tile-scroll-hint { opacity: 1; pointer-events: auto; }
 }
