@@ -368,13 +368,39 @@ window.addEventListener('pageshow', () => {
   setActiveNavLink(currentNavLink);
 });
 
+// Mobile browser toolbars resize the visual viewport during a swipe. Keep
+// section geometry tied to the small viewport so snap targets stay stationary.
+const layoutViewportProbe = document.createElement('div');
+layoutViewportProbe.setAttribute('aria-hidden', 'true');
+layoutViewportProbe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100svh;visibility:hidden;pointer-events:none;';
+document.body.append(layoutViewportProbe);
+const getLayoutViewportHeight = () => layoutViewportProbe.getBoundingClientRect().height || window.innerHeight;
+
+const observeLayoutViewport = (update) => {
+  let frame;
+  let previousSize = '';
+  const schedule = (force = false) => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      const size = `${document.documentElement.clientWidth}:${getLayoutViewportHeight()}`;
+      if (!force && size === previousSize) return;
+      previousSize = size;
+      update();
+    });
+  };
+  window.addEventListener('resize', () => schedule(), { passive: true });
+  window.visualViewport?.addEventListener('resize', () => schedule(), { passive: true });
+  window.addEventListener('load', () => schedule(true));
+  document.fonts?.ready.then(() => schedule(true));
+  schedule(true);
+};
+
 // Prefer full descriptions and normal spacing; reduce only what cannot fit.
 const experienceSection = document.querySelector('#experience');
 if (experienceSection) {
   const inner = experienceSection.querySelector('.section-inner');
   const summaries = [...experienceSection.querySelectorAll('[data-compact-summary]')];
   const fullDescriptions = summaries.map((element) => element.textContent);
-  let fitFrame;
 
   const fitExperience = () => {
     experienceSection.style.removeProperty('--experience-content-height');
@@ -385,7 +411,7 @@ if (experienceSection) {
 
     const fits = () => {
       const style = getComputedStyle(experienceSection);
-      const availableHeight = window.visualViewport?.height ?? window.innerHeight;
+      const availableHeight = getLayoutViewportHeight();
       return inner.getBoundingClientRect().height
         + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
         <= availableHeight;
@@ -402,23 +428,14 @@ if (experienceSection) {
     // Measure natural content first so stretching never triggers summarization.
     if (fits()) {
       const style = getComputedStyle(experienceSection);
-      const availableHeight = window.visualViewport?.height ?? window.innerHeight;
+      const availableHeight = getLayoutViewportHeight();
       const contentHeight = availableHeight
         - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
       experienceSection.style.setProperty('--experience-content-height', `${contentHeight}px`);
     }
   };
 
-  const scheduleExperienceFit = () => {
-    cancelAnimationFrame(fitFrame);
-    fitFrame = requestAnimationFrame(fitExperience);
-  };
-
-  window.addEventListener('resize', scheduleExperienceFit, { passive: true });
-  window.visualViewport?.addEventListener('resize', scheduleExperienceFit, { passive: true });
-  window.addEventListener('load', scheduleExperienceFit);
-  document.fonts?.ready.then(scheduleExperienceFit);
-  scheduleExperienceFit();
+  observeLayoutViewport(fitExperience);
 }
 
 // Keep the overview when it fits; use one selectable tile otherwise.
@@ -434,7 +451,6 @@ if (projectsSection) {
   tabs.hidden = true;
   grid.before(tabs);
   let selected = 0;
-  let layoutFrame;
 
   const buttons = tiles.map((tile, index) => {
     tile.id = `project-panel-${index}`;
@@ -480,7 +496,7 @@ if (projectsSection) {
       tile.removeAttribute('role');
       tile.removeAttribute('aria-labelledby');
     });
-    const viewportHeight = window.visualViewport?.height ?? innerHeight;
+    const viewportHeight = getLayoutViewportHeight();
     let style = getComputedStyle(projectsSection);
     const fullHeight = inner.getBoundingClientRect().height
       + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
@@ -507,28 +523,19 @@ if (projectsSection) {
     selectProject(selected);
   };
 
-  const scheduleProjectsFit = () => {
-    cancelAnimationFrame(layoutFrame);
-    layoutFrame = requestAnimationFrame(fitProjects);
-  };
-  window.addEventListener('resize', scheduleProjectsFit, { passive: true });
-  window.visualViewport?.addEventListener('resize', scheduleProjectsFit, { passive: true });
-  window.addEventListener('load', scheduleProjectsFit);
-  document.fonts?.ready.then(scheduleProjectsFit);
-  scheduleProjectsFit();
+  observeLayoutViewport(fitProjects);
 }
 
 // Preserve every skill, tightening badges only when the natural layout is too tall.
 const skillsSection = document.querySelector('#technical-skills');
 if (skillsSection) {
   const inner = skillsSection.querySelector('.section-inner');
-  let skillsFrame;
   const fitSkills = () => {
     skillsSection.classList.remove('is-compact');
     skillsSection.style.removeProperty('--skills-content-height');
     skillsSection.style.removeProperty('--skills-density');
     const style = getComputedStyle(skillsSection);
-    const available = (window.visualViewport?.height ?? window.innerHeight)
+    const available = (getLayoutViewportHeight())
       - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
     const fits = () => inner.getBoundingClientRect().height <= available;
     if (fits()) return;
@@ -549,13 +556,5 @@ if (skillsSection) {
     }
     if (fits()) skillsSection.style.setProperty('--skills-content-height', `${available}px`);
   };
-  const scheduleSkillsFit = () => {
-    cancelAnimationFrame(skillsFrame);
-    skillsFrame = requestAnimationFrame(fitSkills);
-  };
-  window.addEventListener('resize', scheduleSkillsFit, { passive: true });
-  window.visualViewport?.addEventListener('resize', scheduleSkillsFit, { passive: true });
-  window.addEventListener('load', scheduleSkillsFit);
-  document.fonts?.ready.then(scheduleSkillsFit);
-  scheduleSkillsFit();
+  observeLayoutViewport(fitSkills);
 }
