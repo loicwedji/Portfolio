@@ -4,7 +4,8 @@ html {
   scroll-snap-type: y mandatory;
 }
 
-html.is-nav-scrolling {
+html.is-nav-scrolling,
+html.is-nav-scrubbing {
   scroll-snap-type: none;
 }
 
@@ -108,7 +109,7 @@ body {
 body
   > :not(.site-glow):not(.section-nav):not(.theme-toggle):not(
       .contact-dock
-    ):not(.webring) {
+    ):not(.webring):not(.copyright) {
   position: relative;
   z-index: 1;
 }
@@ -258,6 +259,26 @@ body
     transform 0.34s cubic-bezier(0.34, 1.56, 0.64, 1),
     height 0.28s cubic-bezier(0.34, 1.35, 0.64, 1),
     width 0.28s cubic-bezier(0.34, 1.35, 0.64, 1);
+}
+
+.section-nav__indicator.is-draggable {
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  z-index: 3;
+}
+
+/* Make the thin light easy to grab without covering the navigation labels. */
+.section-nav__indicator.is-draggable::after {
+  content: "";
+  position: absolute;
+  inset: 0 -10px;
+}
+
+.section-nav.is-scrubbing .section-nav__indicator {
+  cursor: grabbing;
+  transition: none;
 }
 
 .section-nav.is-transitioning .section-nav__link.is-active {
@@ -1317,6 +1338,37 @@ body > .webring {
     visibility 0s linear;
 }
 
+body > .copyright {
+  position: fixed;
+  bottom: calc(max(0.75rem, 2vh) + 1.025rem);
+  left: clamp(0.75rem, 2.5vw, 1.75rem);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: clamp(0.68rem, 0.62rem + 0.2vw, 0.82rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  opacity: 0.82;
+  pointer-events: none;
+  transform: translateY(0);
+  visibility: visible;
+  z-index: 30;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0s linear;
+}
+
+body > .contact-dock.is-scrolling ~ .copyright,
+body > .contact-dock.is-obstructed ~ .copyright {
+  opacity: 0;
+  transform: translateY(1rem);
+  visibility: hidden;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0s linear 0.18s;
+}
+
 body > .webring:hover,
 body > .webring:focus-within {
   opacity: 1;
@@ -1481,6 +1533,10 @@ body > .contact-dock.is-obstructed ~ .webring {
     transform: translateX(var(--nav-indicator-pos, 0));
   }
 
+  .section-nav__indicator.is-draggable::after {
+    inset: -10px 0;
+  }
+
   .intro,
   .page-section {
     width: 94%;
@@ -1614,7 +1670,8 @@ body > .contact-dock.is-obstructed ~ .webring {
   .webring,
   .webring__link,
   .watch-card,
-  .watch-review {
+  .watch-review,
+  .copyright {
     transition: none;
     animation: none;
   }
@@ -1890,6 +1947,10 @@ html[data-theme="light"] body > .webring:focus-within {
 }
 
 html[data-theme="light"] .webring__link {
+  color: rgba(28, 25, 23, 0.62);
+}
+
+html[data-theme="light"] .copyright {
   color: rgba(28, 25, 23, 0.62);
 }
 
