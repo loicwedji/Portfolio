@@ -517,3 +517,45 @@ if (projectsSection) {
   document.fonts?.ready.then(scheduleProjectsFit);
   scheduleProjectsFit();
 }
+
+// Preserve every skill, tightening badges only when the natural layout is too tall.
+const skillsSection = document.querySelector('#technical-skills');
+if (skillsSection) {
+  const inner = skillsSection.querySelector('.section-inner');
+  let skillsFrame;
+  const fitSkills = () => {
+    skillsSection.classList.remove('is-compact');
+    skillsSection.style.removeProperty('--skills-content-height');
+    skillsSection.style.removeProperty('--skills-density');
+    const style = getComputedStyle(skillsSection);
+    const available = (window.visualViewport?.height ?? window.innerHeight)
+      - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+    const fits = () => inner.getBoundingClientRect().height <= available;
+    if (fits()) return;
+    if (!fits()) {
+      skillsSection.classList.add('is-compact');
+      if (!fits()) {
+        // Find the largest badge size that fits, including changes in line wrapping.
+        let low = 0.6;
+        let high = 1;
+        for (let attempt = 0; attempt < 9; attempt += 1) {
+          const density = (low + high) / 2;
+          skillsSection.style.setProperty('--skills-density', density);
+          if (fits()) low = density;
+          else high = density;
+        }
+        skillsSection.style.setProperty('--skills-density', low);
+      }
+    }
+    if (fits()) skillsSection.style.setProperty('--skills-content-height', `${available}px`);
+  };
+  const scheduleSkillsFit = () => {
+    cancelAnimationFrame(skillsFrame);
+    skillsFrame = requestAnimationFrame(fitSkills);
+  };
+  window.addEventListener('resize', scheduleSkillsFit, { passive: true });
+  window.visualViewport?.addEventListener('resize', scheduleSkillsFit, { passive: true });
+  window.addEventListener('load', scheduleSkillsFit);
+  document.fonts?.ready.then(scheduleSkillsFit);
+  scheduleSkillsFit();
+}

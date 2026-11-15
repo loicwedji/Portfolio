@@ -1,4 +1,5 @@
 html {
+  --section-top-spacing: clamp(4.5rem, 9vh, 6rem);
   --contact-clearance: calc(8.5rem + env(safe-area-inset-bottom, 0px));
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
@@ -58,7 +59,7 @@ body {
   justify-content: flex-start;
   margin-top: 0;
   margin-bottom: 0;
-  padding-top: clamp(4.5rem, 9vh, 6rem);
+  padding-top: var(--section-top-spacing);
   scroll-margin-top: 0;
 }
 
@@ -578,27 +579,35 @@ body
 }
 
 .project-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.3rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
   margin-bottom: 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .project-tab {
   min-height: 2.75rem;
-  padding: 0.4rem 0.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 0.4rem clamp(0.5rem, 2vw, 1rem);
+  border: 1px solid transparent;
   border-radius: 999px;
   background: transparent;
-  color: inherit;
+  color: rgba(255, 255, 255, 0.55);
   font: inherit;
   font-size: 0.75rem;
   cursor: pointer;
 }
 
 .project-tab[aria-selected="true"] {
-  border-color: currentColor;
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+  color: #fff;
+}
+
+.project-tab:hover {
+  color: #fff;
 }
 
 .project-tab:focus-visible {
@@ -608,10 +617,6 @@ body
 
 #projects {
   min-height: 100svh;
-}
-
-#projects.is-project-switcher {
-  padding-top: 3.5rem;
 }
 
 .is-project-switcher .project-grid {
@@ -629,12 +634,21 @@ body
 }
 
 html[data-theme="light"] .project-tab {
-  border-color: rgba(28, 25, 23, 0.25);
+  color: rgba(28, 25, 23, 0.6);
+}
+
+html[data-theme="light"] .project-tabs {
+  border-bottom-color: rgba(28, 25, 23, 0.14);
 }
 
 html[data-theme="light"] .project-tab[aria-selected="true"] {
-  border-color: currentColor;
+  border-color: rgba(28, 25, 23, 0.28);
   background: rgba(28, 25, 23, 0.08);
+  color: #1c1917;
+}
+
+html[data-theme="light"] .project-tab:hover {
+  color: #1c1917;
 }
 
 .project-tile {
@@ -732,6 +746,11 @@ html[data-theme="light"] .project-tile:focus-within {
   .project-preview {
     height: auto;
     aspect-ratio: 16 / 9;
+  }
+
+  .project-preview--integricode img,
+  .project-preview--halt img {
+    object-position: left top;
   }
 }
 
@@ -1707,6 +1726,57 @@ html[data-theme="light"] .theme-toggle__moon {
   min-height: 100svh;
 }
 
+#technical-skills {
+  min-height: 100svh;
+}
+
+#technical-skills .section-inner {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: var(--skills-content-height, auto);
+}
+
+#technical-skills.is-compact .experience-item {
+  display: block;
+  padding: calc(0.45rem * var(--skills-density, 1)) 0
+    calc(0.45rem * var(--skills-density, 1)) 0.65rem;
+}
+
+#technical-skills.is-compact .section-list {
+  gap: calc(0.4rem * var(--skills-density, 1));
+}
+
+#technical-skills.is-compact h3 {
+  font-size: calc(1rem * var(--skills-density, 1));
+}
+
+#technical-skills.is-compact .skill-list {
+  margin-top: calc(0.45rem * var(--skills-density, 1));
+  gap: calc(0.35rem * var(--skills-density, 1));
+}
+
+#technical-skills.is-compact .skill-list li {
+  min-height: calc(1.8rem * var(--skills-density, 1));
+  padding: calc(0.25rem * var(--skills-density, 1))
+    calc(0.45rem * var(--skills-density, 1));
+  gap: calc(0.3rem * var(--skills-density, 1));
+  font-size: calc(0.78rem * var(--skills-density, 1));
+}
+
+#technical-skills.is-compact .skill-list li > i,
+#technical-skills.is-compact .skill-icon {
+  width: calc(1rem * var(--skills-density, 1));
+  height: calc(1rem * var(--skills-density, 1));
+  flex-basis: calc(1rem * var(--skills-density, 1));
+  font-size: calc(1rem * var(--skills-density, 1));
+}
+
+@media (min-width: 650px) and (max-height: 600px) {
+  #technical-skills.is-compact .section-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 #experience .section-inner {
   display: grid;
   grid-template-rows: auto 1fr;
@@ -1715,10 +1785,6 @@ html[data-theme="light"] .theme-toggle__moon {
 
 #experience .section-list {
   align-content: stretch;
-}
-
-#experience.is-compact {
-  padding-top: clamp(3.5rem, 7svh, 5rem);
 }
 
 #experience.is-compact .section-list {
@@ -1755,7 +1821,6 @@ html[data-theme="light"] .theme-toggle__moon {
 @media (max-width: 600px) {
   #experience.is-compact {
     padding-inline: 0.5rem;
-    padding-top: 3.5rem;
   }
 
   #experience.is-compact .experience-item {
