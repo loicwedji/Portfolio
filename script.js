@@ -420,3 +420,100 @@ if (experienceSection) {
   document.fonts?.ready.then(scheduleExperienceFit);
   scheduleExperienceFit();
 }
+
+// Keep the overview when it fits; use one selectable tile otherwise.
+const projectsSection = document.querySelector('#projects');
+if (projectsSection) {
+  const inner = projectsSection.querySelector('.section-inner');
+  const grid = projectsSection.querySelector('.project-grid');
+  const tiles = [...grid.querySelectorAll('.project-tile')];
+  const tabs = document.createElement('div');
+  tabs.className = 'project-tabs';
+  tabs.setAttribute('role', 'tablist');
+  tabs.setAttribute('aria-label', 'Choose a project');
+  tabs.hidden = true;
+  grid.before(tabs);
+  let selected = 0;
+  let layoutFrame;
+
+  const buttons = tiles.map((tile, index) => {
+    tile.id = `project-panel-${index}`;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'project-tab';
+    button.id = `project-tab-${index}`;
+    button.textContent = tile.querySelector('h3').textContent.replace(/\s*\u2197\s*$/, '').trim();
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-controls', tile.id);
+    button.addEventListener('click', () => selectProject(index));
+    button.addEventListener('keydown', (event) => {
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % tiles.length;
+      if (event.key === 'ArrowLeft') next = (index + tiles.length - 1) % tiles.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = tiles.length - 1;
+      if (next === undefined) return;
+      event.preventDefault();
+      selectProject(next);
+      buttons[next].focus();
+    });
+    tabs.append(button);
+    return button;
+  });
+
+  function selectProject(index) {
+    selected = index;
+    tiles.forEach((tile, i) => {
+      tile.hidden = i !== selected;
+      buttons[i].setAttribute('aria-selected', String(i === selected));
+      buttons[i].tabIndex = i === selected ? 0 : -1;
+    });
+  }
+
+  const fitProjects = () => {
+    projectsSection.classList.remove('is-project-switcher');
+    projectsSection.style.removeProperty('--project-preview-height');
+    projectsSection.style.removeProperty('--project-body-height');
+    tabs.hidden = true;
+    tiles.forEach((tile) => {
+      tile.hidden = false;
+      tile.removeAttribute('role');
+      tile.removeAttribute('aria-labelledby');
+    });
+    const viewportHeight = window.visualViewport?.height ?? innerHeight;
+    let style = getComputedStyle(projectsSection);
+    const fullHeight = inner.getBoundingClientRect().height
+      + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    if (fullHeight <= viewportHeight) return;
+
+    projectsSection.classList.add('is-project-switcher');
+    tabs.hidden = false;
+    style = getComputedStyle(projectsSection);
+    const bodyHeight = Math.max(...tiles.map((tile) =>
+      tile.querySelector('.project-tile__body').getBoundingClientRect().height));
+    projectsSection.style.setProperty('--project-body-height', `${bodyHeight}px`);
+    const heading = inner.querySelector('.section-title');
+    const headingStyle = getComputedStyle(heading);
+    const tabsStyle = getComputedStyle(tabs);
+    const previewHeight = viewportHeight - parseFloat(style.paddingTop)
+      - parseFloat(style.paddingBottom) - heading.getBoundingClientRect().height
+      - parseFloat(headingStyle.marginBottom) - tabs.getBoundingClientRect().height
+      - parseFloat(tabsStyle.marginBottom) - bodyHeight - 3;
+    projectsSection.style.setProperty('--project-preview-height', `${Math.max(0, Math.floor(previewHeight))}px`);
+    tiles.forEach((tile, index) => {
+      tile.setAttribute('role', 'tabpanel');
+      tile.setAttribute('aria-labelledby', buttons[index].id);
+    });
+    selectProject(selected);
+  };
+
+  const scheduleProjectsFit = () => {
+    cancelAnimationFrame(layoutFrame);
+    layoutFrame = requestAnimationFrame(fitProjects);
+  };
+  window.addEventListener('resize', scheduleProjectsFit, { passive: true });
+  window.visualViewport?.addEventListener('resize', scheduleProjectsFit, { passive: true });
+  window.addEventListener('load', scheduleProjectsFit);
+  document.fonts?.ready.then(scheduleProjectsFit);
+  scheduleProjectsFit();
+}
