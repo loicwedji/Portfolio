@@ -367,3 +367,56 @@ window.addEventListener('resize', () => {
 window.addEventListener('pageshow', () => {
   setActiveNavLink(currentNavLink);
 });
+
+// Prefer full descriptions and normal spacing; reduce only what cannot fit.
+const experienceSection = document.querySelector('#experience');
+if (experienceSection) {
+  const inner = experienceSection.querySelector('.section-inner');
+  const summaries = [...experienceSection.querySelectorAll('[data-compact-summary]')];
+  const fullDescriptions = summaries.map((element) => element.textContent);
+  let fitFrame;
+
+  const fitExperience = () => {
+    experienceSection.style.removeProperty('--experience-content-height');
+    experienceSection.classList.remove('is-compact');
+    summaries.forEach((element, index) => {
+      element.textContent = fullDescriptions[index];
+    });
+
+    const fits = () => {
+      const style = getComputedStyle(experienceSection);
+      const availableHeight = window.visualViewport?.height ?? window.innerHeight;
+      return inner.getBoundingClientRect().height
+        + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
+        <= availableHeight;
+    };
+
+    if (!fits()) experienceSection.classList.add('is-compact');
+    if (!fits()) {
+      summaries.forEach((element) => {
+        element.textContent = element.dataset.compactSummary;
+      });
+    }
+
+    // Fill spare space between the heading and the protected contact area.
+    // Measure natural content first so stretching never triggers summarization.
+    if (fits()) {
+      const style = getComputedStyle(experienceSection);
+      const availableHeight = window.visualViewport?.height ?? window.innerHeight;
+      const contentHeight = availableHeight
+        - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+      experienceSection.style.setProperty('--experience-content-height', `${contentHeight}px`);
+    }
+  };
+
+  const scheduleExperienceFit = () => {
+    cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(fitExperience);
+  };
+
+  window.addEventListener('resize', scheduleExperienceFit, { passive: true });
+  window.visualViewport?.addEventListener('resize', scheduleExperienceFit, { passive: true });
+  window.addEventListener('load', scheduleExperienceFit);
+  document.fonts?.ready.then(scheduleExperienceFit);
+  scheduleExperienceFit();
+}
