@@ -343,6 +343,14 @@ document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
 });
 
 const mediaReviews = {
+  'anime-shangri-la-frontier': 'Review coming soon.',
+  'movie-primetime': 'Review coming soon.',
+  'movie-how-to-rob-a-bank-2026': 'Review coming soon.',
+  'movie-9': 'Review coming soon.',
+  'tv-loki': 'Review coming soon.',
+  'anime-demon-slayer': 'Review coming soon.',
+  'anime-overgeared': 'Review coming soon.',
+  'anime-attack-on-titan': 'Review coming soon.',
   'game-ff7-rebirth': 'Review coming soon.',
   'game-zelda-botw': 'Review coming soon.',
   'game-zelda-totk': 'Review coming soon.',
@@ -368,68 +376,80 @@ const mediaReviews = {
 
 let openReviewCard = null;
 
-// Use the console-style tile selector for each About Me media collection.
 const thoughtsShelf = document.querySelector('.thoughts');
-if (thoughtsShelf) {
-  thoughtsShelf.classList.add('game-library', 'thought-library');
-  const list = thoughtsShelf.querySelector('.thoughts__list');
-  list.classList.add('game-library__tiles');
-  list.setAttribute('role', 'group');
-  list.setAttribute('aria-label', 'Choose a recent thought. Use arrow keys to browse.');
-  const entries = [...list.querySelectorAll('.thought-card')].map((card, index) => {
-    const title = card.querySelector('h4').textContent.trim();
-    const date = card.querySelector('time').cloneNode(true);
-    const copy = card.querySelector('p').textContent.trim();
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'game-library__tile thought-library__tile';
-    button.setAttribute('aria-label', title);
-    button.setAttribute('aria-controls', 'selected-thought-details');
-    const number = document.createElement('span');
-    number.className = 'thought-library__number';
-    number.textContent = String(index + 1).padStart(2, '0');
-    button.append(number, date.cloneNode(true));
-    card.classList.add('watch-card');
-    card.replaceChildren(button);
-    return { card, button, title, date, copy };
-  });
-  const details = document.createElement('div');
-  details.className = 'game-library__details';
-  details.id = 'selected-thought-details';
-  details.setAttribute('aria-live', 'polite');
-  details.setAttribute('aria-atomic', 'true');
-  list.after(details);
-  const select = (index) => {
-    entries.forEach((entry, i) => {
-      entry.card.classList.toggle('is-selected', i === index);
-      entry.button.setAttribute('aria-pressed', String(i === index));
-      entry.button.tabIndex = i === index ? 0 : -1;
-    });
-    const entry = entries[index];
-    const heading = document.createElement('h4');
-    heading.textContent = entry.title;
+const chatEnabled = false;
+if (thoughtsShelf) thoughtsShelf.classList.add('game-library', 'chat-panel');
+
+if (thoughtsShelf && chatEnabled) {
+  const feed = thoughtsShelf.querySelector('.chat-feed');
+  const form = thoughtsShelf.querySelector('.chat-form');
+  const nameField = form.elements.namedItem('name');
+  const messageField = form.elements.namedItem('message');
+  const status = document.querySelector('#chat-status');
+  const storageKey = 'portfolio-chat-preview-v1';
+  feed.after(form);
+  let messages = [];
+  const dateFormat = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const makePost = (name, message, timestamp, title) => {
+    const card = document.createElement('article');
+    card.className = 'chat-post';
+    const author = document.createElement('strong');
+    author.className = 'chat-post__author';
+    author.textContent = `${name}:`;
+    const time = document.createElement('time');
+    time.dateTime = timestamp;
+    // Original thoughts have dates only; preserve them without inventing times.
+    time.textContent = timestamp.length === 10
+      ? new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(`${timestamp}T12:00:00`))
+      : dateFormat.format(new Date(timestamp));
+    time.title = timestamp;
+    card.append(time, author);
+    const body = document.createElement('div');
+    body.className = 'chat-post__body';
+    if (title) {
+      const heading = document.createElement('h4');
+      heading.textContent = title;
+      body.append(heading);
+    }
     const copy = document.createElement('p');
-    copy.className = 'game-library__review';
-    copy.textContent = entry.copy;
-    const date = entry.date.cloneNode(true);
-    date.className = 'game-library__eyebrow';
-    details.replaceChildren(date, heading, copy);
+    copy.textContent = message;
+    body.append(copy);
+    card.append(body);
+    return card;
   };
-  entries.forEach((entry, index) => {
-    entry.button.addEventListener('click', () => select(index));
-    entry.button.addEventListener('keydown', (event) => {
-      let next;
-      if (event.key === 'ArrowRight') next = (index + 1) % entries.length;
-      if (event.key === 'ArrowLeft') next = (index - 1 + entries.length) % entries.length;
-      if (event.key === 'Home') next = 0;
-      if (event.key === 'End') next = entries.length - 1;
-      if (next === undefined) return;
-      event.preventDefault();
-      select(next);
-      entries[next].button.focus({ preventScroll: true });
-    });
+  feed.querySelectorAll('.thought-card').forEach((card) => {
+    card.replaceWith(makePost('Loic Wedji', card.querySelector('p').textContent.trim().replace(/\s+/g, ' '), card.querySelector('time').dateTime, card.querySelector('h4').textContent.trim()));
   });
-  if (entries.length) select(0);
+  [...feed.children].reverse().forEach((card) => feed.append(card));
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    if (Array.isArray(saved)) messages = saved.filter((entry) =>
+      entry && typeof entry.name === 'string' && entry.name.trim() && entry.name.length <= 60 &&
+      typeof entry.message === 'string' && entry.message.trim() && entry.message.length <= 1500 &&
+      typeof entry.timestamp === 'string' && Number.isFinite(Date.parse(entry.timestamp)),
+    ).slice(-100);
+  } catch { /* The form remains usable without browser storage. */ }
+  messages.sort((a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp));
+  messages.forEach((entry) => feed.append(makePost(entry.name, entry.message, entry.timestamp)));
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const name = nameField.value.trim();
+    const message = messageField.value.trim();
+    nameField.setCustomValidity(name ? '' : 'Please enter your name.');
+    messageField.setCustomValidity(message ? '' : 'Please enter a message.');
+    if (!form.reportValidity()) return;
+    const entry = { name, message, timestamp: new Date().toISOString() };
+    messages.push(entry);
+    messages = messages.slice(-100);
+    let stored = true;
+    try { localStorage.setItem(storageKey, JSON.stringify(messages)); }
+    catch { stored = false; }
+    feed.append(makePost(name, message, entry.timestamp));
+    feed.scrollTop = feed.scrollHeight;
+    messageField.value = '';
+    status.textContent = stored ? 'Message saved in this browser.' : 'Message added for this visit. Browser storage is unavailable.';
+  });
+  [nameField, messageField].forEach((field) => field.addEventListener('input', () => field.setCustomValidity('')));
 }
 
 const mediaShelves = [...document.querySelectorAll('.watch-shelf')];
@@ -438,7 +458,7 @@ if (aboutContent) {
   const gamesShelf = mediaShelves.find((shelf) => shelf.querySelector('[data-rating-key^="game-"]'));
   const animeShelf = mediaShelves.find((shelf) => shelf.querySelector('[data-rating-key^="anime-"]'));
   const moviesShelf = mediaShelves.find((shelf) => shelf.querySelector('[data-rating-key^="movie-"]'));
-  const panels = [gamesShelf, animeShelf, moviesShelf, thoughtsShelf].filter(Boolean);
+  const panels = [gamesShelf, animeShelf, moviesShelf, chatEnabled ? thoughtsShelf : null].filter(Boolean);
   panels.forEach((shelf) => aboutContent.append(shelf));
   aboutContent.classList.add('about-content--tabbed');
   const tabs = document.createElement('div');
@@ -466,6 +486,7 @@ if (aboutContent) {
       buttons[i].setAttribute('aria-selected', String(i === index));
       buttons[i].tabIndex = i === index ? 0 : -1;
     });
+    panels[index].dispatchEvent(new Event('collection-reveal'));
   };
   buttons.forEach((button, index) => {
     button.addEventListener('click', () => activate(index));
@@ -488,6 +509,7 @@ mediaShelves.forEach((shelf, shelfIndex) => {
   if (!gameCards.length) return;
   const list = gameCards[0].parentElement;
   shelf.classList.add('game-library');
+  shelf.classList.add('collection-effects');
   if (gameCards[0].dataset.ratingKey.startsWith('game-')) shelf.classList.add('game-library--games');
   else shelf.classList.add('media-library--portrait');
   list.classList.add('game-library__tiles');
@@ -523,7 +545,7 @@ mediaShelves.forEach((shelf, shelfIndex) => {
     return { card, button, cover, title, genre, rating };
   });
 
-  const circularGames = shelf.classList.contains('game-library--games');
+  const circularGames = true;
   const renderedGames = circularGames
     ? [0, 1, 2].flatMap((copy) => games.map((game, index) => {
         if (copy === 1) return { ...game, index };
@@ -562,7 +584,7 @@ mediaShelves.forEach((shelf, shelfIndex) => {
     details.querySelector('h4').textContent = selected.title;
     details.querySelector('.game-library__genre').textContent = selected.genre;
     details.querySelector('.game-library__review').textContent = mediaReviews[selected.card.dataset.ratingKey];
-    backdrop.style.backgroundImage = `url("${selected.cover.getAttribute('src')}")`;
+    backdrop.style.backgroundImage = `url("${selected.card.dataset.backdrop || selected.cover.getAttribute('src')}")`;
     if (circularGames) {
       const startLeft = list.scrollLeft;
       const started = performance.now();
@@ -615,10 +637,11 @@ mediaShelves.forEach((shelf, shelfIndex) => {
     });
   });
   selectGame(0, false);
+  shelf.addEventListener('collection-reveal', () => selectGame(renderedGames[activeSlot].index, false));
 });
 
 document.querySelectorAll('.about-content .game-library__tiles').forEach((list) => {
-  const wrapAround = Boolean(list.closest('.game-library--games'));
+  const wrapAround = Boolean(list.closest('.collection-effects'));
   const hint = document.createElement('button');
   hint.className = 'tile-scroll-hint';
   hint.type = 'button';
@@ -638,7 +661,7 @@ document.querySelectorAll('.about-content .game-library__tiles').forEach((list) 
   const updateHint = () => {
     const atEnd = list.scrollWidth - list.clientWidth - list.scrollLeft < 8;
     hint.hidden = wrapAround ? list.scrollWidth <= list.clientWidth + 8 : atEnd;
-    hint.setAttribute('aria-label', wrapAround && atEnd ? 'Return to the first games' : 'Scroll to more items');
+    hint.setAttribute('aria-label', wrapAround && atEnd ? 'Return to the first items' : 'Scroll to more items');
   };
   list.addEventListener('scroll', updateHint, { passive: true });
   const resizeObserver = new ResizeObserver(updateHint);

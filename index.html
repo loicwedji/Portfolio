@@ -682,11 +682,22 @@
         <div class="section-inner">
           <h2 class="section-title">About Me</h2>
           <div class="section-content about-content">
-            <section class="thoughts" aria-labelledby="thoughts-title">
-              <div class="thoughts__heading">
-                <h3 id="thoughts-title">Recent thoughts</h3>
-              </div>
-              <div class="thoughts__list">
+            <section class="thoughts" aria-labelledby="thoughts-title" hidden>
+              <h3 id="thoughts-title" class="visually-hidden">Chat</h3>
+              <form class="chat-form" id="chat-form">
+                <p class="chat-preview-note" id="chat-preview-note">Preview: your messages are saved only in this browser.</p>
+                <div class="chat-form__fields">
+                  <label for="chat-name" class="visually-hidden">Your name</label>
+                  <input id="chat-name" name="name" type="text" autocomplete="name" maxlength="60" required placeholder="name" />
+                  <label for="chat-message" class="visually-hidden">Message</label>
+                  <input id="chat-message" name="message" type="text" maxlength="1500" required placeholder="say something..." />
+                  <button type="submit" aria-label="Send message">↵</button>
+                </div>
+                <div class="chat-form__actions">
+                  <p id="chat-status" role="status" aria-live="polite"></p>
+                </div>
+              </form>
+              <div class="thoughts__list chat-feed" aria-label="Messages and previous thoughts">
                 <article class="thought-card">
                   <time datetime="2026-08-28">Aug 28, 2026</time>
                   <h4>Kingdom Hearts on my phone</h4>
@@ -762,6 +773,26 @@
                   <h4>Classroom of the Elite</h4><p>Drama · Psychological</p>
                   <div class="rating" aria-label="Rate Classroom of the Elite out of 5"></div>
                 </article>
+                <article class="watch-card" data-rating-key="anime-demon-slayer">
+                  <img src="anime-covers/demon-slayer.jpg" alt="Demon Slayer cover" loading="lazy" />
+                  <h4>Demon Slayer</h4><p>Action &middot; Fantasy</p>
+                  <div class="rating" aria-label="Rate Demon Slayer out of 5"></div>
+                </article>
+                <article class="watch-card" data-rating-key="anime-overgeared">
+                  <img src="anime-covers/overgeared.jpg" alt="Overgeared cover" loading="lazy" />
+                  <h4>Overgeared</h4><p>Action &middot; Fantasy</p>
+                  <div class="rating" aria-label="Rate Overgeared out of 5"></div>
+                </article>
+                <article class="watch-card" data-rating-key="anime-attack-on-titan">
+                  <img src="anime-covers/attack-on-titan.jpg" alt="Attack on Titan cover" loading="lazy" />
+                  <h4>Attack on Titan</h4><p>Action &middot; Dark Fantasy</p>
+                  <div class="rating" aria-label="Rate Attack on Titan out of 5"></div>
+                </article>
+                <article class="watch-card" data-rating-key="anime-shangri-la-frontier">
+                  <img src="anime-covers/shangri-la-frontier.jpg" alt="Shangri-La Frontier cover" loading="lazy" />
+                  <h4>Shangri-La Frontier</h4><p>Action &middot; Adventure &middot; Fantasy</p>
+                  <div class="rating" aria-label="Rate Shangri-La Frontier out of 5"></div>
+                </article>
               </div>
             </div>
 
@@ -784,7 +815,7 @@
                   data-rating-key="movie-spider-verse"
                 >
                   <img
-                    src="movie-covers/spider-verse.jpg"
+                    src="movie-covers/spider-verse-alternate.jpg"
                     alt="Spider-Man: Into the Spider-Verse poster"
                     loading="lazy"
                   />
@@ -814,6 +845,26 @@
                   <img src="movie-covers/tron-uprising.jpg" alt="Tron: Uprising poster" loading="lazy" />
                   <h4>Tron: Uprising</h4><p>TV · Sci-fi</p>
                   <div class="rating" aria-label="Rate Tron: Uprising out of 5"></div>
+                </article>
+                <article class="watch-card" data-rating-key="movie-how-to-rob-a-bank-2026">
+                  <img src="movie-covers/how-to-rob-a-bank-2026.jpg" alt="How to Rob a Bank (2026) poster" loading="lazy" />
+                  <h4>How to Rob a Bank (2026)</h4><p>Action &middot; Crime</p>
+                  <div class="rating" aria-label="Rate How to Rob a Bank out of 5"></div>
+                </article>
+                <article class="watch-card" data-rating-key="movie-9">
+                  <img src="movie-covers/9.jpg" alt="9 (2009) poster" loading="lazy" />
+                  <h4>9</h4><p>Animation &middot; Sci-fi</p>
+                  <div class="rating" aria-label="Rate 9 out of 5"></div>
+                </article>
+                <article class="watch-card" data-rating-key="tv-loki">
+                  <img src="movie-covers/loki.jpg" alt="Loki TV series poster" loading="lazy" />
+                  <h4>Loki</h4><p>TV &middot; Sci-fi &middot; Fantasy</p>
+                  <div class="rating" aria-label="Rate Loki out of 5"></div>
+                </article>
+                <article class="watch-card" data-rating-key="movie-primetime">
+                  <img src="movie-covers/primetime.jpg" alt="Primetime (2026) poster" loading="lazy" />
+                  <h4>Primetime</h4><p>Crime &middot; Thriller</p>
+                  <div class="rating" aria-label="Rate Primetime out of 5"></div>
                 </article>
               </div>
             </div>
@@ -915,6 +966,12 @@
                     aria-label="Rate Naruto Ninja Storm 4 out of 5"
                   ></div>
                 </article>
+                <article class="watch-card" data-rating-key="game-ff7-rebirth">
+                  <img src="game-covers/ff7-rebirth.jpg" alt="Final Fantasy VII Rebirth cover" loading="lazy" />
+                  <h4>Final Fantasy VII Rebirth</h4>
+                  <p>Action RPG &middot; Fantasy</p>
+                  <div class="rating" aria-label="Rate Final Fantasy VII Rebirth out of 5"></div>
+                </article>
                 <article class="watch-card" data-rating-key="game-zelda-botw">
                   <img src="game-covers/zelda-botw-square.jpg" alt="The Legend of Zelda: Breath of the Wild artwork" loading="lazy" />
                   <h4>The Legend of Zelda: Breath of the Wild</h4>
@@ -926,12 +983,6 @@
                   <h4>The Legend of Zelda: Tears of the Kingdom</h4>
                   <p>Adventure &middot; Open World</p>
                   <div class="rating" aria-label="Rate Tears of the Kingdom out of 5"></div>
-                </article>
-                <article class="watch-card" data-rating-key="game-ff7-rebirth">
-                  <img src="game-covers/ff7-rebirth.jpg" alt="Final Fantasy VII Rebirth cover" loading="lazy" />
-                  <h4>Final Fantasy VII Rebirth</h4>
-                  <p>Action RPG &middot; Fantasy</p>
-                  <div class="rating" aria-label="Rate Final Fantasy VII Rebirth out of 5"></div>
                 </article>
               </div>
             </div>

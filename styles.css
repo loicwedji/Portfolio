@@ -1992,11 +1992,13 @@ html[data-theme="light"] .theme-toggle__moon {
   pointer-events: none;
 }
 
-.game-library--games .game-library__backdrop {
+.collection-effects .game-library__backdrop {
+  inset: -3rem;
   opacity: 0.52;
   filter: blur(26px) saturate(0.85);
+  background-position: center 38%;
 }
-.game-library--games::after {
+.collection-effects::after {
   background: linear-gradient(110deg, rgba(9, 12, 20, 0.65), rgba(9, 12, 20, 0.12)), linear-gradient(0deg, rgba(16, 19, 28, 0.85), transparent);
 }
 
@@ -2011,6 +2013,8 @@ html[data-theme="light"] .theme-toggle__moon {
 
 .game-library .watch-shelf__heading { border: 0; }
 .game-library--games .watch-shelf__heading { display: none; }
+.collection-effects .watch-shelf__heading,
+.collection-effects .thoughts__heading { display: none; }
 .game-library .watch-shelf__heading h3 { color: #fff; }
 .section-content .game-library .watch-shelf__heading h3,
 .section-content .thought-library .thoughts__heading h3 {
@@ -2078,16 +2082,17 @@ html[data-theme="light"] .theme-toggle__moon {
   box-shadow: 0 12px 30px #0006;
 }
 
-.game-library--games .game-library__tile {
+.collection-effects .game-library__tile {
   position: relative;
   overflow: visible;
   isolation: isolate;
+  opacity: 1;
 }
-.game-library--games .is-selected .game-library__tile {
+.collection-effects .is-selected .game-library__tile {
   outline: none;
   box-shadow: 0 12px 30px #0006, 0 0 16px rgba(205, 225, 255, 0.12);
 }
-.game-library--games .is-selected .game-library__tile::after {
+.collection-effects .is-selected .game-library__tile::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -2098,7 +2103,7 @@ html[data-theme="light"] .theme-toggle__moon {
   background-size: 300% 300%;
   animation: game-tile-reflection 9s ease-in-out infinite;
 }
-.game-library--games .is-selected .game-library__tile::before {
+.collection-effects .is-selected .game-library__tile::before {
   content: '';
   position: absolute;
   inset: -6px;
@@ -2130,8 +2135,8 @@ html[data-theme="light"] .theme-toggle__moon {
   54%, 100% { background-position: 0% 0%; opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .game-library--games .is-selected .game-library__tile::before { animation: none; }
-  .game-library--games .is-selected .game-library__tile::after { animation: none; opacity: 0; }
+  .collection-effects .is-selected .game-library__tile::before { animation: none; }
+  .collection-effects .is-selected .game-library__tile::after { animation: none; opacity: 0; }
 }
 
 .game-library__tile:focus-visible {
@@ -2242,7 +2247,7 @@ html[data-theme="light"] .theme-toggle__moon {
 .tile-scroll-hint:hover { background: rgba(15, 15, 18, 0.9); }
 .tile-scroll-hint:focus-visible { outline: 2px solid #b9d9ff; outline-offset: 2px; }
 .tile-scroll-hint[hidden] { display: none; }
-.game-library--games .tile-scroll-hint { display: none; }
+.collection-effects .tile-scroll-hint { display: none; }
 @media (hover: none) {
   .tile-scroll-hint { opacity: 1; pointer-events: auto; }
 }
@@ -2252,7 +2257,7 @@ html[data-theme="light"] .theme-toggle__moon {
 .about-content { max-width: none; }
 .about-content > .game-library { min-width: 0; margin: 0; }
 .about-content { display: grid; gap: 1.25rem; }
-.thought-library { background: radial-gradient(ellipse at top right, #253249, #10131c 75%); }
+.thought-library { background: radial-gradient(ellipse at top right, hsl(var(--thought-hue, 210) 35% 25%), #10131c 75%); }
 .thought-library .thoughts__heading { display: block; margin-bottom: 0.9rem; }
 .section-content .thought-library .thoughts__heading h3 { color: #fff; font-size: 1.35rem; }
 .section-content .thought-library .thoughts__heading p { color: #aeb6c7; font-size: 0.68rem; margin-top: 0.2rem; }
@@ -2318,6 +2323,7 @@ html[data-theme="light"] .theme-toggle__moon {
 
 .about-content.about-content--tabbed { display: block; }
 .about-content--tabbed > [role="tabpanel"][hidden] { display: none; }
+.about-content > .thoughts[hidden] { display: none; }
 .about-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -2384,4 +2390,168 @@ html[data-theme="light"] .about-tabs__tab:is(:hover, [aria-selected="true"]) { c
   .about-content .game-library--games .game-library__tiles { min-height: 9rem; }
   .about-content .game-library--games .watch-card { flex-basis: 3.5rem; width: 3.5rem; }
   .about-content .game-library--games .watch-card.is-selected { flex-basis: 7rem; width: 7rem; }
+}
+
+/* Keep the Games tile strip compact. */
+@media (min-width: 901px) {
+  .about-content--tabbed .game-library--games .game-library__tiles {
+    min-height: 13rem;
+    gap: 0.55rem;
+  }
+  .about-content--tabbed .game-library--games .watch-card {
+    flex-basis: 6rem;
+    width: 6rem;
+  }
+  .about-content--tabbed .game-library--games .watch-card.is-selected {
+    flex-basis: 11rem;
+    width: 11rem;
+  }
+  .about-content--tabbed .game-library--games .game-library__details {
+    width: 100%;
+    max-width: 44rem;
+    margin-top: auto;
+    padding-top: 3rem;
+  }
+  .about-content--tabbed .game-library--games .game-library__details h4 {
+    font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+    overflow-wrap: anywhere;
+  }
+  .about-content--tabbed .game-library--games .game-library__review {
+    font-size: 0.85rem;
+    line-height: 1.65;
+  }
+}
+
+/* Scale game covers with their panel, including the space beside desktop navigation. */
+.about-content--tabbed > .chat-panel { background: #10131c; }
+.chat-form { width: 100%; margin-bottom: 2rem; }
+.section-content .chat-intro { color: #e3e7ef; font-size: 1rem; }
+.section-content .chat-preview-note { margin: 0.4rem 0 1.5rem; color: #9faabd; font-size: 0.75rem; }
+.chat-form__fields { display: grid; gap: 0.5rem; }
+.chat-form label { color: #c5cedd; font-size: 0.8rem; }
+.chat-form input,
+.chat-form textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ffffff24;
+  border-radius: 0.65rem;
+  background: #ffffff06;
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+}
+.chat-form input { max-width: 24rem; margin-bottom: 0.65rem; }
+.chat-form textarea { min-height: 7rem; resize: vertical; }
+.chat-form input::placeholder,
+.chat-form textarea::placeholder { color: #8993a4; }
+.chat-form :is(input, textarea, button):focus-visible { outline: 2px solid #b9d9ff; outline-offset: 3px; }
+.chat-form__actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.85rem; }
+.section-content #chat-status { color: #aebfd6; font-size: 0.75rem; }
+.chat-form button { flex-shrink: 0; border: 1px solid #ffffff30; border-radius: 2rem; padding: 0.7rem 1.15rem; background: #ecf1f9; color: #10131c; font: inherit; font-size: 0.8rem; cursor: pointer; }
+.chat-form button:hover { background: #cfe3ff; }
+.chat-form button span { margin-left: 0.65rem; }
+.chat-panel .chat-feed { display: grid; gap: 0; max-height: none; overflow: visible; }
+.chat-post { padding: 1.5rem 0; border-top: 1px solid #ffffff18; min-width: 0; }
+.chat-post__header { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.75rem; }
+.chat-post__avatar { display: grid; place-items: center; width: 2rem; height: 2rem; flex-shrink: 0; border-radius: 50%; background: #263650; color: #dceaff; font-size: 0.85rem; }
+.chat-post__header strong { color: #e6ebf3; font-size: 0.82rem; }
+.chat-post__header time { margin-left: auto; color: #95a0b2; font-size: 0.7rem; }
+.section-content .chat-post h4 { margin: 0 0 0.4rem; color: #f4f6fa; font-size: 1rem; font-weight: 500; }
+.section-content .chat-post p { color: #b9c2d0; font-size: 0.88rem; line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .chat-post__header { flex-wrap: wrap; }
+  .chat-post__header time { width: 100%; margin-left: 2.65rem; }
+  .chat-form__actions { flex-wrap: wrap; }
+  .chat-form button { margin-left: auto; }
+}
+
+.about-content--tabbed > .game-library--games {
+  container-type: inline-size;
+  --game-tile-small: clamp(3.5rem, 8vw, 7.5rem);
+  --game-tile-selected: clamp(7rem, 15vw, 14rem);
+}
+@supports (width: 1cqi) {
+  .about-content--tabbed > .game-library--games {
+    --game-tile-small: clamp(3.5rem, 12cqi, 7.5rem);
+    --game-tile-selected: clamp(7rem, 22cqi, 14rem);
+  }
+}
+.about-content--tabbed .game-library--games .watch-card {
+  flex-basis: var(--game-tile-small);
+  width: var(--game-tile-small);
+}
+.about-content--tabbed .game-library--games .watch-card.is-selected {
+  flex-basis: var(--game-tile-selected);
+  width: var(--game-tile-selected);
+}
+.about-content--tabbed .game-library--games .game-library__tiles {
+  min-height: calc(var(--game-tile-selected) + 2rem);
+}
+
+/* A quiet, chronological guestbook with a compact composer. */
+.about-content--tabbed > .chat-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: min(36rem, 70vh);
+  padding: 1.5rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.chat-panel::after { display: none; }
+.chat-panel .chat-feed {
+  display: block;
+  width: 100%;
+  max-height: 30rem;
+  padding: 0.75rem 0;
+  border: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff30 transparent;
+}
+.chat-panel .chat-post {
+  display: grid;
+  grid-template-columns: 8.5rem 8rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.35rem 0;
+  border: 0;
+}
+.chat-post > time { color: #ffffff65; font-size: 0.68rem; line-height: 1.7; }
+.chat-post__author { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #ffffffc4; font-size: 0.8rem; font-weight: 400; }
+.chat-post__body { min-width: 0; }
+.section-content .chat-post h4 { display: inline; margin: 0 0.4rem 0 0; color: #ffffffa6; font-size: 0.8rem; font-weight: 500; }
+.section-content .chat-post h4::after { content: ' —'; }
+.section-content .chat-post p { display: inline; color: #ffffff85; font-size: 0.8rem; line-height: 1.7; }
+.chat-panel .chat-form { margin: auto 0 0; padding-top: 1.2rem; display: flex; flex-direction: column; }
+.chat-form .chat-preview-note { order: 2; margin: 0.65rem 0 0; font-size: 0.65rem; color: #ffffff55; }
+.chat-form .chat-form__fields { grid-template-columns: 8.5rem minmax(0, 1fr) 2.75rem; align-items: center; gap: 0.75rem; }
+.chat-form .chat-form__fields input {
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0.65rem 0;
+  border: 0;
+  border-bottom: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 0.8rem;
+}
+.chat-form .chat-form__fields button { margin: 0; min-height: 2.75rem; padding: 0.5rem; background: transparent; border: 0; color: #ffffff99; font-size: 1rem; }
+.chat-form .chat-form__fields button:hover { color: #fff; background: #ffffff0a; }
+.chat-form__actions { margin-top: 0.5rem; }
+html[data-theme="light"] .chat-panel { color: #1c1917; }
+html[data-theme="light"] .chat-panel .chat-feed { border-color: #1c191730; }
+html[data-theme="light"] .chat-post > time,
+html[data-theme="light"] .chat-form .chat-preview-note { color: #1c191780; }
+html[data-theme="light"] .chat-post__author,
+html[data-theme="light"] .chat-post h4 { color: #1c1917cc; }
+html[data-theme="light"] .chat-post p { color: #1c191799; }
+html[data-theme="light"] .chat-form .chat-form__fields input { color: #1c1917; border-color: #1c191740; }
+html[data-theme="light"] .chat-form .chat-form__fields button { color: #1c191799; }
+@media (max-width: 600px) {
+  .chat-panel .chat-post { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.2rem 0.75rem; padding-block: 0.6rem; }
+  .chat-post__body { grid-column: 2; }
+  .chat-form .chat-form__fields { grid-template-columns: 5.5rem minmax(0, 1fr) 2rem; gap: 0.5rem; }
+  .chat-post > time { font-size: 0.6rem; }
 }
