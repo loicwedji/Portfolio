@@ -947,3 +947,194 @@ document.querySelectorAll('.watch-shelf:not(.game-library) .watch-card[data-rati
     toggleReview();
   });
 });
+
+// Mobile browser toolbars resize the visual viewport during a swipe. Keep
+// section geometry tied to the small viewport so snap targets stay stationary.
+const layoutViewportProbe = document.createElement('div');
+layoutViewportProbe.setAttribute('aria-hidden', 'true');
+layoutViewportProbe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100svh;visibility:hidden;pointer-events:none;';
+document.body.append(layoutViewportProbe);
+const getLayoutViewportHeight = () => layoutViewportProbe.getBoundingClientRect().height || window.innerHeight;
+
+const observeLayoutViewport = (update) => {
+  let frame;
+  let previousSize = '';
+  const schedule = (force = false) => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      const size = `${document.documentElement.clientWidth}:${getLayoutViewportHeight()}`;
+      if (!force && size === previousSize) return;
+      previousSize = size;
+      update();
+    });
+  };
+  window.addEventListener('resize', () => schedule(), { passive: true });
+  window.visualViewport?.addEventListener('resize', () => schedule(), { passive: true });
+  window.addEventListener('load', () => schedule(true));
+  document.fonts?.ready.then(() => schedule(true));
+  schedule(true);
+};
+
+// Prefer full descriptions and normal spacing; reduce only what cannot fit.
+const experienceSection = document.querySelector('#experience');
+if (experienceSection) {
+  const inner = experienceSection.querySelector('.section-inner');
+  const summaries = [...experienceSection.querySelectorAll('[data-compact-summary]')];
+  const fullDescriptions = summaries.map((element) => element.textContent);
+
+  const fitExperience = () => {
+    experienceSection.style.removeProperty('--experience-content-height');
+    experienceSection.classList.remove('is-compact');
+    summaries.forEach((element, index) => {
+      element.textContent = fullDescriptions[index];
+    });
+
+    const fits = () => {
+      const style = getComputedStyle(experienceSection);
+      const availableHeight = getLayoutViewportHeight();
+      return inner.getBoundingClientRect().height
+        + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
+        <= availableHeight;
+    };
+
+    if (!fits()) experienceSection.classList.add('is-compact');
+    if (!fits()) {
+      summaries.forEach((element) => {
+        element.textContent = element.dataset.compactSummary;
+      });
+    }
+
+    // Fill spare space between the heading and the protected contact area.
+    // Measure natural content first so stretching never triggers summarization.
+    if (fits()) {
+      const style = getComputedStyle(experienceSection);
+      const availableHeight = getLayoutViewportHeight();
+      const contentHeight = availableHeight
+        - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+      experienceSection.style.setProperty('--experience-content-height', `${contentHeight}px`);
+    }
+  };
+
+  observeLayoutViewport(fitExperience);
+}
+
+// Keep the overview when it fits; use one selectable tile otherwise.
+const projectsSection = document.querySelector('#projects');
+if (projectsSection) {
+  const inner = projectsSection.querySelector('.section-inner');
+  const grid = projectsSection.querySelector('.project-grid');
+  const tiles = [...grid.querySelectorAll('.project-tile')];
+  const tabs = document.createElement('div');
+  tabs.className = 'project-tabs';
+  tabs.setAttribute('role', 'tablist');
+  tabs.setAttribute('aria-label', 'Choose a project');
+  tabs.hidden = true;
+  grid.before(tabs);
+  let selected = 0;
+
+  const buttons = tiles.map((tile, index) => {
+    tile.id = `project-panel-${index}`;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'project-tab';
+    button.id = `project-tab-${index}`;
+    button.textContent = tile.querySelector('h3').textContent.replace(/\s*\u2197\s*$/, '').trim();
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-controls', tile.id);
+    button.addEventListener('click', () => selectProject(index));
+    button.addEventListener('keydown', (event) => {
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % tiles.length;
+      if (event.key === 'ArrowLeft') next = (index + tiles.length - 1) % tiles.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = tiles.length - 1;
+      if (next === undefined) return;
+      event.preventDefault();
+      selectProject(next);
+      buttons[next].focus();
+    });
+    tabs.append(button);
+    return button;
+  });
+
+  function selectProject(index) {
+    selected = index;
+    tiles.forEach((tile, i) => {
+      tile.hidden = i !== selected;
+      buttons[i].setAttribute('aria-selected', String(i === selected));
+      buttons[i].tabIndex = i === selected ? 0 : -1;
+    });
+  }
+
+  const fitProjects = () => {
+    projectsSection.classList.remove('is-project-switcher');
+    projectsSection.style.removeProperty('--project-preview-height');
+    projectsSection.style.removeProperty('--project-body-height');
+    tabs.hidden = true;
+    tiles.forEach((tile) => {
+      tile.hidden = false;
+      tile.removeAttribute('role');
+      tile.removeAttribute('aria-labelledby');
+    });
+    const viewportHeight = getLayoutViewportHeight();
+    let style = getComputedStyle(projectsSection);
+    const fullHeight = inner.getBoundingClientRect().height
+      + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    if (fullHeight <= viewportHeight) return;
+
+    projectsSection.classList.add('is-project-switcher');
+    tabs.hidden = false;
+    style = getComputedStyle(projectsSection);
+    const bodyHeight = Math.max(...tiles.map((tile) =>
+      tile.querySelector('.project-tile__body').getBoundingClientRect().height));
+    projectsSection.style.setProperty('--project-body-height', `${bodyHeight}px`);
+    const heading = inner.querySelector('.section-title');
+    const headingStyle = getComputedStyle(heading);
+    const tabsStyle = getComputedStyle(tabs);
+    const previewHeight = viewportHeight - parseFloat(style.paddingTop)
+      - parseFloat(style.paddingBottom) - heading.getBoundingClientRect().height
+      - parseFloat(headingStyle.marginBottom) - tabs.getBoundingClientRect().height
+      - parseFloat(tabsStyle.marginBottom) - bodyHeight - 3;
+    projectsSection.style.setProperty('--project-preview-height', `${Math.max(0, Math.floor(previewHeight))}px`);
+    tiles.forEach((tile, index) => {
+      tile.setAttribute('role', 'tabpanel');
+      tile.setAttribute('aria-labelledby', buttons[index].id);
+    });
+    selectProject(selected);
+  };
+
+  observeLayoutViewport(fitProjects);
+}
+
+// Preserve every skill, tightening badges only when the natural layout is too tall.
+const skillsSection = document.querySelector('#technical-skills');
+if (skillsSection) {
+  const inner = skillsSection.querySelector('.section-inner');
+  const fitSkills = () => {
+    skillsSection.classList.remove('is-compact');
+    skillsSection.style.removeProperty('--skills-content-height');
+    skillsSection.style.removeProperty('--skills-density');
+    const style = getComputedStyle(skillsSection);
+    const available = (getLayoutViewportHeight())
+      - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+    const fits = () => inner.getBoundingClientRect().height <= available;
+    if (fits()) return;
+    if (!fits()) {
+      skillsSection.classList.add('is-compact');
+      if (!fits()) {
+        // Find the largest badge size that fits, including changes in line wrapping.
+        let low = 0.6;
+        let high = 1;
+        for (let attempt = 0; attempt < 9; attempt += 1) {
+          const density = (low + high) / 2;
+          skillsSection.style.setProperty('--skills-density', density);
+          if (fits()) low = density;
+          else high = density;
+        }
+        skillsSection.style.setProperty('--skills-density', low);
+      }
+    }
+    if (fits()) skillsSection.style.setProperty('--skills-content-height', `${available}px`);
+  };
+  observeLayoutViewport(fitSkills);
+}
