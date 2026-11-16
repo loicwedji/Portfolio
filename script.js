@@ -468,7 +468,7 @@ const mediaReviews = {
   "anime-code-geass": "Most animed gundam fights are usually underwhelming for me but this one is peek.",
   "anime-death-note": "Obviously goated",
   "anime-solo-leveling": "Dope anime, crazy animation, actually good mc. No complaints",
-  'anime-clevatess': 'A dark fantasy with an unusual perspective and an atmosphere that immediately stands out. Its world feels dangerous, strange, and worth exploring.',
+  'anime-clevatess': 'Review coming soon.',
   "anime-kaiju-no-8": "Mc is literally naruto, funny and great animation + story. Season 2 is a little slow.",
   "anime-classroom-of-the-elite": "Perfect Mc, strategy type of animes are always welcomed!",
   "movie-spider-verse": "The start of potentially the greatest trilogy of all time. Crazy animations, great story and soundtrack.",

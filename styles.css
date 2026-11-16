@@ -961,7 +961,9 @@ body
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.project-tab {
+.project-tab,
+.about-tabs__tab,
+.media-status-filter {
   min-height: 2.75rem;
   padding: 0.4rem clamp(0.5rem, 2vw, 1rem);
   border: 1px solid transparent;
@@ -973,17 +975,23 @@ body
   cursor: pointer;
 }
 
-.project-tab[aria-selected="true"] {
+.project-tab[aria-selected="true"],
+.about-tabs__tab[aria-selected="true"],
+.media-status-filter[aria-pressed="true"] {
   border-color: rgba(255, 255, 255, 0.28);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
   color: #fff;
 }
 
-.project-tab:hover {
+.project-tab:hover,
+.about-tabs__tab:hover,
+.media-status-filter:hover {
   color: #fff;
 }
 
-.project-tab:focus-visible {
+.project-tab:focus-visible,
+.about-tabs__tab:focus-visible,
+.media-status-filter:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
@@ -1006,21 +1014,28 @@ body
   min-height: var(--project-body-height, auto);
 }
 
-html[data-theme="light"] .project-tab {
+html[data-theme="light"] .project-tab,
+html[data-theme="light"] .about-tabs__tab,
+html[data-theme="light"] .media-status-filter {
   color: rgba(28, 25, 23, 0.6);
 }
 
-html[data-theme="light"] .project-tabs {
+html[data-theme="light"] .project-tabs,
+html[data-theme="light"] .about-tabs {
   border-bottom-color: rgba(28, 25, 23, 0.14);
 }
 
-html[data-theme="light"] .project-tab[aria-selected="true"] {
+html[data-theme="light"] .project-tab[aria-selected="true"],
+html[data-theme="light"] .about-tabs__tab[aria-selected="true"],
+html[data-theme="light"] .media-status-filter[aria-pressed="true"] {
   border-color: rgba(28, 25, 23, 0.28);
   background: rgba(28, 25, 23, 0.08);
   color: #1c1917;
 }
 
-html[data-theme="light"] .project-tab:hover {
+html[data-theme="light"] .project-tab:hover,
+html[data-theme="light"] .about-tabs__tab:hover,
+html[data-theme="light"] .media-status-filter:hover {
   color: #1c1917;
 }
 
@@ -2274,24 +2289,6 @@ html[data-theme="light"] .theme-toggle__moon {
   gap: 0.4rem;
   margin-bottom: 1rem;
 }
-.media-status-filter {
-  min-height: 2.75rem;
-  padding: 0.45rem 0.85rem;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  background: transparent;
-  color: #ffffffa6;
-  font: inherit;
-  font-size: 0.75rem;
-  cursor: pointer;
-}
-.media-status-filter[aria-pressed="true"] {
-  border-color: #ffffff45;
-  background: #ffffff14;
-  color: #fff;
-}
-.media-status-filter:hover { color: #fff; }
-.media-status-filter:focus-visible { outline: 2px solid #b9d9ff; outline-offset: 2px; }
 .game-library .watch-card[hidden] { display: none; }
 .game-library--games .watch-shelf__heading { display: none; }
 .collection-effects .watch-shelf__heading,
@@ -2633,31 +2630,11 @@ html[data-theme="light"] .theme-toggle__moon {
 .about-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 1.1rem;
-  padding-bottom: 0.65rem;
-  border-bottom: 1px solid #ffffff20;
-}
-.about-tabs__tab {
-  min-height: 2.75rem;
-  padding: 0.55rem 1rem;
-  border: 1px solid transparent;
-  border-radius: 2rem;
-  background: transparent;
-  color: #ffffff90;
-  font: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-.about-tabs__tab:hover { color: #fff; background: #ffffff0d; }
-.about-tabs__tab[aria-selected="true"] { color: #fff; border-color: #ffffff35; background: #ffffff14; }
-.about-tabs__tab:focus-visible { outline: 2px solid #b9d9ff; outline-offset: 2px; }
-html[data-theme="light"] .about-tabs { border-color: #1c191730; }
-html[data-theme="light"] .about-tabs__tab { color: #1c191799; }
-html[data-theme="light"] .about-tabs__tab:is(:hover, [aria-selected="true"]) { color: #1c1917; background: #1c19170c; border-color: #1c191730; }
-@media (max-width: 600px) {
-  .about-tabs { gap: 0.1rem; }
-  .about-tabs__tab { padding-inline: 0.65rem; font-size: 0.75rem; }
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 .about-content .media-library--portrait .game-library__tiles {
   min-height: 13.5rem;
