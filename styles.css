@@ -2012,6 +2012,31 @@ html[data-theme="light"] .theme-toggle__moon {
 }
 
 .game-library .watch-shelf__heading { border: 0; }
+.media-status-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.media-status-filter {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #ffffffa6;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.media-status-filter[aria-pressed="true"] {
+  border-color: #ffffff45;
+  background: #ffffff14;
+  color: #fff;
+}
+.media-status-filter:hover { color: #fff; }
+.media-status-filter:focus-visible { outline: 2px solid #b9d9ff; outline-offset: 2px; }
+.game-library .watch-card[hidden] { display: none; }
 .game-library--games .watch-shelf__heading { display: none; }
 .collection-effects .watch-shelf__heading,
 .collection-effects .thoughts__heading { display: none; }
@@ -2071,6 +2096,11 @@ html[data-theme="light"] .theme-toggle__moon {
 }
 
 .game-library .watch-card[data-rating-key="game-naruto-storm-4"] .game-library__tile img {
+  object-fit: contain;
+  background: #000;
+}
+
+.game-library .watch-card[data-rating-key="game-kingdom-hearts-3"] .game-library__tile img {
   object-fit: contain;
   background: #000;
 }
@@ -2174,6 +2204,25 @@ html[data-theme="light"] .theme-toggle__moon {
 .game-library__rating .rating[hidden] { display: none; }
 .game-library__rating .rating__star { color: #ffffff40; }
 .game-library__rating .rating__star:is(.is-filled, :hover, :focus-visible) { color: #f5cc72; }
+.game-library__rating .rating__star--published {
+  display: inline-block;
+  background: linear-gradient(to right, #f5cc72 var(--star-fill), #ffffff40 var(--star-fill));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  cursor: default;
+  transition: none;
+}
+.game-library__rating .rating__star--published:hover {
+  color: transparent;
+  transform: none;
+}
+.rating__value {
+  margin-left: 0.4rem;
+  color: #f5cc72;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
 
 .media-library--portrait .game-library__tile img { aspect-ratio: 2 / 3; }
 .media-library--portrait .game-library__tiles { min-height: 14.5rem; }
@@ -2219,6 +2268,7 @@ html[data-theme="light"] .theme-toggle__moon {
 .about-content .game-library__tiles.is-dragging .game-library__tile { cursor: grabbing; }
 .about-content .game-library__tiles--circular { scroll-snap-type: none; }
 .game-library__tiles--circular.is-rebasing .watch-card { transition: none; }
+.game-library__tiles.is-measuring .watch-card { transition: none; }
 .tile-viewport { position: relative; min-width: 0; width: 100%; }
 .tile-scroll-hint {
   position: absolute;

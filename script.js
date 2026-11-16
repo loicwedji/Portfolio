@@ -302,6 +302,25 @@ window.addEventListener('pageshow', () => {
 
 document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
   const rating = card.querySelector('.rating');
+  if (card.dataset.rating) {
+    const score = Number(card.dataset.rating);
+    rating.setAttribute('role', 'img');
+    rating.setAttribute('aria-label', `My rating: ${score} out of 5 stars`);
+    for (let index = 0; index < 5; index += 1) {
+      const star = document.createElement('span');
+      star.className = 'rating__star rating__star--published';
+      star.textContent = '\u2605';
+      star.setAttribute('aria-hidden', 'true');
+      star.style.setProperty('--star-fill', `${Math.max(0, Math.min(1, score - index)) * 100}%`);
+      rating.append(star);
+    }
+    const value = document.createElement('span');
+    value.className = 'rating__value';
+    value.textContent = `${score}/5`;
+    value.setAttribute('aria-hidden', 'true');
+    rating.append(value);
+    return;
+  }
   const key = `portfolio-rating-${card.dataset.ratingKey}`;
   let currentRating = 0;
 
@@ -343,18 +362,34 @@ document.querySelectorAll('.watch-card[data-rating-key]').forEach((card) => {
 });
 
 const mediaReviews = {
+  'anime-code-geass-r2': 'Review coming soon.',
+  'movie-the-dog-stars': 'Review coming soon.',
+  'movie-street-fighter-2026': 'Review coming soon.',
+  'movie-wildwood': 'Review coming soon.',
+  'movie-clayface': 'Review coming soon.',
+  'movie-forgotten-island': 'Review coming soon.',
+  'movie-by-any-means': 'Review coming soon.',
+  'movie-the-uprising': 'Review coming soon.',
+  "game-black-myth-wukong": "Solid game. I like tough games that force me to find out the best strats or the best ways to improve my skills. Didn\u2019t care for the story too much, but I love the boss fights.",
+  'game-street-fighter-v': 'Review coming soon.',
+  'game-zelda-ocarina-of-time': 'Review coming soon.',
+  "game-kingdom-hearts-2": "Literally took everything in KH1 and made it better. Love Drive Forms, way faster gameplay, an amazing story, and a perfect soundtrack. By far the best game in the series.",
+  "game-kingdom-hearts-3": "For a decade-long wait, it definitely underdelivered. I don\u2019t hate the game; it\u2019s just not better than KH2. The floatiness kills it for sure. But good content.",
+  "game-split-fiction": "Visuals are incredible. Probably the best two-player game aside from It Takes Two.",
+  "game-detroit-become-human": "Really good story. Not my typical gameplay, but still entertaining.",
+  "game-fc-26": "Yearly subscription at this point. Not much to praise other than that it had better gameplay than FC 25.",
   'anime-shangri-la-frontier': 'Review coming soon.',
   'movie-primetime': 'Review coming soon.',
   'movie-how-to-rob-a-bank-2026': 'Review coming soon.',
-  'movie-9': 'Review coming soon.',
-  'tv-loki': 'Review coming soon.',
+  "movie-9": "This movie gave me nightmares as a kid, with souls and stuff. But still a good watch.",
+  "tv-loki": "This show is just perfect. I\u2019m a bit biased as he is my favorite Marvel character, but the redemption arc + Kang is just peak.",
   'anime-demon-slayer': 'Review coming soon.',
   'anime-overgeared': 'Review coming soon.',
   'anime-attack-on-titan': 'Review coming soon.',
   'game-ff7-rebirth': 'Review coming soon.',
-  'game-zelda-botw': 'Review coming soon.',
-  'game-zelda-totk': 'Review coming soon.',
-  'game-sifu': 'Review coming soon.',
+  "game-zelda-botw": "Great open-world game. The art style is too good. I love exploring games, and this delivered.",
+  "game-zelda-totk": "Definitely an upgrade from Breath of the Wild. A bigger map and more things to explore are definitely my cup of tea.",
+  "game-sifu": "Such a unique game with a great art style and combat. I like games where I have to train a little bit to get better, and this one is pretty fair in that regard. The only thing is it\u2019s a little too short for my taste.",
   'anime-naruto': 'A classic underdog story with a huge heart. The long journey makes its friendships, rivalries, and hard-earned victories feel genuinely meaningful.',
   'anime-code-geass': 'Smart, dramatic, and constantly escalating. Lelouch is compelling because every brilliant decision seems to create an even more difficult consequence.',
   'anime-death-note': 'A tense battle of intelligence that turns simple rules into a gripping moral chess match. The early rivalry between Light and L is the highlight.',
@@ -362,16 +397,16 @@ const mediaReviews = {
   'anime-clevatess': 'A dark fantasy with an unusual perspective and an atmosphere that immediately stands out. Its world feels dangerous, strange, and worth exploring.',
   'anime-kaiju-no-8': 'A fun mix of workplace comedy, monster action, and second chances. Kafka is easy to root for because his dream survives long after life gets in the way.',
   'anime-classroom-of-the-elite': 'A calculated school drama where nearly every conversation hides another motive. Ayanokoji makes the slow reveals especially satisfying.',
-  'movie-spider-verse': 'A visually fearless movie with real emotional weight. Miles becoming Spider-Man feels personal, energetic, and completely earned.',
-  'movie-tron-legacy': 'The story is simple, but the atmosphere is unforgettable. The production design and Daft Punk score make the Grid feel like a place unlike anything else.',
-  'movie-puss-in-boots-last-wish': 'Funny, beautifully animated, and unexpectedly thoughtful about fear and mortality. The Wolf is one of animation\'s most memorable antagonists.',
-  'movie-megamind': 'A clever superhero comedy that gets better with time. Its real strength is the idea that identity comes from choices rather than assigned roles.',
-  'tv-tron-uprising': 'A stylish expansion of the Tron world with striking animation and a strong resistance story. It deserved far more time to develop its ideas.',
-  'game-kingdom-hearts-1': 'Charming, strange, and full of discovery. Its rough edges are part of the appeal, and the mix of Disney worlds with an original mystery still works.',
-  'game-kingdom-hearts-2-8': 'The series at its most confident, with faster combat, memorable worlds, and an emotional payoff that rewards the journey through the earlier games.',
+  "movie-spider-verse": "The start of potentially the greatest trilogy of all time. Crazy animations, great story and soundtrack.",
+  "movie-tron-legacy": "Favorite movie of all time. Perfect soundtrack, perfect visuals, perfect story.",
+  "movie-puss-in-boots-last-wish": "Probably one of the best animated movie villains of all time. I like the story + message, but man, that wolf stole the show.",
+  "movie-megamind": "A bit of nostalgia, perhaps, but a good watch for sure. Would have been a great series. I am purposely choosing to pretend Megamind 2 does not exist.",
+  "tv-tron-uprising": "Idk why this wasn\u2019t continued. I\u2019m a bit biased since it\u2019s Tron stuff, but still a great show.",
+  "game-kingdom-hearts-1": "A bit of nostalgia from childhood, but overall a really good game and story. Way ahead of its time.",
+  "game-kingdom-hearts-2-8": "KH0.2 was meh, nothing special. I don\u2019t like the spirit system in KH3D.",
   'game-gta-6': 'Review coming soon.',
-  'game-fc-27': 'The familiar football loop remains easy to return to, especially with friends. Small gameplay changes matter most when they make matches feel more responsive.',
-  'game-naruto-storm-4': 'A great playable celebration of Naruto, packed with cinematic battles and a huge roster. The story fights capture the scale of the anime remarkably well.',
+  'game-fc-27': 'Review coming soon.',
+  'game-naruto-storm-4': 'Review coming soon.',
 };
 
 let openReviewCard = null;
@@ -545,19 +580,15 @@ mediaShelves.forEach((shelf, shelfIndex) => {
     return { card, button, cover, title, genre, rating };
   });
 
-  const circularGames = true;
-  const renderedGames = circularGames
-    ? [0, 1, 2].flatMap((copy) => games.map((game, index) => {
-        if (copy === 1) return { ...game, index };
-        const card = game.card.cloneNode(true);
-        return { ...game, index, card, button: card.querySelector('button') };
-      }))
-    : games.map((game, index) => ({ ...game, index }));
-  if (circularGames) {
-    list.replaceChildren(...renderedGames.map((game) => game.card));
-    list.classList.add('game-library__tiles--circular');
-  }
-  let activeSlot = circularGames ? games.length : 0;
+  let circularGames = false;
+  const renderedGames = [0, 1, 2].flatMap((copy) => games.map((game, index) => {
+    if (copy === 1) return { ...game, index, copy };
+    const card = game.card.cloneNode(true);
+    return { ...game, index, copy, card, button: card.querySelector('button') };
+  }));
+  list.replaceChildren(...renderedGames.map((game) => game.card));
+  let activeSlot = games.length;
+  let visibleIndices = games.map((game, index) => index);
   let carouselFrame;
   const selectGame = (index, scroll = true, clickedSlot) => {
     const selected = games[index];
@@ -572,11 +603,12 @@ mediaShelves.forEach((shelf, shelfIndex) => {
       }
       if (activeSlot < 0 || activeSlot >= renderedGames.length) activeSlot = games.length + index;
     }
+    if (!circularGames) activeSlot = games.length + index;
     games.forEach((game, i) => {
       game.rating.hidden = i !== index;
     });
     renderedGames.forEach((game, slot) => {
-      const isSelected = circularGames ? slot === activeSlot : game.index === index;
+      const isSelected = slot === activeSlot;
       game.card.classList.toggle('is-selected', isSelected);
       game.button.setAttribute('aria-pressed', String(isSelected));
       game.button.tabIndex = isSelected ? 0 : -1;
@@ -584,6 +616,7 @@ mediaShelves.forEach((shelf, shelfIndex) => {
     details.querySelector('h4').textContent = selected.title;
     details.querySelector('.game-library__genre').textContent = selected.genre;
     details.querySelector('.game-library__review').textContent = mediaReviews[selected.card.dataset.ratingKey];
+    details.querySelector('.game-library__rating > span').textContent = selected.card.dataset.rating ? 'My rating' : 'Your rating';
     backdrop.style.backgroundImage = `url("${selected.card.dataset.backdrop || selected.cover.getAttribute('src')}")`;
     if (circularGames) {
       const startLeft = list.scrollLeft;
@@ -619,6 +652,8 @@ mediaShelves.forEach((shelf, shelfIndex) => {
     if (scroll) {
       const left = selected.card.offsetLeft - list.offsetLeft - 12;
       list.scrollTo({ left: Math.max(0, left), behavior: prefersReducedMotion ? 'instant' : 'smooth' });
+    } else {
+      list.scrollLeft = 0;
     }
   };
   renderedGames.forEach((game, slot) => {
@@ -626,22 +661,75 @@ mediaShelves.forEach((shelf, shelfIndex) => {
     game.button.addEventListener('click', () => selectGame(index, true, slot));
     game.button.addEventListener('keydown', (event) => {
       let next;
-      if (event.key === 'ArrowRight') next = (index + 1) % games.length;
-      if (event.key === 'ArrowLeft') next = (index - 1 + games.length) % games.length;
-      if (event.key === 'Home') next = 0;
-      if (event.key === 'End') next = games.length - 1;
+      const position = visibleIndices.indexOf(index);
+      if (event.key === 'ArrowRight') next = visibleIndices[circularGames ? (position + 1) % visibleIndices.length : Math.min(position + 1, visibleIndices.length - 1)];
+      if (event.key === 'ArrowLeft') next = visibleIndices[circularGames ? (position - 1 + visibleIndices.length) % visibleIndices.length : Math.max(position - 1, 0)];
+      if (event.key === 'Home') next = visibleIndices[0];
+      if (event.key === 'End') next = visibleIndices[visibleIndices.length - 1];
       if (next === undefined) return;
       event.preventDefault();
       selectGame(next);
-      renderedGames[circularGames ? activeSlot : next].button.focus({ preventScroll: true });
+      renderedGames[activeSlot].button.focus({ preventScroll: true });
     });
   });
-  selectGame(0, false);
-  shelf.addEventListener('collection-reveal', () => selectGame(renderedGames[activeSlot].index, false));
+  const statusFilters = document.createElement('div');
+  statusFilters.className = 'media-status-filters';
+  statusFilters.setAttribute('role', 'group');
+  statusFilters.setAttribute('aria-label', `Filter ${shelf.querySelector('h3').textContent} by status`);
+  const isGames = shelf.classList.contains('game-library--games');
+  const statuses = [isGames ? 'Currently Playing' : 'Recently Watched', isGames ? 'Played' : 'Watched'];
+  const filterButtons = statuses.map((label, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'media-status-filter';
+    button.textContent = label;
+    button.setAttribute('aria-controls', details.id);
+    button.addEventListener('click', () => filterByStatus(index === 0));
+    statusFilters.append(button);
+    return button;
+  });
+  list.before(statusFilters);
+  function filterByStatus(recent) {
+    visibleIndices = games.flatMap((game, index) =>
+      (game.card.dataset.mediaStatus === 'recent') === recent ? [index] : []);
+    filterButtons.forEach((button, index) => button.setAttribute('aria-pressed', String((index === 0) === recent)));
+    const selectedIndex = renderedGames[activeSlot].index;
+    selectGame(visibleIndices.includes(selectedIndex) ? selectedIndex : visibleIndices[0], false);
+    updateWrapAround();
+  }
+
+  function updateWrapAround() {
+    cancelAnimationFrame(carouselFrame);
+    const index = renderedGames[activeSlot].index;
+    const restoreFocus = list.contains(document.activeElement);
+    list.classList.add('is-measuring');
+    renderedGames.forEach((game, slot) => {
+      game.card.hidden = game.copy !== 1 || !visibleIndices.includes(game.index);
+      game.card.classList.toggle('is-selected', slot === games.length + index);
+    });
+    circularGames = list.clientWidth > 0 && list.scrollWidth > list.clientWidth + 1;
+    list.classList.toggle('game-library__tiles--circular', circularGames);
+    renderedGames.forEach((game) => {
+      game.card.hidden = !visibleIndices.includes(game.index) || (!circularGames && game.copy !== 1);
+    });
+    selectGame(index, false);
+    if (restoreFocus) renderedGames[activeSlot].button.focus({ preventScroll: true });
+    list.classList.remove('is-measuring');
+    list.dispatchEvent(new Event('scroll'));
+  }
+
+  filterByStatus(true);
+  shelf.addEventListener('collection-reveal', updateWrapAround);
+  let previousWidth = -1;
+  new ResizeObserver(() => {
+    if (list.clientWidth === previousWidth) return;
+    previousWidth = list.clientWidth;
+    updateWrapAround();
+  }).observe(list);
+  document.fonts?.ready.then(updateWrapAround);
 });
 
 document.querySelectorAll('.about-content .game-library__tiles').forEach((list) => {
-  const wrapAround = Boolean(list.closest('.collection-effects'));
   const hint = document.createElement('button');
   hint.className = 'tile-scroll-hint';
   hint.type = 'button';
@@ -652,13 +740,14 @@ document.querySelectorAll('.about-content .game-library__tiles').forEach((list) 
   list.before(viewport);
   viewport.append(list, hint);
   hint.addEventListener('click', () => {
-    if (wrapAround && list.scrollWidth - list.clientWidth - list.scrollLeft < 8) {
+    if (list.classList.contains('game-library__tiles--circular') && list.scrollWidth - list.clientWidth - list.scrollLeft < 8) {
       list.scrollTo({ left: 0, behavior: prefersReducedMotion ? 'instant' : 'smooth' });
       return;
     }
     list.scrollBy({ left: list.clientWidth * 0.75, behavior: prefersReducedMotion ? 'instant' : 'smooth' });
   });
   const updateHint = () => {
+    const wrapAround = list.classList.contains('game-library__tiles--circular');
     const atEnd = list.scrollWidth - list.clientWidth - list.scrollLeft < 8;
     hint.hidden = wrapAround ? list.scrollWidth <= list.clientWidth + 8 : atEnd;
     hint.setAttribute('aria-label', wrapAround && atEnd ? 'Return to the first items' : 'Scroll to more items');
